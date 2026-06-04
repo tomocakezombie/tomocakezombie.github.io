@@ -1,0 +1,25 @@
+---
+import { app, args, pages, assets, img } from '/src/config/view';
+import { Layout } from '/src/layouts';
+import { AstroStarterKit } from '/src/modules';
+app.init(Astro);
+app.setPageConfig({
+  prevent: {
+    css: {
+      reset: true,
+      style: true,
+    },
+    header: true,
+    footer: true,
+  },
+  title: 'Sub page Title',
+  description: 'Sub page description',
+  og_image: 'img/pages/subpage/og.png',
+});
+---
+
+<Layout>
+  <div class="content-inner">
+    <AstroStarterKit />
+  </div>
+</Layout>

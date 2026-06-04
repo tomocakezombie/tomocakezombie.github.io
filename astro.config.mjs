@@ -1,5 +1,4 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
+import { astroConfig } from '/src/config/astro';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig(astroConfig);

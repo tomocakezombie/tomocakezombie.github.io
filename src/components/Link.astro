@@ -1,0 +1,14 @@
+---
+import Util from '/src/config/Util';
+import { getIsAbsUrl } from '/src/config/view';
+let { page, href, children } = await Util.getPropsAsync(Astro);
+if (page) {
+  href = page.route;
+  if (children == null) children = page.label;
+}
+if (children == null) children = href;
+const isAbsUrl = getIsAbsUrl(href);
+const target = isAbsUrl ? '_blank' : undefined;
+---
+
+<a href={href} target={target}><Fragment set:html={children} /></a>
