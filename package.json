@@ -6,8 +6,13 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "npm run disableDevToolbar && astro dev",
+    "enableDevToolbar": "astro preferences reset devToolbar",
+    "disableDevToolbar": "astro preferences disable devToolbar",
+    "src-prettier": "prettier --write '{{src,public}/**/*,./*}.{mdx,scss,js,ts,mjs,astro}'",
+    "build": "build/pre-build.sh && astro build && build/post-build.sh",
+    "watch": "build/watch.sh",
+    "stylelint": "build/stylelint.sh",
     "preview": "astro preview",
     "astro": "astro"
   },
