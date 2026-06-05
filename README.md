@@ -8,7 +8,26 @@
 
 ## 3. 記述する内容
 
-## 4. CSS / SCSS 記述ルール
+## 4. CSS / SCSS 編集ルール
+
+### style.css を直接編集しない
+
+`public/assets/css/global/style.css` はSassが `style.scss` からコンパイルして自動生成するファイル。
+直接編集しても `npm run watch` や `npm run build` のタイミングで上書きされる。
+
+**スタイルを変更するときは必ず `public/assets/scss/global/style.scss` を編集する。**
+
+```
+public/assets/scss/global/style.scss  ← こちらを編集
+        ↓ Sassがコンパイル
+public/assets/css/global/style.css    ← 自動生成、直接編集しない
+```
+
+同様に、ページ個別のスタイルも `scss/pages/xxx.scss` があればそちらを編集する。
+
+---
+
+## 5. CSS / SCSS 記述ルール
 
 stylelint（`stylelint-config-standard`）によるチェックが走るため、以下のルールに従う。
 

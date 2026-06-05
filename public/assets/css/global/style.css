@@ -8,6 +8,27 @@ body {
   font-size: 1.6rem;
 }
 
+h1 {
+  font-size: 3.2rem;
+  font-weight: bold;
+  color: #123068;
+  margin-bottom: 0.5em;
+}
+
+h2 {
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: #123068;
+  margin-bottom: 0.5em;
+}
+
+h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #123068;
+  margin-bottom: 0.5em;
+}
+
 .wbr {
   display: inline-block;
 }
@@ -16,6 +37,11 @@ body {
   max-width: 1080px;
   margin-inline: auto;
   padding-inline: 10px;
+}
+
+.content-main {
+  max-width: 800px;
+  margin-inline: auto;
 }
 
 #page-container {
@@ -27,8 +53,8 @@ body {
 }
 
 #page-header {
-  background: #1a3a6b;
-  border-bottom: 3px solid #c00;
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 0.3rem 0.6rem;
 }
 #page-header .header-inner {
   display: flex;
@@ -44,7 +70,7 @@ body {
   text-decoration: none;
   font-size: 2.2rem;
   font-weight: bold;
-  color: #fff;
+  color: #000;
   letter-spacing: 0.05em;
 }
 #page-header .nav-toggle {
@@ -84,7 +110,7 @@ body {
   #page-header .header-nav {
     display: none;
     width: 100%;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 }
 #page-header .header-nav .nav-list {
@@ -99,7 +125,7 @@ body {
   display: block;
   position: relative;
   padding: 14px 20px;
-  color: #fff;
+  color: #000;
   text-decoration: none;
   font-size: 1.4rem;
   font-weight: bold;
@@ -111,7 +137,7 @@ body {
   left: 20px;
   right: 20px;
   height: 2px;
-  background: #fff;
+  background: #000;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.2s ease;
