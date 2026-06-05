@@ -6,6 +6,7 @@ export const app = {
   setPages() {
     app.makePage('top', '/', 'Top');
     app.makePage('subpage', '/subpage', 'Subpage');
+    app.makePage('about', '/about', 'About');
   },
   preInit() {
     args.siteName = 'tomocakezombie';

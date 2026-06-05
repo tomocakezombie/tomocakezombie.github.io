@@ -18,6 +18,11 @@ body {
   padding-inline: 10px;
 }
 
+.content-main {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
 #page-container {
   display: grid;
   grid-template-rows: auto 1fr auto;

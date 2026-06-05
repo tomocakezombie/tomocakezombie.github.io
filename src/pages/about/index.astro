@@ -1,0 +1,27 @@
+---
+import { app, args, pages, assets, img } from '/src/config/view';
+import { Layout } from '/src/layouts';
+import Breadcrumb from '/src/components/Breadcrumb.astro';
+app.init(Astro);
+app.setPageConfig();
+---
+
+<Layout>
+  <Breadcrumb items={[
+      { label: 'Top', route: pages.top.route },
+      { label: '自己紹介', route: pages.about.route },
+    ]} />
+  <div class="content-main">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <img src={img('about/profile.png')} alt="プロフィール画像" width="200" />
+      <div>
+        <h1>自己紹介</h1>
+        <p>こんにちわ.</p>
+        <p>山梨大学工学部コンピュータ理工学科に所属している学生です.</p>
+        <p>普段は住み込みで開発バイトをしながら学校に通っています.</p>
+      </div>
+    </div>
+
+    <p> GitHub: <a href="https://github.com/tomocakezombie" target="_blank" rel="noopener noreferrer">github.com/username</a></p>
+  </div>
+</Layout>
