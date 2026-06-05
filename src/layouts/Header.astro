@@ -4,6 +4,9 @@ import { args, pages } from '/src/config/view';
 
 <div class="header-inner content-inner">
   <h1 class="siteName"><a href={pages.top.route}>{args.siteName}</a></h1>
+  <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
   <nav class="header-nav">
     <ul class="nav-list">
       <li><a href="/about/">About</a></li>
