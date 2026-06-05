@@ -15,6 +15,8 @@
     "selector-id-pattern": null,
     "rule-empty-line-before": null,
     "selector-attribute-quotes": null,
-    "value-keyword-case": null
+    "value-keyword-case": null,
+    "color-function-notation": null,
+    "color-function-alias-notation": null
   }
 }

@@ -84,7 +84,7 @@ body {
   #page-header .header-nav {
     display: none;
     width: 100%;
-    border-top: 1px solid rgb(255 255 255 / 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
 }
 #page-header .header-nav .nav-list {
