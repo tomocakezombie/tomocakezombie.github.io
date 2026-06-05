@@ -26,11 +26,53 @@ body {
   min-height: 100dvh;
 }
 
-#page-header .content-inner {
-  border-bottom: 1px solid #ccc;
+#page-header {
+  background: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 0.3rem 0.6rem;
+}
+#page-header .header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 }
 #page-header .siteName {
-  padding-block: 8px;
+  padding-block: 14px;
+  white-space: nowrap;
+}
+#page-header .siteName a {
+  text-decoration: none;
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #000000;
+  letter-spacing: 0.05em;
+}
+#page-header .header-nav .nav-list {
+  display: flex;
+}
+#page-header .header-nav .nav-list li a {
+  display: block;
+  position: relative;
+  padding: 14px 20px;
+  color: #000000;
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+#page-header .header-nav .nav-list li a::after {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: #000000;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+#page-header .header-nav .nav-list li a:hover::after {
+  transform: scaleX(1);
 }
 
 #page-footer {

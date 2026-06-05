@@ -27,11 +27,60 @@ body {
 }
 
 #page-header {
-  .content-inner {
-    border-bottom: 1px solid #ccc;
+  background: #1a3a6b;
+  border-bottom: 3px solid #cc0000;
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
   }
+
   .siteName {
-    padding-block: 8px;
+    padding-block: 14px;
+    white-space: nowrap;
+
+    a {
+      text-decoration: none;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .header-nav {
+    .nav-list {
+      display: flex;
+
+      li a {
+        display: block;
+        position: relative;
+        padding: 14px 20px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.4rem;
+        font-weight: bold;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 6px;
+          left: 20px;
+          right: 20px;
+          height: 2px;
+          background: #fff;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.2s ease;
+        }
+
+        &:hover::after {
+          transform: scaleX(1);
+        }
+      }
+    }
   }
 }
 

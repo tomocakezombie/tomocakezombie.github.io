@@ -8,9 +8,9 @@ export const app = {
     app.makePage('subpage', '/subpage', 'Subpage');
   },
   preInit() {
-    args.siteName = 'SITE_NAME';
-    args.titleSuffix = 'TITLE_SUFFIX';
-    args.description = 'DESCRIPTION';
+    args.siteName = 'tomocakezombie';
+    args.titleSuffix = 'Portfolio';
+    args.description = 'tomocakezombie のポートフォリオサイトです。';
     args.twitterIdWithAtMark = '@TWITTER_ID'; // @YOUR_ID
     args.lang = 'ja';
     args.locale = 'ja_JP';
