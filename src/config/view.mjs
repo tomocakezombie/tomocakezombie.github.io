@@ -7,6 +7,7 @@ export const app = {
     app.makePage('top', '/', 'Top');
     app.makePage('subpage', '/subpage', 'Subpage');
     app.makePage('about', '/about', 'About');
+    app.makePage('links', '/links', '外部リンク');
   },
   preInit() {
     args.siteName = 'tomocakezombie';

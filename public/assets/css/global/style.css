@@ -40,7 +40,7 @@ h3 {
 }
 
 .content-main {
-  max-width: 800px;
+  max-width: 1200px;
   margin-inline: auto;
 }
 
@@ -72,6 +72,11 @@ h3 {
   font-weight: bold;
   color: #000;
   letter-spacing: 0.05em;
+}
+#page-header .siteName img {
+  height: 90px;
+  width: auto;
+  margin-bottom: -50px;
 }
 #page-header .nav-toggle {
   display: none;

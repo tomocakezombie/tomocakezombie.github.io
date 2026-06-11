@@ -1,0 +1,21 @@
+---
+import { app, args, pages, assets, img } from '/src/config/view';
+import { Layout } from '/src/layouts';
+import Breadcrumb from '/src/components/Breadcrumb.astro';
+app.init(Astro);
+app.setPageConfig({ title: '外部リンク' });
+---
+
+<Layout>
+  <Breadcrumb items={[
+      { label: 'Top', route: pages.top.route },
+      { label: '外部リンク', route: pages.links.route },
+    ]} />
+  <div class="content-main">
+    <h2>外部リンク</h2>
+    <ul style="list-style: disc; padding-left: 1.5rem;">
+      <li><a href="https://github.com/tomocakezombie" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <!-- <li><a href="https://X.com/"></a></li> -->
+    </ul>
+  </div>
+</Layout>
