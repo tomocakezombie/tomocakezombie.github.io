@@ -1,0 +1,58 @@
+---
+const { href, label, date, title } = Astro.props;
+
+const labelColors: Record<string, string> = {
+  '開発': '#1a6b3a',
+  '学内': '#123068',
+  'SNS': '#1d9bf0',
+};
+const labelColor = label ? (labelColors[label] ?? '#555') : '';
+---
+<a href={href} target="_blank" rel="noopener noreferrer" class="link-item">
+  <div class="link-item__meta">
+    {label && <span class="link-item__label" style={`background: ${labelColor}`}>{label}</span>}
+    {date && <span class="link-item__date">{date}</span>}
+  </div>
+  <p class="link-item__title">{title}</p>
+</a>
+
+<style>
+  .link-item {
+    display: block;
+    padding: 1rem;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid #eee;
+    transition: background 0.15s;
+
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+
+  .link-item__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .link-item__label {
+    font-size: 1.2rem;
+    padding: 0.2rem 6.0rem;
+    background: #123068;
+    color: #fff;
+    border-radius: 2px;
+  }
+
+  .link-item__date {
+    font-size: 1.2rem;
+    color: #666;
+  }
+
+  .link-item__title {
+    font-size: 1.4rem;
+    display: inline;
+    border-bottom: 1px solid #eee;
+  }
+</style>

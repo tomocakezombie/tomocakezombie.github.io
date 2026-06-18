@@ -2,6 +2,7 @@
 import { app, args, pages, assets, img } from '/src/config/view';
 import { Layout } from '/src/layouts';
 import Breadcrumb from '/src/components/Breadcrumb.astro';
+import LinkItem from '/src/components/LinkItem.astro';
 app.init(Astro);
 app.setPageConfig({ title: '外部リンク' });
 ---
@@ -13,9 +14,62 @@ app.setPageConfig({ title: '外部リンク' });
     ]} />
   <div class="content-main">
     <h2>外部リンク</h2>
-    <ul style="list-style: disc; padding-left: 1.5rem;">
-      <li><a href="https://github.com/tomocakezombie" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <!-- <li><a href="https://X.com/"></a></li> -->
-    </ul>
+
+    <section class="link-card">
+      <h3 class="link-card__title">外部リソース系</h3>
+      <ul class="link-card__list">
+        <li>
+          <LinkItem
+            href="https://github.com/tomocakezombie"
+            label="開発"
+            date="2026/06/10"
+            title="GitHub"
+          />
+        </li>
+        <li>
+          <LinkItem
+            href="https://lww.kki.yamanashi.ac.jp/~t23cs014/"
+            label="学内"
+            title="学内サイト"
+          />
+        </li>
+      </ul>
+    </section>
+
+    <section class="link-card">
+      <h3 class="link-card__title">学校系</h3>
+      <ul class="link-card__list">
+        <li>
+          <LinkItem
+            href="https://www.kki.yamanashi.ac.jp/~assist/"
+            label="所属"
+            date="2026/06/10"
+            title="学内計算機システム・保守運用サークル"
+          />
+        </li>
+        <li>
+          <LinkItem
+            href="https://lww.kki.yamanashi.ac.jp/~t23cs014/"
+            label="開発"
+            title="学内で作成した個人サイト"
+          />
+        </li>
+        <li>
+          <LinkItem
+            href="https://lww.kki.yamanashi.ac.jp/"
+            label="学内"
+            title="学内計算機システムトップページ"
+          />
+        </li>
+        <li>
+          <LinkItem
+            href="https://www.kki.yamanashi.ac.jp/"
+            label="学内"
+            title="学内計算機システムについての情報サイト"
+          />
+        </li>
+      </ul>
+    </section>
+
   </div>
 </Layout>

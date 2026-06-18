@@ -1,0 +1,20 @@
+.link-card {
+  border: 1px solid #bbb;
+  padding: 2rem;
+  margin-top: 2rem;
+
+  &__title {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
