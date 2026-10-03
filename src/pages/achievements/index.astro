@@ -11,20 +11,19 @@ app.setPageConfig({
 // TODO: 以下はダミーデータ。実際の内容に差し替える
 // status: 'done'（取得済み） / 'plan'（受験予定）
 const certifications = [
-  { name: '基本情報技術者試験（FE）', year: '20XX年度', status: 'done', note: 'IPA 国家試験' },
-  { name: '情報セキュリティマネジメント試験（SG）', year: '20XX年度', status: 'done', note: 'IPA 国家試験' },
-  { name: '応用情報技術者試験（AP）', year: '20XX年度', status: 'plan', note: '受験予定' },
+  { name: '基本情報技術者試験（FE）', year: '2024年度', status: 'done', note: '一回受験で合格' },
+  { name: '応用情報技術者試験（AP）', year: '2024年度', status: 'done', note: '一回受験で合格' },
+  { name: '情報セキュリティマネジメント試験（SG）', year: '2025年度', status: 'done', note: '二回受験で合格' },
 ];
 
 const circles = [
-  { name: '〇〇サークル', role: '部員', period: '20XX - 20XX' },
-  { name: '〇〇サークル', role: '副部長', period: '2024 - 2025' },
-  { name: '〇〇サークル', role: '代表', period: '2025 - 2026（予定）' },
+  { name: 'kki-assist', role: '部員', period: '2023 - 2027' },
 ];
 
 const ctfs = [
-  { name: '〇〇 CTF 20XX', year: '20XX', rank: 'XX位 / XXXチーム', team: 'チーム名' },
-  { name: '〇〇 CTF 20XX', year: '20XX', rank: 'XX位 / XXXチーム', team: 'チーム名' },
+  { name: '	サイバーセキュリティCTFコンテンスト2024', year: '2024', rank: '8位くらい / 2人チーム', team: '???' },
+  { name: '山梨県警察主催 学生サイバーセキュリティCTFコンテスト', year: '2025', rank: '1位 / 2人チーム', team: 'CTF狂い' },
+  { name: '関東管区内警察合同サイバーボランティア・学生', year: '2026', rank: '2位 / 3人チーム', team: '空っぽコード' },
 ];
 
 const statusLabel = { done: '取得', plan: '予定' };
@@ -33,7 +32,7 @@ const statusLabel = { done: '取得', plan: '予定' };
 <Layout>
   <Breadcrumb items={[
       { label: 'トップ', route: pages.top.route },
-      { label: '実績', route: pages.works.route },
+      { label: '実績', route: pages.achievements.route },
     ]} />
   <div class="content-main">
     <h2>実績</h2>
@@ -41,20 +40,20 @@ const statusLabel = { done: '取得', plan: '予定' };
 
     <section class="section">
       <h3>情報系資格</h3>
-      <ul class="works-list">
-        {
-          certifications.map((item) => (
-            <li class="works-card pixel-window">
-              <div class="works-card__meta">
-                <span class:list={['pixel-tag', 'works-card__status', `is-${item.status}`]}>{statusLabel[item.status]}</span>
-                <span class="works-card__date">{item.year}</span>
+      <div class="pixel-window">
+        <dl class="works-status">
+          {
+            certifications.map((item) => (
+              <div>
+                <dt>{item.year}</dt>
+                <dd>
+                  {item.name} <span class:list={['pixel-tag', `is-${item.status}`]}>{statusLabel[item.status]}</span>
+                </dd>
               </div>
-              <p class="works-card__title">{item.name}</p>
-              <p class="works-card__text">{item.note}</p>
-            </li>
-          ))
-        }
-      </ul>
+            ))
+          }
+        </dl>
+      </div>
     </section>
 
     <section class="section">

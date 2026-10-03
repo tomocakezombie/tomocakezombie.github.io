@@ -8,7 +8,7 @@ export const app = {
     app.makePage('subpage', '/subpage', 'Subpage');
     app.makePage('about', '/about', '自己紹介');
     app.makePage('projects', '/projects', '作品');
-    app.makePage('works', '/works', '実績');
+    app.makePage('achievements', '/achievements', '実績');
     app.makePage('links', '/links', '外部リンク');
   },
   preInit() {
