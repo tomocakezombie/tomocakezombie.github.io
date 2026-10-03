@@ -1,0 +1,89 @@
+// Projects page
+@use '../global/pixel' as *;
+
+.projects-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: d(12);
+
+  @include sp {
+    grid-template-columns: 1fr;
+  }
+}
+
+.projects-card {
+  display: flex;
+  flex-direction: column;
+  gap: d(4);
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: d(4);
+  }
+
+  &__status {
+    &.is-release {
+      background: $c-sky-deep;
+    }
+
+    &.is-dev {
+      color: $c-ink;
+      background: $c-yellow;
+    }
+  }
+
+  &__date {
+    font-size: 1.2rem;
+    color: #5a6b80;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+
+  &__text {
+    font-size: 1.4rem;
+    color: #5a6b80;
+  }
+
+  &__tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: d(2) d(4);
+    padding-top: d(2);
+    background-position: left top;
+
+    @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+
+    li {
+      font-size: 1.2rem;
+      color: $c-sky-deep;
+
+      &::before {
+        content: '◆';
+        margin-right: d(1);
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: d(4);
+    margin-top: auto;
+    padding-top: d(4);
+  }
+}
+
+.projects-empty {
+  text-align: center;
+}
+
+.projects-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: d(8);
+}

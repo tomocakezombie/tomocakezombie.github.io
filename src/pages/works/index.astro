@@ -1,0 +1,113 @@
+---
+import { app, args, pages, assets, img } from '/src/config/view';
+import { Layout } from '/src/layouts';
+import Breadcrumb from '/src/components/Breadcrumb.astro';
+app.init(Astro);
+app.setPageConfig({
+  title: '実績',
+  description: 'tomocakezombie の実績ページです。情報系資格・サークル経歴・CTF 実績をまとめています。',
+});
+
+// TODO: 以下はダミーデータ。実際の内容に差し替える
+// status: 'done'（取得済み） / 'plan'（受験予定）
+const certifications = [
+  { name: '基本情報技術者試験（FE）', year: '20XX年度', status: 'done', note: 'IPA 国家試験' },
+  { name: '情報セキュリティマネジメント試験（SG）', year: '20XX年度', status: 'done', note: 'IPA 国家試験' },
+  { name: '応用情報技術者試験（AP）', year: '20XX年度', status: 'plan', note: '受験予定' },
+];
+
+const circles = [
+  { name: '〇〇サークル', role: '部員', period: '20XX - 20XX' },
+  { name: '〇〇サークル', role: '副部長', period: '2024 - 2025' },
+  { name: '〇〇サークル', role: '代表', period: '2025 - 2026（予定）' },
+];
+
+const ctfs = [
+  { name: '〇〇 CTF 20XX', year: '20XX', rank: 'XX位 / XXXチーム', team: 'チーム名' },
+  { name: '〇〇 CTF 20XX', year: '20XX', rank: 'XX位 / XXXチーム', team: 'チーム名' },
+];
+
+const statusLabel = { done: '取得', plan: '予定' };
+---
+
+<Layout>
+  <Breadcrumb items={[
+      { label: 'トップ', route: pages.top.route },
+      { label: '実績', route: pages.works.route },
+    ]} />
+  <div class="content-main">
+    <h2>実績</h2>
+    <p class="lead">これまでの資格取得・サークル活動・CTF 参加などの実績をまとめています．</p>
+
+    <section class="section">
+      <h3>情報系資格</h3>
+      <ul class="works-list">
+        {
+          certifications.map((item) => (
+            <li class="works-card pixel-window">
+              <div class="works-card__meta">
+                <span class:list={['pixel-tag', 'works-card__status', `is-${item.status}`]}>{statusLabel[item.status]}</span>
+                <span class="works-card__date">{item.year}</span>
+              </div>
+              <p class="works-card__title">{item.name}</p>
+              <p class="works-card__text">{item.note}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="section">
+      <h3>サークル経歴</h3>
+      <div class="pixel-window">
+        <dl class="works-status">
+          {
+            circles.map((item) => (
+              <div>
+                <dt>{item.period}</dt>
+                <dd>
+                  {item.name} <span class="pixel-tag">{item.role}</span>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>CTF 実績</h3>
+      <ul class="works-list">
+        {
+          ctfs.map((item) => (
+            <li class="works-card pixel-window">
+              <div class="works-card__meta">
+                <span class="pixel-tag">CTF</span>
+                <span class="works-card__date">{item.year}</span>
+              </div>
+              <p class="works-card__title">{item.name}</p>
+              <dl class="works-card__detail">
+                <div>
+                  <dt>じゅんい</dt>
+                  <dd>{item.rank}</dd>
+                </div>
+                <div>
+                  <dt>チーム</dt>
+                  <dd>{item.team}</dd>
+                </div>
+              </dl>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="section">
+      <p class="works-links">
+        <a class="pixel-btn" href={pages.projects.route}>作品へ</a>
+        <a class="pixel-btn" href={pages.about.route}>自己紹介へ</a>
+        <a class="pixel-btn" href={pages.links.route}>外部リンク一覧へ</a>
+      </p>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,77 @@
+@charset "UTF-8";
+.projects-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+@media (width <= 768px) {
+  .projects-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.projects-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.projects-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.projects-card__status.is-release {
+  background: #1d6f99;
+}
+.projects-card__status.is-dev {
+  color: #1b2a4a;
+  background: #ffd84a;
+}
+.projects-card__date {
+  font-size: 1.2rem;
+  color: #5a6b80;
+}
+.projects-card__title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.projects-card__text {
+  font-size: 1.4rem;
+  color: #5a6b80;
+}
+.projects-card__tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  padding-top: 4px;
+  background-position: left top;
+  background-image: linear-gradient(to right, rgba(27, 42, 74, 0.3) 50%, transparent 50%);
+  background-size: 4px 2px;
+  background-repeat: repeat-x;
+}
+.projects-card__tech li {
+  font-size: 1.2rem;
+  color: #1d6f99;
+}
+.projects-card__tech li::before {
+  content: "◆";
+  margin-right: 2px;
+  font-size: 1rem;
+}
+.projects-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.projects-empty {
+  text-align: center;
+}
+
+.projects-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}

@@ -4,13 +4,14 @@ import { args, pages, img } from '/src/config/view';
 const navItems = [
   { key: 'top', label: 'トップ' },
   { key: 'about', label: '自己紹介' },
-  // { key: 'works', label: '作品集' },
+  { key: 'projects', label: '作品' },
+  { key: 'works', label: '実績' },
   { key: 'links', label: '外部リンク' },
 ];
 ---
 
 <div class="header-inner">
-  <h1 class="siteName"><a href={pages.top.route}><img src={img('global/logo2.svg')} alt={args.siteName} /></a></h1>
+  <h1 class="siteName"><a href={pages.top.route}><img src={img('global/logo.png')} alt={args.siteName} /></a></h1>
   <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>

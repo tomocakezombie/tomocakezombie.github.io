@@ -1,0 +1,125 @@
+---
+import { app, args, pages, assets, img } from '/src/config/view';
+import { Layout } from '/src/layouts';
+import Breadcrumb from '/src/components/Breadcrumb.astro';
+app.init(Astro);
+app.setPageConfig({
+  title: '作品',
+  description: 'tomocakezombie の作品ページです。作成したアプリや GitHub で公開しているプロジェクトをまとめています。',
+});
+
+// TODO: 以下はダミーデータ。実際の内容に差し替える
+// status: 'release'（公開中） / 'dev'（開発中）
+// url / repo は未設定なら空文字でリンクを非表示にする
+const apps = [
+  {
+    name: 'アプリ名（準備中）',
+    year: '20XX',
+    status: 'dev',
+    description: 'アプリの概要をここに記述します．',
+    tech: ['Astro', 'TypeScript'],
+    url: '',
+    repo: '',
+  },
+  {
+    name: 'アプリ名（準備中）',
+    year: '20XX',
+    status: 'dev',
+    description: 'アプリの概要をここに記述します．',
+    tech: ['Python'],
+    url: '',
+    repo: '',
+  },
+];
+
+const githubProjects = [
+  {
+    name: 'repository-name',
+    year: '20XX',
+    status: 'release',
+    description: 'リポジトリの概要をここに記述します．',
+    tech: ['Astro', 'SCSS'],
+    url: '',
+    repo: '',
+  },
+  {
+    name: 'repository-name',
+    year: '20XX',
+    status: 'dev',
+    description: 'リポジトリの概要をここに記述します．',
+    tech: ['C'],
+    url: '',
+    repo: '',
+  },
+];
+
+const sections = [
+  { title: '作成したアプリ', items: apps },
+  { title: 'GitHub プロジェクト', items: githubProjects },
+];
+
+const statusLabel = { release: '公開中', dev: '開発中' };
+---
+
+<Layout>
+  <Breadcrumb items={[
+      { label: 'トップ', route: pages.top.route },
+      { label: '作品', route: pages.projects.route },
+    ]} />
+  <div class="content-main">
+    <h2>作品</h2>
+    <p class="lead">これまでに作成したアプリや GitHub で公開しているプロジェクトをまとめています．</p>
+
+    {
+      sections.map((section) => (
+        <section class="section">
+          <h3>{section.title}</h3>
+          {section.items.length > 0 ? (
+            <ul class="projects-list">
+              {section.items.map((item) => (
+                <li class="projects-card pixel-window">
+                  <div class="projects-card__meta">
+                    <span class:list={['pixel-tag', 'projects-card__status', `is-${item.status}`]}>{statusLabel[item.status]}</span>
+                    <span class="projects-card__date">{item.year}</span>
+                  </div>
+                  <p class="projects-card__title">{item.name}</p>
+                  <p class="projects-card__text">{item.description}</p>
+                  {item.tech.length > 0 && (
+                    <ul class="projects-card__tech">
+                      {item.tech.map((tech) => (
+                        <li>{tech}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {(item.url || item.repo) && (
+                    <p class="projects-card__links">
+                      {item.url && (
+                        <a class="pixel-btn" href={item.url} target="_blank" rel="noopener noreferrer">
+                          みる
+                        </a>
+                      )}
+                      {item.repo && (
+                        <a class="pixel-btn" href={item.repo} target="_blank" rel="noopener noreferrer">
+                          GitHub
+                        </a>
+                      )}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="projects-empty pixel-window">じゅんびちゅう…</p>
+          )}
+        </section>
+      ))
+    }
+
+    <section class="section">
+      <p class="projects-nav">
+        <a class="pixel-btn" href={pages.works.route}>実績へ</a>
+        <a class="pixel-btn" href={pages.links.route}>外部リンク一覧へ</a>
+      </p>
+    </section>
+  </div>
+</Layout>

@@ -1,1 +1,18 @@
-<svg width="4972" height="1306" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" overflow="hidden"><g transform="translate(375 9)"><g><text fill="#FF0000" fill-opacity="1" font-family="Hiragino Maru Gothic ProN W4,Hiragino Maru Gothic ProN W4_MSFontService,sans-serif" font-style="normal" font-variant="normal" font-weight="400" font-stretch="normal" font-size="619" text-anchor="start" direction="ltr" writing-mode="lr-tb" unicode-bidi="normal" text-decoration="none" transform="matrix(1 0 0 1 0.410697 776)">TKZ</text><text fill="#000000" fill-opacity="1" font-family="Hiragino Maru Gothic ProN W4,Hiragino Maru Gothic ProN W4_MSFontService,sans-serif" font-style="normal" font-variant="normal" font-weight="700" font-stretch="normal" font-size="362" text-anchor="start" direction="ltr" writing-mode="lr-tb" unicode-bidi="normal" text-decoration="none" transform="matrix(1 0 0 1 1322.05 774)">tomocakezombie</text><text fill="#000000" fill-opacity="1" font-family="Hiragino Maru Gothic ProN W4,Hiragino Maru Gothic ProN W4_MSFontService,sans-serif" font-style="normal" font-variant="normal" font-weight="400" font-stretch="normal" font-size="275" text-anchor="start" direction="ltr" writing-mode="lr-tb" unicode-bidi="normal" text-decoration="none" transform="matrix(1 0 0 1 1319.79 458)">hogehoge</text></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="70" viewBox="0 0 240 100" role="img" aria-label="tomo">
+  <title>tomo</title>
+  <defs>
+    <style>
+      /* PixelMplus12 Regular (subset: "tomo"). Embedded as data URI because SVG loaded via &lt;img&gt; cannot fetch external fonts.
+         Source: /assets/fonts/PixelMplus12-Regular.woff2 (M+ FONT LICENSE) */
+      @font-face {
+        font-family: 'PixelMplus12Logo';
+        src: url(data:font/woff2;base64,d09GMgABAAAAAAIcAAsAAAAABGAAAAHRB90PaQAAAAAAAAAAAAAAAAAAAAAAAAAABlYARBEICoE0gToBNgIkAwwLCgAEIAWDFgcgG5cDCC4GnLIbBc9dDSlcQr5GJ1yGLyKI1tDZvQCTBEUoZLisyi666MpCVhoSBlzAp/qP5nbgjVCP5lIt7dm8GiLSEp4yLarlbvN0/wNQ4qzHSf/xFulAng94iMN1U9NvAXYDnsQTmHZZJAGdFlHg2c7MRY5MSa850wYRt/FNLfkh4dO1xT9LkQ2N2Vx7dBaTqEfgeztahmWiGigX9ghAoqCHQaCH0SLQoEHipY5hZdiLSwGAqJSgBjSgAcvACgAjAKQaWdNUk6odNY+zqTRhrNWjpmiO0pwtTaW5eYoKuWbNmrIZNZUzS31/tRAWfFHNciECUBMv/gVkJM8T/RJIrw/5SO2EHdnxJRHIk+ILPHQBqr+xjPlfMkH9n/ZaV646kG0b/63N5Rp+/C4PALi8nPf+rNyUIdAgQVAuqoFyXUm5EQCAjBfscQsI1PimFyCktXrnDKKmEQdgQhiQQWpzF8V9ddRYsEetGYej1VmIHmkdXTN9NRVVQ8ghzQmFBASFIcIN5XS0DSFGX0ddScEQo2aqpInoahoZCArhlFSMNKn6EgXqq4T6FPncDKWgbAjdfaqHeMV4tzYjIUmpRQOoVTFq1B7TmICQi7yPGYDqfcsS) format('woff2'),
+             url('../../fonts/PixelMplus12-Regular.woff2') format('woff2');
+      }
+      text { font-family: 'PixelMplus12Logo', 'PixelMplus12', monospace; font-size: 120px; }
+    </style>
+  </defs>
+  <!-- 10 viewBox units = 1 font dot (font-size 120 = 12 dots). Shadow: 1 dot right-down -->
+  <text x="10" y="96" fill="#000">tomo</text>
+  <text x="0" y="86" fill="#fff">tomo</text>
+</svg>

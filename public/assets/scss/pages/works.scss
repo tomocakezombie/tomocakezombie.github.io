@@ -1,0 +1,115 @@
+// Works page
+@use '../global/pixel' as *;
+
+.works-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: d(12);
+
+  @include sp {
+    grid-template-columns: 1fr;
+  }
+}
+
+.works-card {
+  display: flex;
+  flex-direction: column;
+  gap: d(4);
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: d(4);
+  }
+
+  &__status {
+    &.is-done {
+      background: $c-sky-deep;
+    }
+
+    &.is-plan {
+      color: $c-ink;
+      background: $c-yellow;
+    }
+  }
+
+  &__date {
+    font-size: 1.2rem;
+    color: #5a6b80;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+
+  &__text {
+    font-size: 1.4rem;
+    color: #5a6b80;
+  }
+
+  &__detail {
+    display: grid;
+    gap: d(2);
+
+    > div {
+      display: grid;
+      grid-template-columns: 5em 1fr;
+      gap: d(4);
+      padding-block: d(2);
+      background-position: left bottom;
+
+      @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+    }
+
+    dt {
+      font-weight: bold;
+      color: $c-sky-deep;
+    }
+  }
+}
+
+// RPG status window style (same as about page)
+.works-status {
+  display: grid;
+  gap: d(2);
+
+  > div {
+    display: grid;
+    grid-template-columns: 12em 1fr;
+    gap: d(4);
+    align-items: center;
+    padding-block: d(4);
+    background-position: left bottom;
+
+    @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+  }
+
+  dt {
+    font-weight: bold;
+    color: $c-sky-deep;
+
+    &::before {
+      content: '◆';
+      margin-right: d(2);
+      font-size: 1.2rem;
+    }
+  }
+
+  dd .pixel-tag {
+    margin-left: d(4);
+  }
+
+  @include sp {
+    > div {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+}
+
+.works-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: d(8);
+}
