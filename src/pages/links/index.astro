@@ -4,44 +4,48 @@ import { Layout } from '/src/layouts';
 import Breadcrumb from '/src/components/Breadcrumb.astro';
 import LinkItem from '/src/components/LinkItem.astro';
 app.init(Astro);
-app.setPageConfig({ title: '外部リンク' });
+app.setPageConfig({
+  title: '外部リンク',
+  description: 'tomocakezombie の外部リンク集です。GitHub や所属サークル、学内サイトへのリンクをまとめています。',
+});
 ---
 
 <Layout>
   <Breadcrumb items={[
-      { label: 'Top', route: pages.top.route },
+      { label: 'トップ', route: pages.top.route },
       { label: '外部リンク', route: pages.links.route },
     ]} />
   <div class="content-main">
     <h2>外部リンク</h2>
+    <p class="lead">GitHub や所属サークル，学内サイトなど，わたしに関係するリンクをまとめています．</p>
 
-    <section class="link-card">
-      <h3 class="link-card__title">外部リソース系</h3>
+    <section class="link-card pixel-window">
+      <h3 class="link-card__title">開発・外部サービス</h3>
       <ul class="link-card__list">
         <li>
           <LinkItem
             href="https://github.com/tomocakezombie"
             label="開発"
             date="2026/06/10"
-            title="GitHub"
+            title="GitHub（ソースコード・リポジトリ）"
           />
         </li>
-        <li>
+        <!-- <li>
           <LinkItem
             href="https://lww.kki.yamanashi.ac.jp/~t23cs014/"
             label="学内"
-            title="学内サイト"
+            title="学内で作成した個人サイト（学内関係者専用）"
           />
-        </li>
+        </li> -->
       </ul>
     </section>
 
-    <section class="link-card">
-      <h3 class="link-card__title">学校系</h3>
+    <section class="link-card pixel-window">
+      <h3 class="link-card__title">大学・サークル</h3>
       <ul class="link-card__list">
         <li>
           <LinkItem
-            href="https://www.kki.yamanashi.ac.jp/~assist/"
+            href="https://www.kki.yamanashi.ac.jp/~assist/assist_activity/"
             label="所属"
             date="2026/06/10"
             title="学内計算機システム・保守運用サークル"
@@ -51,7 +55,7 @@ app.setPageConfig({ title: '外部リンク' });
           <LinkItem
             href="https://lww.kki.yamanashi.ac.jp/~t23cs014/"
             label="開発"
-            title="学内で作成した個人サイト"
+            title="学内で作成した個人サイト（学内関係者専用）"
           />
         </li>
         <li>

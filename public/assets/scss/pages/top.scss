@@ -1,1 +1,119 @@
-/* top.scss */
+// Top page
+@use '../global/pixel' as *;
+
+.hero {
+  padding-block: d(40) d(32);
+  text-align: center;
+
+  &__sub {
+    font-size: 1.2rem;
+    letter-spacing: 0.4em;
+    color: $c-yellow;
+    text-shadow: d(1) d(1) 0 $c-sky-deep;
+  }
+
+  &__title {
+    margin-bottom: d(12);
+    padding: 0;
+    font-size: 4.8rem;
+    font-weight: normal;
+    background: none;
+    text-shadow: d(2) d(2) 0 $c-sky-deep;
+    word-break: break-all;
+
+    &::before {
+      content: none;
+    }
+
+    @include sp {
+      font-size: 3.6rem;
+    }
+  }
+
+  &__text {
+    text-shadow: d(1) d(1) 0 $c-sky-deep;
+  }
+
+  &__start {
+    margin-top: d(16);
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    animation: hero-blink 1.2s steps(1) infinite;
+  }
+
+  &__cursor {
+    color: $c-yellow;
+  }
+}
+
+@keyframes hero-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__start {
+    animation: none;
+  }
+}
+
+.menu-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: d(12);
+
+  > li {
+    display: flex;
+  }
+}
+
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  gap: d(2);
+  flex: 1;
+  margin: d(2);
+  padding: d(8) d(8) d(8) d(16);
+  position: relative;
+  color: $c-ink;
+  text-decoration: none;
+  background: $c-paper;
+
+  @include pixel-border($c-ink);
+
+  &__title {
+    font-size: 2.4rem;
+    font-weight: bold;
+  }
+
+  &__text {
+    font-size: 1.2rem;
+  }
+
+  &::before {
+    content: '▶';
+    position: absolute;
+    top: d(10);
+    left: d(4);
+    font-size: 1.2rem;
+    visibility: hidden;
+  }
+
+  &:is(a):hover,
+  &:is(a):focus-visible {
+    color: $c-ink;
+    background: $c-yellow;
+    transform: translate(d(1), d(1));
+  }
+
+  &:is(a):hover::before,
+  &:is(a):focus-visible::before {
+    visibility: visible;
+  }
+
+  &.is-disabled {
+    color: #7a8799;
+    background: #d9e6ee;
+  }
+}

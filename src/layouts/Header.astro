@@ -1,5 +1,12 @@
 ---
 import { args, pages, img } from '/src/config/view';
+
+const navItems = [
+  { key: 'top', label: 'トップ' },
+  { key: 'about', label: '自己紹介' },
+  // { key: 'works', label: '作品集' },
+  { key: 'links', label: '外部リンク' },
+];
 ---
 
 <div class="header-inner">
@@ -9,9 +16,15 @@ import { args, pages, img } from '/src/config/view';
   </button>
   <nav class="header-nav">
     <ul class="nav-list">
-      <li><a href="/about/">自己紹介</a></li>
-      <li><a href="/works/">作品集</a></li>
-      <li><a href="/contact/">???</a></li>
+      {
+        navItems.map((item) => (
+          <li>
+            <a href={pages[item.key].route} aria-current={args.page.key === item.key ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </nav>
 </div>

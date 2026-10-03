@@ -4,15 +4,15 @@ export const args = {};
 export const pages = {};
 export const app = {
   setPages() {
-    app.makePage('top', '/', 'Top');
+    app.makePage('top', '/', 'トップ');
     app.makePage('subpage', '/subpage', 'Subpage');
-    app.makePage('about', '/about', 'About');
+    app.makePage('about', '/about', '自己紹介');
     app.makePage('links', '/links', '外部リンク');
   },
   preInit() {
     args.siteName = 'tomocakezombie';
     args.titleSuffix = 'Portfolio';
-    args.description = 'tomocakezombie のポートフォリオサイトです。';
+    args.description = '山梨大学 工学部 コンピュータ理工学科の学生 tomocakezombie のポートフォリオサイトです。自己紹介や外部リンクをまとめています。';
     args.twitterIdWithAtMark = '@TWITTER_ID'; // @YOUR_ID
     args.lang = 'ja';
     args.locale = 'ja_JP';

@@ -3,33 +3,62 @@ import { app, args, pages, assets, img } from '/src/config/view';
 import { Layout } from '/src/layouts';
 import Breadcrumb from '/src/components/Breadcrumb.astro';
 app.init(Astro);
-app.setPageConfig();
+app.setPageConfig({
+  title: '自己紹介',
+  description: 'tomocakezombie の自己紹介ページです。所属や普段の活動について紹介しています。',
+});
 ---
 
 <Layout>
   <Breadcrumb items={[
-      { label: 'Top', route: pages.top.route },
+      { label: 'トップ', route: pages.top.route },
       { label: '自己紹介', route: pages.about.route },
     ]} />
   <div class="content-main">
     <h2>自己紹介</h2>
-    <br>
-    <div class="card" style="display: flex; align-items: center; gap: 1rem;">
-      <img src={img('about/profile.png')} alt="プロフィール画像" width="200" />
-      <div>
-        <p>こんにちわ.</p>
-        <p>山梨大学工学部コンピュータ理工学科に所属している学生です.</p>
-        <p>普段は住み込みで開発バイトをしながら学校に通っています.</p>
-      </div>
-    </div>
+    <p class="lead">はじめまして．このページでは，わたしのプロフィールを紹介します．</p>
 
-    <br>
-    <br>
-    <h3>外部リンク</h3>
-    <ul style="list-style: disc; padding-left: 1.5rem;">
-      <li><a href="https://github.com/tomocakezombie" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <!-- <li><a href="https://X.com/"></a></li> -->
-      
-    </ul>
+    <section class="section">
+      <div class="pixel-window profile">
+        <div class="profile__icon">
+          <img src={img('about/profile.png')} alt="プロフィール画像" width="160" height="160" />
+        </div>
+        <div class="profile__body">
+          <p class="profile__name">{args.siteName}</p>
+          <dl class="profile__status">
+            <div>
+              <dt>しょぞく</dt>
+              <dd>山梨大学 工学部 コンピュータ理工学科</dd>
+            </div>
+            <div>
+              <dt>サークル</dt>
+              <dd>KKI-Assist（学内計算機システム・保守運用サークル）</dd>
+            </div>
+            <div>
+              <dt>しごと</dt>
+              <dd>住み込みで開発アルバイト</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>ひとこと</h3>
+      <div class="pixel-window">
+        <p>こんにちは．</p>
+        <p>山梨大学工学部コンピュータ理工学科に所属している学生です．</p>
+        <p>普段は住み込みで開発バイトをしながら学校に通っています．</p>
+        <p>あと KKI-Assist という団体に所属しています．</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>リンク</h3>
+      <p class="about-links">
+        <a class="pixel-btn" href="https://github.com/tomocakezombie" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="pixel-btn" href={pages.links.route}>外部リンク一覧へ</a>
+      </p>
+    </section>
   </div>
 </Layout>

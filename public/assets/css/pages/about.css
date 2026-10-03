@@ -1,4 +1,70 @@
-.card {
-  border: 1px solid #bbb;
-  padding: 2rem;
+@charset "UTF-8";
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+@media (width <= 768px) {
+  .profile {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+.profile__icon {
+  flex-shrink: 0;
+  margin: 4px;
+  line-height: 0;
+  background: #fff;
+  box-shadow: 0 -4px 0 0 #1b2a4a, 0 4px 0 0 #1b2a4a, -4px 0 0 0 #1b2a4a, 4px 0 0 0 #1b2a4a;
+}
+.profile__icon img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+.profile__body {
+  flex: 1;
+  min-width: 0;
+}
+.profile__name {
+  margin-bottom: 8px;
+  font-size: 2.4rem;
+  font-weight: bold;
+}
+.profile__status {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+.profile__status > div {
+  display: grid;
+  grid-template-columns: 6em 1fr;
+  gap: 8px;
+  padding-block: 4px;
+  background-position: left bottom;
+  background-image: linear-gradient(to right, rgba(27, 42, 74, 0.3) 50%, transparent 50%);
+  background-size: 4px 2px;
+  background-repeat: repeat-x;
+}
+.profile__status dt {
+  font-weight: bold;
+  color: #1d6f99;
+}
+.profile__status dt::before {
+  content: "◆";
+  margin-right: 4px;
+  font-size: 1.2rem;
+}
+@media (width <= 768px) {
+  .profile__status > div {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }

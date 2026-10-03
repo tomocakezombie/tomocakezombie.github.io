@@ -1,5 +1,81 @@
-.card {
-  border: 1px solid #bbb;
-  // border-radius: 8px;
-  padding: 2rem;
+// About page
+@use '../global/pixel' as *;
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: d(12);
+
+  @include sp {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    margin: d(2);
+    line-height: 0;
+    background: $c-white;
+
+    @include pixel-border($c-ink, d(2), false);
+
+    img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    margin-bottom: d(4);
+    font-size: 2.4rem;
+    font-weight: bold;
+  }
+
+  // RPG status window style
+  &__status {
+    display: grid;
+    gap: d(2);
+    text-align: left;
+
+    > div {
+      display: grid;
+      grid-template-columns: 6em 1fr;
+      gap: d(4);
+      padding-block: d(2);
+      background-position: left bottom;
+
+      @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+    }
+
+    dt {
+      font-weight: bold;
+      color: $c-sky-deep;
+
+      &::before {
+        content: '◆';
+        margin-right: d(2);
+        font-size: 1.2rem;
+      }
+    }
+
+    @include sp {
+      > div {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  }
+}
+
+.about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: d(8);
 }

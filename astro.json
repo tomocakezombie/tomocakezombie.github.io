@@ -1,8 +1,8 @@
 {
   "args": {
-    "siteName": "SITE_NAME",
-    "titleSuffix": "TITLE_SUFFIX",
-    "description": "DESCRIPTION",
+    "siteName": "tomocakezombie",
+    "titleSuffix": "Portfolio",
+    "description": "山梨大学 工学部 コンピュータ理工学科の学生 tomocakezombie のポートフォリオサイトです。自己紹介や外部リンクをまとめています。",
     "twitterIdWithAtMark": "@TWITTER_ID",
     "lang": "ja",
     "locale": "ja_JP",
@@ -12,7 +12,7 @@
     "top": {
       "key": "top",
       "route": "/",
-      "label": "Top",
+      "label": "トップ",
       "appRoute": "/"
     },
     "subpage": {
@@ -20,6 +20,18 @@
       "route": "/subpage/",
       "label": "Subpage",
       "appRoute": "/subpage/"
+    },
+    "about": {
+      "key": "about",
+      "route": "/about/",
+      "label": "自己紹介",
+      "appRoute": "/about/"
+    },
+    "links": {
+      "key": "links",
+      "route": "/links/",
+      "label": "外部リンク",
+      "appRoute": "/links/"
     }
   }
 }

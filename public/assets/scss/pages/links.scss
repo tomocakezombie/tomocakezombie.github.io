@@ -1,20 +1,18 @@
+// Links page
+@use '../global/pixel' as *;
+
 .link-card {
-  border: 1px solid #bbb;
-  padding: 2rem;
-  margin-top: 2rem;
+  & + & {
+    margin-top: d(16);
+  }
 
   &__title {
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #ddd;
+    margin-bottom: d(6);
   }
 
   &__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: d(4);
   }
 }

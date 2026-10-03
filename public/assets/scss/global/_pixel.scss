@@ -1,0 +1,57 @@
+// Shared pixel-art design tokens & mixins (no CSS output)
+// usage: @use '../global/pixel' as *;
+
+// --------------------------------------------------------------------------
+// Tokens
+// --------------------------------------------------------------------------
+$bp-sp: 768px;
+
+$dot: 2px;
+
+$c-sky: #51b9e3; // base background
+$c-sky-dark: #2f93c4; // header / footer band
+$c-sky-deep: #1d6f99; // text-shadow / button bottom
+$c-ink: #1b2a4a; // text on white windows
+$c-white: #fff;
+$c-paper: #f4fbff; // window background
+$c-yellow: #ffd84a; // accent / hover
+$c-yellow-dark: #c9a20f;
+$c-shadow: rgb(0 0 0 / 0.2);
+
+$font-pixel: 'PixelMplus12', Osaka-Mono, 'MS Gothic', monospace;
+
+@function d($n) {
+  @return $n * $dot;
+}
+
+@mixin sp {
+  @media (width <= $bp-sp) {
+    @content;
+  }
+}
+
+// Notched (step-cornered) pixel border drawn with box-shadow.
+// The border sits outside the element, so a margin of $w keeps layout stable.
+@mixin pixel-border($color: $c-ink, $w: d(2), $drop: true) {
+  @if $drop {
+    box-shadow:
+      0 (-$w) 0 0 $color,
+      0 $w 0 0 $color,
+      (-$w) 0 0 0 $color,
+      $w 0 0 0 $color,
+      ($w * 2) ($w * 2) 0 0 $c-shadow;
+  } @else {
+    box-shadow:
+      0 (-$w) 0 0 $color,
+      0 $w 0 0 $color,
+      (-$w) 0 0 0 $color,
+      $w 0 0 0 $color;
+  }
+}
+
+// Horizontal dotted line (square dots)
+@mixin pixel-dots($color: $c-white, $size: d(2)) {
+  background-image: linear-gradient(to right, $color 50%, transparent 50%);
+  background-size: ($size * 2) $size;
+  background-repeat: repeat-x;
+}

@@ -1,19 +1,44 @@
 ---
 import { app, args, pages, assets, img } from '/src/config/view';
 import { Layout } from '/src/layouts';
-import Breadcrumb from '/src/components/Breadcrumb.astro';
 app.init(Astro);
 app.setPageConfig();
 ---
 
 <Layout>
-  <!-- <Breadcrumb items={[
-      { label: 'Top', route: pages.top.route },
-    ]} /> -->
-  <br>
-  <br>
-  <br>
   <div class="content-main">
-    
+    <section class="hero">
+      <p class="hero__sub">PORTFOLIO</p>
+      <h2 class="hero__title">{args.siteName}</h2>
+      <p class="hero__text">
+        <span class="wbr">山梨大学 工学部</span> <span class="wbr">コンピュータ理工学科の学生です．</span><br />
+        <span class="wbr">自己紹介や活動，</span><span class="wbr">各種リンクをまとめています．</span>
+      </p>
+      <p class="hero__start"><span class="hero__cursor">▶</span> PRESS START</p>
+    </section>
+
+    <section class="section">
+      <h2>メニュー</h2>
+      <ul class="menu-list">
+        <li>
+          <a class="menu-card" href={pages.about.route}>
+            <span class="menu-card__title">自己紹介</span>
+            <span class="menu-card__text">プロフィール・所属・活動について</span>
+          </a>
+        </li>
+        <li>
+          <a class="menu-card" href={pages.links.route}>
+            <span class="menu-card__title">外部リンク</span>
+            <span class="menu-card__text">GitHub や学内サイトへのリンク集</span>
+          </a>
+        </li>
+        <li>
+          <span class="menu-card is-disabled" aria-disabled="true">
+            <span class="menu-card__title">作品集</span>
+            <span class="menu-card__text">じゅんびちゅう…</span>
+          </span>
+        </li>
+      </ul>
+    </section>
   </div>
 </Layout>
