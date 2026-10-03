@@ -11,47 +11,9 @@ app.setPageConfig({
 // TODO: 以下はダミーデータ。実際の内容に差し替える
 // status: 'release'（公開中） / 'dev'（開発中）
 // url / repo は未設定なら空文字でリンクを非表示にする
-const apps = [
-  {
-    name: 'アプリ名（準備中）',
-    year: '20XX',
-    status: 'dev',
-    description: 'アプリの概要をここに記述します．',
-    tech: ['Astro', 'TypeScript'],
-    url: '',
-    repo: '',
-  },
-  {
-    name: 'アプリ名（準備中）',
-    year: '20XX',
-    status: 'dev',
-    description: 'アプリの概要をここに記述します．',
-    tech: ['Python'],
-    url: '',
-    repo: '',
-  },
-];
+const apps = [];
 
-const githubProjects = [
-  {
-    name: 'repository-name',
-    year: '20XX',
-    status: 'release',
-    description: 'リポジトリの概要をここに記述します．',
-    tech: ['Astro', 'SCSS'],
-    url: '',
-    repo: '',
-  },
-  {
-    name: 'repository-name',
-    year: '20XX',
-    status: 'dev',
-    description: 'リポジトリの概要をここに記述します．',
-    tech: ['C'],
-    url: '',
-    repo: '',
-  },
-];
+const githubProjects = [];
 
 const sections = [
   { title: '作成したアプリ', items: apps },
