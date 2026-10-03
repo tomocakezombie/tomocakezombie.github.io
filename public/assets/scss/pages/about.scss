@@ -57,6 +57,7 @@
     dt {
       font-weight: bold;
       color: $c-sky-deep;
+      white-space: nowrap;
 
       &::before {
         content: '◆';

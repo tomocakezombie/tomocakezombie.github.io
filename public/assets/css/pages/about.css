@@ -50,6 +50,7 @@
 .profile__status dt {
   font-weight: bold;
   color: #1d6f99;
+  white-space: nowrap;
 }
 .profile__status dt::before {
   content: "◆";
