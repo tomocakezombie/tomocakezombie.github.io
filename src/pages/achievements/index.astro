@@ -13,11 +13,13 @@ app.setPageConfig({
 const certifications = [
   { name: '基本情報技術者試験（FE）', year: '2024年度', status: 'done', note: '一回受験で合格' },
   { name: '応用情報技術者試験（AP）', year: '2024年度', status: 'done', note: '一回受験で合格' },
-  { name: '情報セキュリティマネジメント試験（SG）', year: '2025年度', status: 'done', note: '二回受験で合格' },
+  { name: '情報安全確保支援士試験（SC）', year: '2025年度', status: 'done', note: '二回受験で合格' },
 ];
 
-const circles = [
+const background = [
   { name: 'kki-assist', role: '部員', period: '2023 - 2027' },
+  { name: 'セキュリティミニキャンプ 山梨', role: '受講者', period: '2025' },
+  { name: 'セキュリティキャンプ全国 Cクラス', role: '受講者', period: '2026' },
 ];
 
 const ctfs = [
@@ -57,11 +59,11 @@ const statusLabel = { done: '取得', plan: '予定' };
     </section>
 
     <section class="section">
-      <h3>サークル経歴</h3>
+      <h3>経歴</h3>
       <div class="pixel-window">
         <dl class="works-status">
           {
-            circles.map((item) => (
+            background.map((item) => (
               <div>
                 <dt>{item.period}</dt>
                 <dd>
