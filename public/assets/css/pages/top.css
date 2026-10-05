@@ -63,6 +63,7 @@
   flex-direction: column;
   gap: 4px;
   flex: 1;
+  min-height: 100px;
   margin: 4px;
   padding: 16px 16px 16px 32px;
   position: relative;
@@ -77,6 +78,11 @@
 }
 .menu-card__text {
   font-size: 1.2rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  line-height: 1.5;
 }
 .menu-card::before {
   content: "▶";

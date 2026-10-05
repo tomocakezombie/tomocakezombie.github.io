@@ -73,6 +73,7 @@
   flex-direction: column;
   gap: d(2);
   flex: 1;
+  min-height: 100px;
   margin: d(2);
   padding: d(8) d(8) d(8) d(16);
   position: relative;
@@ -89,6 +90,11 @@
 
   &__text {
     font-size: 1.2rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    line-height: 1.5;
   }
 
   &::before {
