@@ -29,3 +29,22 @@ const navItems = [
     </ul>
   </nav>
 </div>
+
+<script>
+  const toggleBtn = document.querySelector('.nav-toggle');
+  const header = document.querySelector('#page-header');
+
+  toggleBtn?.addEventListener('click', () => {
+    header?.classList.toggle('is-open');
+    const isOpen = header?.classList.contains('is-open') ?? false;
+    toggleBtn.setAttribute('aria-expanded', isOpen.toString());
+  });
+
+  // メニューリンククリック時にメニューを閉じる
+  document.querySelectorAll('.header-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      header?.classList.remove('is-open');
+      toggleBtn?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
