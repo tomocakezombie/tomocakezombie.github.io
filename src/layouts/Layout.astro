@@ -48,7 +48,7 @@ import PageFooter from '/src/components/PageFooter.astro';
       }
       <main id="page-main">
         <slot />
-        <PageFooter />
+        {args.page.key !== 'top' && <PageFooter />}
       </main>
       {
         !args.prevent.footer && (
