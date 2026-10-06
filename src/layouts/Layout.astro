@@ -3,6 +3,7 @@ import Util from '/src/config/Util';
 import { args, rootPath, assets, img } from '/src/config/view';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
+import PageFooter from '/src/components/PageFooter.astro';
 ---
 
 <!doctype html>
@@ -45,7 +46,10 @@ import Footer from './Footer.astro';
           </header>
         )
       }
-      <main id="page-main"><slot /></main>
+      <main id="page-main">
+        <slot />
+        <PageFooter />
+      </main>
       {
         !args.prevent.footer && (
           <footer id="page-footer">

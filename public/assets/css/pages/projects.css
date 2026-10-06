@@ -69,9 +69,3 @@
 .projects-empty {
   text-align: center;
 }
-
-.projects-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}

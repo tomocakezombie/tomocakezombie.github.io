@@ -358,6 +358,18 @@ img {
 // --------------------------------------------------------------------------
 // Footer
 // --------------------------------------------------------------------------
+// page bottom navigation (PageFooter component)
+.page-footer-nav {
+  margin-top: d(24);
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: d(8);
+  }
+}
+
 #page-footer {
   position: relative;
   background: $c-sky-dark;

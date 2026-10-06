@@ -43,12 +43,5 @@ if (!args.assetList.css.includes('pages/blog.css')) args.assetList.css.push('pag
         {post.body?.length > 0 ? post.body.map((paragraph) => <p>{paragraph}</p>) : <p>じゅんびちゅう...</p>}
       </div>
     </article>
-
-    <section class="section">
-      <p class="blog-nav">
-        <a class="pixel-btn" href={pages.blog.route}>記事一覧へ</a>
-        <a class="pixel-btn" href={pages.top.route}>トップへ</a>
-      </p>
-    </section>
   </div>
 </Layout>

@@ -308,6 +308,16 @@ img {
   color: #ffd84a;
 }
 
+.page-footer-nav {
+  margin-top: 48px;
+}
+.page-footer-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
 #page-footer {
   position: relative;
   background: #2f93c4;

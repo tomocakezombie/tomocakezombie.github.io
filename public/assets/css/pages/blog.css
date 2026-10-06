@@ -65,9 +65,3 @@
   gap: 16px;
   line-height: 1.8;
 }
-
-.blog-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}

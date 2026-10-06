@@ -1,0 +1,26 @@
+---
+import { pages } from '/src/config/view';
+
+const footerLinks = [
+  { key: 'top', label: 'トップ' },
+  { key: 'about', label: '自己紹介' },
+  { key: 'projects', label: '作品' },
+  { key: 'achievements', label: '実績' },
+  { key: 'blog', label: 'ブログ' },
+  { key: 'links', label: '外部リンク一覧' },
+];
+---
+
+<nav class="page-footer-nav content-main" aria-label="ページ下部ナビゲーション">
+  <ul class="page-footer-nav__list">
+    {
+      footerLinks.map((item) => (
+        <li>
+          <a class="pixel-btn" href={pages[item.key].route}>
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

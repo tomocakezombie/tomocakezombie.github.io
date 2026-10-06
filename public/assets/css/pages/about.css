@@ -63,9 +63,3 @@
     gap: 0;
   }
 }
-
-.about-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}

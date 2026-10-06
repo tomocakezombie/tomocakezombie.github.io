@@ -91,9 +91,3 @@
     gap: 0;
   }
 }
-
-.works-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
