@@ -1,0 +1,54 @@
+---
+import { app, args, pages, assets, img } from '/src/config/view';
+import { Layout } from '/src/layouts';
+import Breadcrumb from '/src/components/Breadcrumb.astro';
+import { posts } from '../_posts.mjs';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+
+app.init(Astro);
+app.setPageConfig({
+  title: post.title,
+  description: post.description ?? `${post.title} - tomocakezombie のブログ記事です。`,
+});
+
+// 動的ルートは pages に登録されないため、ブログとして扱い blog.css を読み込む
+args.page.key = 'blog';
+if (!args.assetList.css.includes('pages/blog.css')) args.assetList.css.push('pages/blog.css');
+---
+
+<Layout>
+  <Breadcrumb items={[
+      { label: 'トップ', route: pages.top.route },
+      { label: 'ブログ', route: pages.blog.route },
+      { label: post.title, route: '' },
+    ]} />
+  <div class="content-main">
+    <article class="blog-post">
+      <header class="blog-post__header">
+        <p class="blog-post__meta">
+          <time class="blog-post__date" datetime={post.date}>{post.date}</time>
+          {post.tags?.map((tag) => (
+            <span class="pixel-tag">{tag}</span>
+          ))}
+        </p>
+        <h2 class="blog-post__title">{post.title}</h2>
+      </header>
+
+      <div class="blog-post__body pixel-window">
+        {post.body?.length > 0 ? post.body.map((paragraph) => <p>{paragraph}</p>) : <p>じゅんびちゅう...</p>}
+      </div>
+    </article>
+
+    <section class="section">
+      <p class="blog-nav">
+        <a class="pixel-btn" href={pages.blog.route}>記事一覧へ</a>
+        <a class="pixel-btn" href={pages.top.route}>トップへ</a>
+      </p>
+    </section>
+  </div>
+</Layout>

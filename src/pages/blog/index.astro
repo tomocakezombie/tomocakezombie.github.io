@@ -1,0 +1,57 @@
+---
+import { app, args, pages, assets, img } from '/src/config/view';
+import { Layout } from '/src/layouts';
+import Breadcrumb from '/src/components/Breadcrumb.astro';
+import { posts } from './_posts.mjs';
+app.init(Astro);
+app.setPageConfig({
+  title: 'ブログ',
+  description: 'tomocakezombie のブログページです。技術メモや活動記録をまとめていく予定です。',
+});
+
+const sortedPosts = [...posts].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<Layout>
+  <Breadcrumb items={[
+      { label: 'トップ', route: pages.top.route },
+      { label: 'ブログ', route: pages.blog.route },
+    ]} />
+  <div class="content-main">
+    <h2>ブログ</h2>
+    <p class="lead">技術メモや活動記録などをまとめていく予定です．</p>
+
+    <section class="section">
+      <h3>記事一覧</h3>
+      {
+        sortedPosts.length > 0 ? (
+          <ul class="blog-list">
+            {sortedPosts.map((post) => (
+              <li>
+                <a class="blog-card pixel-window" href={`${pages.blog.route}post/${post.slug}/`}>
+                  <span class="blog-card__meta">
+                    <span class="blog-card__date">{post.date}</span>
+                    {post.tags?.map((tag) => (
+                      <span class="pixel-tag">{tag}</span>
+                    ))}
+                  </span>
+                  <span class="blog-card__title">{post.title}</span>
+                  {post.description && <span class="blog-card__text">{post.description}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="blog-empty pixel-window">じゅんびちゅう...</p>
+        )
+      }
+    </section>
+
+    <section class="section">
+      <p class="blog-nav">
+        <a class="pixel-btn" href={pages.achievements.route}>実績へ</a>
+        <a class="pixel-btn" href={pages.links.route}>外部リンク一覧へ</a>
+      </p>
+    </section>
+  </div>
+</Layout>
