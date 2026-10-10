@@ -38,7 +38,7 @@
   &__media {
     display: block;
     margin: d(2);
-    max-height: 200px;
+    aspect-ratio: 16 / 9;
     background: $c-ink;
     overflow: hidden;
 
@@ -49,7 +49,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     pointer-events: none;
   }
 
@@ -120,6 +120,8 @@
 
   &__text {
     line-height: 1.8;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 
   &__tech {
