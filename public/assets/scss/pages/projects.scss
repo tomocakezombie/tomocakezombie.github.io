@@ -121,7 +121,7 @@
   &__text {
     line-height: 1.8;
     white-space: pre-wrap;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   &__tech {
@@ -149,6 +149,6 @@
 .github-icon {
   height: 2.2rem;
   width: auto;
-  margin-right: d(0);
+  margin-right: 0;
   vertical-align: middle;
 }
