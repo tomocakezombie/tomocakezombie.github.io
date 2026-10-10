@@ -8,6 +8,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: d(12);
+  row-gap: d(12);
 
   @include sp {
     grid-template-columns: 1fr;
@@ -18,7 +19,6 @@
   display: flex;
   flex-direction: column;
   gap: d(6);
-  height: 100%;
   color: inherit;
   text-decoration: none;
 
