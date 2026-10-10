@@ -36,7 +36,6 @@ if (!args.assetList.css.includes('pages/projects.css')) args.assetList.css.push(
           <video
             class="project-detail__video"
             src={`/assets/video/${project.videoFile}`}
-            controls
             muted
             loop
             playsinline
@@ -48,13 +47,13 @@ if (!args.assetList.css.includes('pages/projects.css')) args.assetList.css.push(
 
       <div class="project-detail__body pixel-window">
         <section class="project-detail__section">
-          <h3 class="project-detail__heading">せつめい</h3>
-          <p class="project-detail__text">{project.description || 'じゅんびちゅう...'}</p>
+          <h3 class="project-detail__heading">説明</h3>
+          <p class="project-detail__text">{project.description || '準備中...'}</p>
         </section>
 
         {project.tech?.length > 0 && (
           <section class="project-detail__section">
-            <h3 class="project-detail__heading">しようぎじゅつ</h3>
+            <h3 class="project-detail__heading">使用技術</h3>
             <ul class="project-detail__tech">
               {project.tech.map((tech) => (
                 <li class="pixel-tag">{tech}</li>
