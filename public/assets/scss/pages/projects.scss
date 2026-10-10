@@ -1,6 +1,9 @@
 // Projects page
 @use '../global/pixel' as *;
 
+// --------------------------------------------------------------------------
+// List
+// --------------------------------------------------------------------------
 .projects-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -14,70 +17,116 @@
 .projects-card {
   display: flex;
   flex-direction: column;
-  gap: d(4);
-
-  &__meta {
-    display: flex;
-    align-items: center;
-    gap: d(4);
-  }
-
-  &__status {
-    &.is-release {
-      background: $c-sky-deep;
-    }
-
-    &.is-dev {
-      color: $c-ink;
-      background: $c-yellow;
-    }
-  }
-
-  &__date {
-    font-size: 1.2rem;
-    color: #5a6b80;
-  }
+  gap: d(6);
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
 
   &__title {
     font-size: 1.8rem;
     font-weight: bold;
+    color: $c-ink;
+
+    &::before {
+      content: '▶';
+      margin-right: d(2);
+      font-size: 1.2rem;
+      color: $c-sky-deep;
+    }
+  }
+
+  &__media {
+    display: block;
+    margin: d(2);
+    max-height: 200px;
+    background: $c-ink;
+    overflow: hidden;
+
+    @include pixel-border($c-ink, d(2), false);
+  }
+
+  &__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  &:hover &__title,
+  &:focus-visible &__title {
+    color: $c-sky-deep;
+  }
+
+  &:hover &__media,
+  &:focus-visible &__media {
+    @include pixel-border($c-yellow, d(2), false);
+  }
+}
+
+.projects-empty {
+  text-align: center;
+}
+
+// --------------------------------------------------------------------------
+// Detail
+// --------------------------------------------------------------------------
+.project-detail {
+  display: grid;
+  gap: d(12);
+
+  &__media {
+    padding: d(4);
+    background: $c-ink;
+  }
+
+  &__video {
+    display: block;
+    width: 100%;
+    max-height: 70vh;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+  }
+
+  &__body {
+    display: grid;
+    gap: d(10);
+  }
+
+  &__section {
+    display: grid;
+    gap: d(4);
+  }
+
+  &__heading {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: $c-sky-deep;
+
+    &::before {
+      content: '◆';
+      margin-right: d(2);
+      font-size: 1.2rem;
+    }
   }
 
   &__text {
-    font-size: 1.4rem;
-    color: #5a6b80;
+    line-height: 1.8;
   }
 
   &__tech {
     display: flex;
     flex-wrap: wrap;
-    gap: d(2) d(4);
-    padding-top: d(2);
-    background-position: left top;
-
-    @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
-
-    li {
-      font-size: 1.2rem;
-      color: $c-sky-deep;
-
-      &::before {
-        content: '◆';
-        margin-right: d(1);
-        font-size: 1rem;
-      }
-    }
+    gap: d(4);
   }
 
   &__links {
     display: flex;
     flex-wrap: wrap;
     gap: d(4);
-    margin-top: auto;
-    padding-top: d(4);
-  }
-}
+    padding-top: d(6);
+    background-position: left top;
 
-.projects-empty {
-  text-align: center;
+    @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+  }
 }

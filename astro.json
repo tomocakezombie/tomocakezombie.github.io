@@ -27,6 +27,24 @@
       "label": "自己紹介",
       "appRoute": "/about/"
     },
+    "projects": {
+      "key": "projects",
+      "route": "/projects/",
+      "label": "作品",
+      "appRoute": "/projects/"
+    },
+    "achievements": {
+      "key": "achievements",
+      "route": "/achievements/",
+      "label": "実績",
+      "appRoute": "/achievements/"
+    },
+    "blog": {
+      "key": "blog",
+      "route": "/blog/",
+      "label": "ブログ",
+      "appRoute": "/blog/"
+    },
     "links": {
       "key": "links",
       "route": "/links/",

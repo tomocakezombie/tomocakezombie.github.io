@@ -1,0 +1,83 @@
+---
+import { app, args, pages, assets, img } from '/src/config/view';
+import { Layout } from '/src/layouts';
+import Breadcrumb from '/src/components/Breadcrumb.astro';
+import { projects } from './_projects.mjs';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+
+app.init(Astro);
+app.setPageConfig({
+  title: project.title,
+  description: project.description ?? `${project.title} - tomocakezombie の作品です。`,
+});
+
+// 動的ルートは pages に登録されないため、作品として扱い projects.css を読み込む
+args.page.key = 'projects';
+if (!args.assetList.css.includes('pages/projects.css')) args.assetList.css.push('pages/projects.css');
+---
+
+<Layout>
+  <Breadcrumb items={[
+      { label: 'トップ', route: pages.top.route },
+      { label: '作品', route: pages.projects.route },
+      { label: project.title, route: '' },
+    ]} />
+  <div class="content-main">
+    <article class="project-detail">
+      <h2 class="project-detail__title">{project.title}</h2>
+
+      {project.videoFile && (
+        <div class="project-detail__media pixel-window">
+          <video
+            class="project-detail__video"
+            src={`/assets/video/${project.videoFile}`}
+            controls
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label={`${project.title} のデモ動画`}
+          />
+        </div>
+      )}
+
+      <div class="project-detail__body pixel-window">
+        <section class="project-detail__section">
+          <h3 class="project-detail__heading">せつめい</h3>
+          <p class="project-detail__text">{project.description || 'じゅんびちゅう...'}</p>
+        </section>
+
+        {project.tech?.length > 0 && (
+          <section class="project-detail__section">
+            <h3 class="project-detail__heading">しようぎじゅつ</h3>
+            <ul class="project-detail__tech">
+              {project.tech.map((tech) => (
+                <li class="pixel-tag">{tech}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {(project.github || project.demo) && (
+          <p class="project-detail__links">
+            {project.github && (
+              <a class="pixel-btn" href={project.github} target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+            )}
+            {project.demo && (
+              <a class="pixel-btn" href={project.demo} target="_blank" rel="noopener noreferrer">
+                デモをみる
+              </a>
+            )}
+          </p>
+        )}
+      </div>
+    </article>
+  </div>
+</Layout>
