@@ -98,6 +98,14 @@
     gap: d(4);
   }
 
+  &__divider {
+    height: d(1);
+    background-position: left center;
+    margin-top: d(4);
+
+    @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+  }
+
   &__heading {
     font-size: 1.6rem;
     font-weight: bold;
@@ -128,5 +136,17 @@
     background-position: left top;
 
     @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+
+    &--no-divider {
+      background-image: none;
+      padding-top: 0;
+    }
   }
+}
+
+.github-icon {
+  height: 2.2rem;
+  width: auto;
+  margin-right: d(0);
+  vertical-align: middle;
 }

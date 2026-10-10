@@ -78,6 +78,14 @@
   display: grid;
   gap: 8px;
 }
+.project-detail__divider {
+  height: 2px;
+  background-position: left center;
+  margin-top: 8px;
+  background-image: linear-gradient(to right, rgba(27, 42, 74, 0.3) 50%, transparent 50%);
+  background-size: 4px 2px;
+  background-repeat: repeat-x;
+}
 .project-detail__heading {
   font-size: 1.6rem;
   font-weight: bold;
@@ -105,4 +113,15 @@
   background-image: linear-gradient(to right, rgba(27, 42, 74, 0.3) 50%, transparent 50%);
   background-size: 4px 2px;
   background-repeat: repeat-x;
+}
+.project-detail__links--no-divider {
+  background-image: none;
+  padding-top: 0;
+}
+
+.github-icon {
+  height: 2.2rem;
+  width: auto;
+  margin-right: 0px;
+  vertical-align: middle;
 }

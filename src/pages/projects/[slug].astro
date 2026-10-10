@@ -49,6 +49,7 @@ if (!args.assetList.css.includes('pages/projects.css')) args.assetList.css.push(
         <section class="project-detail__section">
           <h3 class="project-detail__heading">説明</h3>
           <p class="project-detail__text">{project.description || '準備中...'}</p>
+          <div class="project-detail__divider"></div>
         </section>
 
         {project.tech?.length > 0 && (
@@ -60,20 +61,25 @@ if (!args.assetList.css.includes('pages/projects.css')) args.assetList.css.push(
               ))}
             </ul>
           </section>
+          <div class="project-detail__divider"></div>
         )}
 
-        {(project.github || project.demo) && (
-          <p class="project-detail__links">
-            {project.github && (
+        {project.github && (
+          <section class="project-detail__section">
+            <h3 class="project-detail__heading">ソースコード</h3>
+            <p class="project-detail__links project-detail__links--no-divider">
               <a class="pixel-btn" href={project.github} target="_blank" rel="noopener noreferrer">
-                GitHub
+                <img src="/assets/img/github-icon.png" alt="GitHub" class="github-icon" /> GitHub
               </a>
-            )}
-            {project.demo && (
-              <a class="pixel-btn" href={project.demo} target="_blank" rel="noopener noreferrer">
-                デモをみる
-              </a>
-            )}
+            </p>
+          </section>
+        )}
+
+        {project.demo && (
+          <p class="project-detail__links">
+            <a class="pixel-btn" href={project.demo} target="_blank" rel="noopener noreferrer">
+              デモをみる
+            </a>
           </p>
         )}
       </div>

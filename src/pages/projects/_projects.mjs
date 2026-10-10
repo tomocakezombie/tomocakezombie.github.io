@@ -14,7 +14,10 @@ export const projects = [
     slug: 'socket-shooting',
     title: 'ソケット通信シューティングゲーム',
     description:
-      '山梨大学工学部コンピュータ理工学科2年後期の授業で制作した作品。互いに球を打ち出して先に5回命中した方が勝利。2つの端末でソケット通信を行い，命中判定はサーバー側のみで行うことで同期ズレを防いでいます．',
+`山梨大学工学部コンピュータ理工学科2年後期の授業で制作した作品。
+互いに球を打ち出して先に5回命中した方が勝利。
+2つの端末でソケット通信を行い，命中判定はサーバー側のみで行うことで同期ズレを防いでいます．
+`,
     videoFile: 'shooting_demo.mp4',
     tech: ['C言語'],
     github: 'https://github.com/tomocakezombie/terminal-shooting-game',

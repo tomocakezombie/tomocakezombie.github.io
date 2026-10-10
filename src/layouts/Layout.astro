@@ -31,6 +31,7 @@ import PageFooter from '/src/components/PageFooter.astro';
     <meta name="twitter:site" content={args.twitterIdWithAtMark} />
 
     <link rel="icon" type="image/vnd.microsoft.icon" href={rootPath('favicon.ico', true)} />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/all.min.css" integrity="sha512-1ycoCasTpxU6aMJ5w1vmkX0+zWXl7hhNSYEVWVZWQvt3UYXD+kzFU/yKJbXsm+LoMvHiJgzcJ1wkf6iJxvtuw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     {!args.prevent.css.reset && <link rel="stylesheet" href={assets('css/global/reset.css', true)} />}
     {!args.prevent.css.style && <link rel="stylesheet" href={assets('css/global/style.css', true)} />}
     <script src={assets('js/global/base.js', true)}></script>
