@@ -6,6 +6,7 @@ app.setPageConfig();
 ---
 
 <Layout>
+  <div class="hamster-container" id="hamsterContainer"></div>
   <div class="content-main">
     <section class="hero">
       <p class="hero__sub">PORTFOLIO</p>
@@ -53,4 +54,69 @@ app.setPageConfig();
       </ul>
     </section>
   </div>
+
+  <script>
+    const container = document.getElementById('hamsterContainer')!;
+
+    // 流す画像の一覧。種類を増やすときは public/assets/img/ に画像を置いてここに追加する
+    const sprites = ['/assets/img/hamster.png'];
+
+    const createHamster = (maxDelay: number) => {
+      const size = 120 + Math.random() * 60; // 120-180px
+      const sprite = sprites[Math.floor(Math.random() * sprites.length)];
+      const rotate = -30 + Math.random() * 60; // -30〜30度
+      const duration = 40 + Math.random() * 30; // 40-70秒でゆっくり横断
+      const delay = Math.random() * maxDelay;
+
+      const hamster = document.createElement('div');
+      hamster.className = 'hamster';
+      hamster.style.backgroundImage = `url('${sprite}')`;
+      hamster.style.setProperty('--rotate', `${rotate}deg`);
+      hamster.style.setProperty('--size', `${size}px`);
+      hamster.style.setProperty('--start-y', `${10 + Math.random() * 75}%`);
+      hamster.style.setProperty('--duration', `${duration}s`);
+      hamster.style.setProperty('--delay', `${delay}s`);
+      hamster.style.setProperty('--opacity', String(0.6 + Math.random() * 0.4));
+      container.appendChild(hamster);
+
+      hamster.addEventListener('animationend', () => hamster.remove());
+    };
+
+    for (let i = 0; i < 3; i++) createHamster(20);
+    setInterval(() => createHamster(0), 15000);
+  </script>
+
+  <style is:global>
+    .hamster-container {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .hamster {
+      position: absolute;
+      top: var(--start-y);
+      left: 100%;
+      width: var(--size);
+      height: var(--size);
+      background: center / contain no-repeat;
+      image-rendering: pixelated;
+      opacity: var(--opacity);
+      animation: hamster-float var(--duration) linear var(--delay) both;
+    }
+
+    @keyframes hamster-float {
+      0% {
+        transform: translate(0, 0) rotate(var(--rotate));
+      }
+      50% {
+        transform: translate(calc(-50vw - 50%), -20px) rotate(var(--rotate));
+      }
+      100% {
+        transform: translate(calc(-100vw - 100%), 0) rotate(var(--rotate));
+      }
+    }
+  </style>
 </Layout>
