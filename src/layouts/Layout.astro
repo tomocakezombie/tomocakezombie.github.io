@@ -36,6 +36,11 @@ import PageFooter from '/src/components/PageFooter.astro';
     {!args.prevent.css.style && <link rel="stylesheet" href={assets('css/global/style.css', true)} />}
     <script src={assets('js/global/base.js', true)}></script>
     <script is:inline>
+      try {
+        if (localStorage.getItem('font') === 'normal') document.documentElement.dataset.font = 'normal';
+      } catch {}
+    </script>
+    <script is:inline>
       if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
         const gtagScript = document.createElement('script');
         gtagScript.async = true;

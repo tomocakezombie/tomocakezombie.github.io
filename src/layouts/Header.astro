@@ -13,6 +13,9 @@ const navItems = [
 
 <div class="header-inner">
   <h1 class="siteName"><a href={pages.top.route}><img class="siteName__default" src={img('global/logo.png')} alt={args.siteName} /><img class="siteName__hover" src={img('global/logo-hover.png')} alt="" aria-hidden="true" /></a></h1>
+  <button class="font-toggle" type="button" aria-pressed="false" title="文字を読みやすいフォントに切り替えます">
+    <span class="font-toggle__label">ふつうの文字</span>
+  </button>
   <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -32,6 +35,26 @@ const navItems = [
 </div>
 
 <script>
+  const fontBtn = document.querySelector<HTMLButtonElement>('.font-toggle');
+
+  const syncFontBtn = () => {
+    const isNormal = document.documentElement.dataset.font === 'normal';
+    fontBtn?.setAttribute('aria-pressed', String(isNormal));
+  };
+
+  fontBtn?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.font === 'normal' ? 'pixel' : 'normal';
+    document.documentElement.dataset.font = next;
+    try {
+      localStorage.setItem('font', next);
+    } catch {
+      // 保存できない環境（プライベートモードなど）ではこのページ内だけ有効
+    }
+    syncFontBtn();
+  });
+
+  syncFontBtn();
+
   const toggleBtn = document.querySelector('.nav-toggle');
   const header = document.querySelector('#page-header');
 

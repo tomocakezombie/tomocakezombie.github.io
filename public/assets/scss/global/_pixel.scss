@@ -19,6 +19,7 @@ $c-yellow-dark: #c9a20f;
 $c-shadow: rgb(0 0 0 / 0.2);
 
 $font-pixel: 'PixelMplus12', Osaka-Mono, 'MS Gothic', monospace;
+$font-normal: system-ui, -apple-system, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
 
 @function d($n) {
   @return $n * $dot;

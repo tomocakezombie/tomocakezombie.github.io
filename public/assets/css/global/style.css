@@ -30,6 +30,12 @@ body {
   background: #51b9e3;
 }
 
+html[data-font=normal] body {
+  -webkit-font-smoothing: auto;
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  letter-spacing: 0;
+}
+
 ::selection {
   color: #1b2a4a;
   background: #ffd84a;
@@ -209,6 +215,27 @@ img {
 #page-header .siteName a:hover .siteName__hover,
 #page-header .siteName a:focus-visible .siteName__hover {
   display: inline;
+}
+#page-header .font-toggle {
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: #fff;
+  white-space: nowrap;
+  background: #1d6f99;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 -4px 0 0 #fff, 0 4px 0 0 #fff, -4px 0 0 0 #fff, 4px 0 0 0 #fff;
+}
+#page-header .font-toggle[aria-pressed=true] {
+  color: #1b2a4a;
+  background: #ffd84a;
+}
+@media (width <= 768px) {
+  #page-header .font-toggle {
+    margin-left: auto;
+  }
 }
 #page-header .nav-toggle {
   display: none;

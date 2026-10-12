@@ -45,6 +45,13 @@ body {
   background: $c-sky;
 }
 
+// readable font mode (toggled from the header, saved in localStorage)
+html[data-font='normal'] body {
+  -webkit-font-smoothing: auto;
+  font-family: $font-normal;
+  letter-spacing: 0;
+}
+
 ::selection {
   color: $c-ink;
   background: $c-yellow;
@@ -242,6 +249,29 @@ img {
 
     .siteName__hover {
       display: inline;
+    }
+  }
+
+  .font-toggle {
+    padding: d(2) d(6);
+    font: inherit;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: $c-white;
+    white-space: nowrap;
+    background: $c-sky-deep;
+    border: none;
+    cursor: pointer;
+
+    @include pixel-border($c-white, d(2), false);
+
+    &[aria-pressed='true'] {
+      color: $c-ink;
+      background: $c-yellow;
+    }
+
+    @include sp {
+      margin-left: auto;
     }
   }
 
