@@ -35,6 +35,18 @@ import PageFooter from '/src/components/PageFooter.astro';
     {!args.prevent.css.reset && <link rel="stylesheet" href={assets('css/global/reset.css', true)} />}
     {!args.prevent.css.style && <link rel="stylesheet" href={assets('css/global/style.css', true)} />}
     <script src={assets('js/global/base.js', true)}></script>
+    <script is:inline>
+      if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+        const gtagScript = document.createElement('script');
+        gtagScript.async = true;
+        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-7WBLJGVRWN';
+        document.head.appendChild(gtagScript);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+        gtag('config', 'G-7WBLJGVRWN');
+      }
+    </script>
     {args.assetList.css.map((css) => <link rel="stylesheet" href={assets('css/' + Util.ltrim(css), true)} />)}
     {args.assetList.js.map((js) => <script src={assets('js/' + Util.ltrim(js), true)} />)}
   </head>
