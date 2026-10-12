@@ -1,6 +1,17 @@
 import Util from '/src/config/Util';
 
+/**
+ * ページごとの情報。app.makePage() で追加される。
+ * @typedef {{ key: string, route: string, label: string, appRoute: string }} PageInfo
+ */
+
+/**
+ * 各ページで共有する設定。項目は app の各処理であとから追加されるため、任意のキーを許す。
+ * @type {Record<string, any>}
+ */
 export const args = {};
+
+/** @type {Record<string, PageInfo>} */
 export const pages = {};
 export const app = {
   setPages() {

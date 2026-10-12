@@ -1,6 +1,6 @@
 ---
-import Util from '/src/config/Util';
-import { getIsAbsUrl } from '/src/config/view';
+import Util from '@/config/Util.mjs';
+import { getIsAbsUrl } from '@/config/view.mjs';
 let { page, href, children } = await Util.getPropsAsync(Astro);
 if (page) {
   href = page.route;
