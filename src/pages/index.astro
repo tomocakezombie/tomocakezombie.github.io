@@ -3,6 +3,12 @@ import { app, args, pages, assets, img } from '/src/config/view';
 import { Layout } from '/src/layouts';
 app.init(Astro);
 app.setPageConfig();
+
+const contacts = [
+  { label: 'メール', text: 't23cs014@yamanashi.ac.jp', href: 'mailto:t23cs014@yamanashi.ac.jp', external: false },
+  { label: 'GitHub', text: 'tomocakezombie', href: 'https://github.com/tomocakezombie', external: true },
+  { label: 'X', text: '@kan1175423', href: 'https://x.com/kan1175423', external: true },
+];
 ---
 
 <Layout>
@@ -61,6 +67,24 @@ app.setPageConfig();
           </a>
         </li>
       </ul>
+    </section>
+
+    <section class="section contact">
+      <h2>連絡先</h2>
+      <div class="pixel-window">
+        <dl class="contact-list">
+          {contacts.map((c) => (
+            <div>
+              <dt>{c.label}</dt>
+              <dd>
+                <a href={c.href} target={c.external ? '_blank' : undefined} rel={c.external ? 'noopener noreferrer' : undefined}>
+                  {c.text}
+                </a>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </section>
   </div>
 

@@ -104,3 +104,40 @@
   color: #7a8799;
   background: #d9e6ee;
 }
+
+.contact {
+  padding-bottom: 48px;
+}
+
+.contact-list {
+  display: grid;
+  gap: 4px;
+}
+.contact-list > div {
+  display: grid;
+  grid-template-columns: 6em 1fr;
+  gap: 8px;
+  padding-block: 4px;
+  background-position: left bottom;
+  background-image: linear-gradient(to right, rgba(27, 42, 74, 0.3) 50%, transparent 50%);
+  background-size: 4px 2px;
+  background-repeat: repeat-x;
+}
+.contact-list dt {
+  font-weight: bold;
+  color: #1d6f99;
+}
+.contact-list dt::before {
+  content: "◆";
+  margin-right: 4px;
+  font-size: 1.2rem;
+}
+.contact-list dd {
+  overflow-wrap: anywhere;
+}
+@media (width <= 768px) {
+  .contact-list > div {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
