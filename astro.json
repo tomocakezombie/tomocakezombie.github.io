@@ -50,6 +50,12 @@
       "route": "/links/",
       "label": "外部リンク",
       "appRoute": "/links/"
+    },
+    "settings": {
+      "key": "settings",
+      "route": "/settings/",
+      "label": "設定",
+      "appRoute": "/settings/"
     }
   }
 }

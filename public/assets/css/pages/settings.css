@@ -1,0 +1,36 @@
+@charset "UTF-8";
+.settings-note {
+  margin-bottom: 12px;
+}
+
+.settings-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.settings-option {
+  padding: 6px 16px;
+  margin: 4px;
+  font: inherit;
+  color: #fff;
+  background: #1d6f99;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 -4px 0 0 #fff, 0 4px 0 0 #fff, -4px 0 0 0 #fff, 4px 0 0 0 #fff;
+}
+.settings-option__icon::before {
+  content: "◇";
+  margin-right: 4px;
+  font-size: 1.2rem;
+}
+.settings-option[aria-checked=true] {
+  color: #1b2a4a;
+  background: #ffd84a;
+}
+.settings-option[aria-checked=true] .settings-option__icon::before {
+  content: "◆";
+}
+.settings-option:hover, .settings-option:focus-visible {
+  transform: translate(2px, 2px);
+}

@@ -1,0 +1,45 @@
+// Settings page
+@use '../global/pixel' as *;
+
+.settings-note {
+  margin-bottom: d(6);
+}
+
+.settings-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: d(8);
+}
+
+.settings-option {
+  padding: d(3) d(8);
+  margin: d(2);
+  font: inherit;
+  color: $c-white;
+  background: $c-sky-deep;
+  border: none;
+  cursor: pointer;
+
+  @include pixel-border($c-white, d(2), false);
+
+  // OFF = hollow diamond, ON = filled diamond
+  &__icon::before {
+    content: '◇';
+    margin-right: d(2);
+    font-size: 1.2rem;
+  }
+
+  &[aria-checked='true'] {
+    color: $c-ink;
+    background: $c-yellow;
+
+    .settings-option__icon::before {
+      content: '◆';
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    transform: translate(d(1), d(1));
+  }
+}

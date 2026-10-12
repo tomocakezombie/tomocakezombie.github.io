@@ -11,6 +11,7 @@ export const app = {
     app.makePage('achievements', '/achievements', '実績');
     app.makePage('blog', '/blog', 'ブログ');
     app.makePage('links', '/links', '外部リンク');
+    app.makePage('settings', '/settings', '設定');
   },
   preInit() {
     args.siteName = 'tomocakezombie';

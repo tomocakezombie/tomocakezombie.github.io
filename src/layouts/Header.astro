@@ -8,6 +8,7 @@ const navItems = [
   { key: 'achievements', label: '実績' },
   { key: 'blog', label: 'ブログ' },
   { key: 'links', label: '外部リンク' },
+  { key: 'settings', label: '設定' },
 ];
 ---
 
@@ -51,7 +52,11 @@ const navItems = [
       // 保存できない環境（プライベートモードなど）ではこのページ内だけ有効
     }
     syncFontBtn();
+    document.dispatchEvent(new CustomEvent('fontchange'));
   });
+
+  // 設定ページなど、他の場所で切り替えられたときにボタンの表示を合わせる
+  document.addEventListener('fontchange', syncFontBtn);
 
   syncFontBtn();
 

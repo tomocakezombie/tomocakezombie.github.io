@@ -1,0 +1,64 @@
+---
+import { app, pages } from '/src/config/view';
+import { Layout } from '/src/layouts';
+import Breadcrumb from '/src/components/Breadcrumb.astro';
+app.init(Astro);
+app.setPageConfig({
+  title: '設定',
+  description: 'tomocakezombie のサイトの設定ページです。フォントの切り替えができます。',
+});
+---
+
+<Layout>
+  <Breadcrumb items={[
+      { label: 'トップ', route: pages.top.route },
+      { label: '設定', route: pages.settings.route },
+    ]} />
+  <div class="content-main">
+    <h2>設定</h2>
+    <p class="lead">このサイトの表示を切り替えます．<br> 設定はこのブラウザに保存されます．</p>
+
+    <section class="section">
+      <h3>フォント</h3>
+      <div class="pixel-window">
+        <p class="settings-note">文字が読みづらいときは，ふつうのフォントに切り替えてください．</p>
+        <div class="settings-options" role="radiogroup" aria-label="フォント">
+          <button class="settings-option" type="button" role="radio" aria-checked="true" data-font="pixel">
+            <span class="settings-option__icon" aria-hidden="true"></span>ドットフォント
+          </button>
+          <button class="settings-option" type="button" role="radio" aria-checked="false" data-font="normal">
+            <span class="settings-option__icon" aria-hidden="true"></span>ふつうのフォント
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const options = document.querySelectorAll<HTMLButtonElement>('.settings-option');
+
+    const sync = () => {
+      const current = document.documentElement.dataset.font === 'normal' ? 'normal' : 'pixel';
+      options.forEach((option) => {
+        option.setAttribute('aria-checked', String(option.dataset.font === current));
+      });
+    };
+
+    options.forEach((option) => {
+      option.addEventListener('click', () => {
+        const next = option.dataset.font === 'normal' ? 'normal' : 'pixel';
+        document.documentElement.dataset.font = next;
+        try {
+          localStorage.setItem('font', next);
+        } catch {
+          // 保存できない環境ではこのページ内だけ有効
+        }
+        sync();
+        document.dispatchEvent(new CustomEvent('fontchange'));
+      });
+    });
+
+    document.addEventListener('fontchange', sync);
+    sync();
+  </script>
+</Layout>
