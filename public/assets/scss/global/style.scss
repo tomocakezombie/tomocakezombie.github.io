@@ -230,6 +230,21 @@ img {
     }
   }
 
+  .siteName img.siteName__hover {
+    display: none;
+  }
+
+  .siteName a:hover,
+  .siteName a:focus-visible {
+    .siteName__default {
+      display: none;
+    }
+
+    .siteName__hover {
+      display: inline;
+    }
+  }
+
   .nav-toggle {
     display: none;
 
