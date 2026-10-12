@@ -67,6 +67,17 @@
       color: $c-sky-deep;
     }
   }
+
+  &__notes {
+    display: grid;
+    gap: d(1);
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: d(4);
+  }
 }
 
 // RPG status window style (same as about page)
@@ -76,7 +87,7 @@
 
   > div {
     display: grid;
-    grid-template-columns: 12em 1fr;
+    grid-template-columns: 17em 1fr;
     gap: d(4);
     align-items: center;
     padding-block: d(4);
@@ -88,6 +99,7 @@
   dt {
     font-weight: bold;
     color: $c-sky-deep;
+    white-space: nowrap;
 
     &::before {
       content: '◆';

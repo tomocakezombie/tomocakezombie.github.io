@@ -57,6 +57,15 @@
   font-weight: bold;
   color: #1d6f99;
 }
+.works-card__notes {
+  display: grid;
+  gap: 2px;
+}
+.works-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 
 .works-status {
   display: grid;
@@ -64,7 +73,7 @@
 }
 .works-status > div {
   display: grid;
-  grid-template-columns: 12em 1fr;
+  grid-template-columns: 17em 1fr;
   gap: 8px;
   align-items: center;
   padding-block: 8px;
@@ -76,6 +85,7 @@
 .works-status dt {
   font-weight: bold;
   color: #1d6f99;
+  white-space: nowrap;
 }
 .works-status dt::before {
   content: "◆";

@@ -24,10 +24,37 @@ const background = [
   { name: 'セキュリティキャンプ全国 Cクラス', role: '受講者', period: '2026' },
 ];
 
+// links は省略可。{ label: 'リンクの表示名', url: 'https://...' } を並べる
+// scale は省略可。参加規模（例: '15チーム/30名'）
+// details は省略可。参加形式など、補足を 1 行ずつ文字列で書く
 const ctfs = [
-  { name: '	サイバーセキュリティCTFコンテンスト2024', year: '2024', rank: '8位くらい / 2人チーム', team: '???' },
-  { name: '山梨県警察主催 学生サイバーセキュリティCTFコンテスト', year: '2025', rank: '1位 / 2人チーム', team: 'CTF狂い' },
-  { name: '関東管区内警察合同サイバーボランティア・学生', year: '2026', rank: '2位 / 3人チーム', team: '空っぽコード' },
+  {
+    name: '	サイバーセキュリティCTFコンテンスト2024',
+    year: '2024',
+    rank: '8位くらい / 2人チーム',
+    team: 'CTF Lovers',
+    scale: '15チーム/30名',
+    details: ['初めて対面で参加した CTF です．'],
+    links: [{ label: '参考Webページ(外部)', url: 'https://www.ysa.or.jp/?p=1980' }],
+  },
+  {
+    name: '山梨県警察主催 学生サイバーセキュリティCTFコンテスト',
+    year: '2025',
+    rank: '1位 / 2人チーム',
+    team: 'CTF狂い',
+    scale: '16チーム/30名',
+    details: ['1位を獲得しました．', '嬉しかったです．'],
+    links: [{ label: '参考Webページ(外部)', url: 'https://www.ysa.or.jp/?p=2100' }],
+  },
+  {
+    name: '関東管区内警察合同サイバーボランティア・学生',
+    year: '2026',
+    rank: '2位 / 3人チーム',
+    team: '空っぽコード',
+    scale : '59チーム/150人',
+    details: ['2位を獲得しました．', '優勝は逃しましたが，良い経験を積めました．'],
+    links: [{ label: '参考Webページ(外部)', url: 'https://www.keio.ac.jp/ja/sfc-pem/news/20260319/' }],
+  },
 ];
 
 const statusLabel = { done: '取得', plan: '予定' };
@@ -91,14 +118,43 @@ const statusLabel = { done: '取得', plan: '予定' };
               <p class="works-card__title">{item.name}</p>
               <dl class="works-card__detail">
                 <div>
-                  <dt>じゅんい</dt>
+                  <dt>順位</dt>
                   <dd>{item.rank}</dd>
                 </div>
+                {item.scale && (
+                  <div>
+                    <dt>規模</dt>
+                    <dd>{item.scale}</dd>
+                  </div>
+                )}
                 <div>
                   <dt>チーム</dt>
                   <dd>{item.team}</dd>
                 </div>
+                {item.details.length > 0 && (
+                  <div>
+                    <dt>コメント</dt>
+                    <dd>
+                      <ul class="works-card__notes">
+                        {item.details.map((line) => (
+                          <li>{line}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                )}
               </dl>
+              {item.links.length > 0 && (
+                <ul class="works-card__links">
+                  {item.links.map((link) => (
+                    <li>
+                      <a class="pixel-btn" href={link.url} target="_blank" rel="noopener noreferrer">
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))
         }
