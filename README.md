@@ -1,169 +1,93 @@
 # tomocakezombie.github.io
 
-## 1. 概要
-ポートフォリオ作ります
+山梨大学 工学部 コンピュータ理工学科の学生、tomocakezombie の個人ポートフォリオサイトです。
+自己紹介、作品、実績、ブログ、外部リンクをまとめています。
 
-## 2. 運用
-ローカルでブランチを作成＋マージします.
+公開 URL: https://tomocakezombie.github.io/
 
-## 3. 記述する内容
+## 技術スタック
 
-## 4. CSS / SCSS 編集ルール
+- [Astro](https://astro.build/)（静的サイト生成）
+- Sass（SCSS から CSS を生成）
+- stylelint（CSS のチェック）
+- フォント: [PixelMplus](https://github.com/itouhiro/PixelMplus)（M+ FONT LICENSE）
 
-### style.css を直接編集しない
+## 動作環境
 
-`public/assets/css/global/style.css` はSassが `style.scss` からコンパイルして自動生成するファイル。
-直接編集しても `npm run watch` や `npm run build` のタイミングで上書きされる。
+- Node.js 22.12 以上
 
-**スタイルを変更するときは必ず `public/assets/scss/global/style.scss` を編集する。**
+## ローカルでの起動
 
-```
-public/assets/scss/global/style.scss  ← こちらを編集
-        ↓ Sassがコンパイル
-public/assets/css/global/style.css    ← 自動生成、直接編集しない
-```
-
-同様に、ページ個別のスタイルも `scss/pages/xxx.scss` があればそちらを編集する。
-
----
-
-## 5. CSS / SCSS 記述ルール
-
-stylelint（`stylelint-config-standard`）によるチェックが走るため、以下のルールに従う。
-
-### 16進数カラーは短縮形を使う
-
-```css
-/* ❌ */
-color: #000000;
-color: #ffffff;
-color: #cc0000;
-
-/* ✅ */
-color: #000;
-color: #fff;
-color: #c00;
+```bash
+npm install
+npm run dev
 ```
 
-短縮できない色（例: `#1a3a6b`）はそのまま6桁でOK。
+起動後、http://localhost:4321 で確認できます。
 
-### メディアクエリはモダン記法を使う
+## ビルド
 
-```scss
-/* ❌ */
-@media (max-width: 768px) { }
-@media (min-width: 768px) { }
-
-/* ✅ */
-@media (width <= 768px) { }
-@media (width >= 768px) { }
+```bash
+npm run build
 ```
 
-SCSSのmixinも同様。
+成果物は `dist/` に出力されます。
 
-### 色関数の記法（注意点）
+## デプロイ
 
-`color-function-notation` と `color-function-alias-notation` は **無効化済み**。
+`main` ブランチに push すると、`.github/workflows/deploy.yml` が GitHub Actions で実行され、GitHub Pages に公開されます。
 
-理由: Sassがコンパイル時に `rgb(R G B / A)` を `rgba(R, G, B, A)` に自動変換するため、
-SCSSで正しく書いてもCSSの出力が古い記法になりエラーになるため。
+## ディレクトリ構成
 
-→ 透明度付きの色は `rgba()` でも `rgb()` でも書いてよい。
+```
+src/
+├── pages/          ページ（URL になる）
+│   ├── index.astro         トップ
+│   ├── about/              自己紹介
+│   ├── projects/           作品（一覧 + 詳細）
+│   ├── achievements/       実績
+│   ├── blog/               ブログ（一覧 + 記事）
+│   └── links/              外部リンク
+├── layouts/        共通レイアウト（ヘッダー・フッターを含む）
+├── components/     再利用するコンポーネント
+└── config/         サイト設定（view.mjs など）
 
----
-
-## 6. コンポーネント・パターン集
-
-### ページの作り方
-
-1. `src/config/view.mjs` の `setPages()` にページを登録する
-   ```js
-   app.makePage('キー名', '/URLパス', 'ラベル');
-   ```
-2. `src/pages/ページ名/index.astro` を作成する
-3. ページ専用CSSは `public/assets/scss/pages/キー名.scss` に書く（自動で読み込まれる）
-
-最小テンプレート:
-```astro
----
-import { app, pages } from '/src/config/view';
-import { Layout } from '/src/layouts';
-import Breadcrumb from '/src/components/Breadcrumb.astro';
-app.init(Astro);
-app.setPageConfig({ title: 'ページタイトル' });
----
-
-<Layout>
-  <Breadcrumb items={[
-    { label: 'Top', route: pages.top.route },
-    { label: 'ページ名', route: pages.キー名.route },
-  ]} />
-  <div class="content-main">
-    <h2>ページタイトル</h2>
-    <!-- ここにコンテンツ -->
-  </div>
-</Layout>
+public/assets/
+├── scss/           スタイルの元ファイル（編集するのはこちら）
+├── css/            SCSS から生成される CSS（直接編集しない）
+├── fonts/          フォント
+├── img/            画像
+└── video/          動画
 ```
 
----
+## コンテンツの追加・編集
 
-### カードボックス（四角で囲む）
+| 内容 | 編集するファイル |
+|---|---|
+| 作品の追加 | `src/pages/projects/_projects.mjs` |
+| ブログ記事の追加 | `src/pages/blog/_posts.mjs` |
+| 自己紹介 | `src/pages/about/index.astro` |
+| 実績 | `src/pages/achievements/index.astro` |
+| サイト名・ページ設定 | `src/config/view.mjs` |
 
-`link-card` クラスでセクションを囲む。CSSは各ページの `scss/pages/xxx.scss` に定義。
+作品データの書き方は `_projects.mjs` 内のコメントを参照してください。動画は `public/assets/video/` に置き、ファイル名を `videoFile` に指定します。
 
-```astro
-<section class="link-card">
-  <h3 class="link-card__title">セクションタイトル</h3>
-  <!-- 中身 -->
-</section>
+## スタイルの編集
+
+スタイルは `public/assets/scss/` の SCSS を編集します。`public/assets/css/` の CSS は自動生成されるため、直接編集しないでください。
+
+```bash
+bash build/sass-compile.sh   # CSS を一度だけ生成
+npm run watch                # 保存のたびに自動生成
 ```
 
-```scss
-/* scss/pages/xxx.scss */
-.link-card {
-  border: 1px solid #bbb;
-  padding: 2rem;
-  margin-top: 2rem;
+CSS のチェックは次のコマンドで行います。
 
-  &__title {
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #ddd;
-  }
-}
+```bash
+npm run stylelint
 ```
 
----
+## ライセンス・クレジット
 
-### リンクアイテム（`LinkItem` コンポーネント）
-
-ラベル・日付・タイトル付きのリンク。`src/components/LinkItem.astro` を使う。
-
-```astro
----
-import LinkItem from '/src/components/LinkItem.astro';
----
-
-<LinkItem
-  href="https://example.com"
-  label="開発"
-  date="2026/06/10"
-  title="リンクのタイトル"
-/>
-```
-
-| props | 必須 | 説明 |
-|---|---|---|
-| `href` | ✅ | リンク先URL |
-| `title` | ✅ | リンクのタイトル |
-| `label` | - | ラベル（色は `LinkItem.astro` の `labelColors` で管理） |
-| `date` | - | 日付 |
-
-ラベルの色を追加・変更する場合は `src/components/LinkItem.astro` の `labelColors` を編集する:
-```js
-const labelColors = {
-  '開発': '#1a6b3a',
-  '学内': '#123068',
-  'SNS':  '#1d9bf0',
-};
-```
+- フォント PixelMplus は M+ FONT LICENSE に従って再配布しています。ライセンス文は `public/assets/fonts/` に含まれています。
+- 上記以外の文章・画像・作品は tomocakezombie が制作したものです。
