@@ -107,13 +107,15 @@ app.setPageConfig();
     const FEET_RATIO = 0.87; // 画像内で足先が来る高さの割合（viewBox 200 中の約 174）
     const GROUND_OFFSET = -18; // 地面の微調整（px）。正の値で下に、負の値で上に動く
 
+    const WALKER_SIZE = 120; // CSS の width と同じ値（非表示中は offsetHeight が取れないため固定値を使う）
+
     const placeWalker = () => {
-      const top = copyright.getBoundingClientRect().top - walker.offsetHeight * FEET_RATIO + GROUND_OFFSET;
+      const top = copyright.getBoundingClientRect().top - WALKER_SIZE * FEET_RATIO + GROUND_OFFSET;
       walker.style.top = `${top}px`;
     };
 
-    const WALKER_CHANCE = 0.2; // 判定ごとの出現確率
-    const WALKER_INTERVAL = 20000; // 判定の間隔（ms）
+    const WALKER_CHANCE = 0.6; // 判定ごとの出現確率
+    const WALKER_INTERVAL = 10000; // 判定の間隔（ms）
     let walking = false;
 
     const startWalker = () => {
