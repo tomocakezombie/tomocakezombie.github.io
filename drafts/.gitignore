@@ -1,0 +1,4 @@
+# 下書きは git に載せない。この説明だけ追跡する
+*
+!.gitignore
+!README.md

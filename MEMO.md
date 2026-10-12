@@ -167,3 +167,45 @@ const labelColors = {
   'SNS':  '#1d9bf0',
 };
 ```
+
+---
+
+## 7. 現在のサイト構成メモ
+
+最終更新: 2026-10。詳しい使い方は `README.md`、各ファイルのコメントを参照。
+
+### ページ一覧（`src/pages/`）
+
+| URL | ファイル | 内容 |
+|---|---|---|
+| `/` | `index.astro` | トップ。サイト紹介、メニュー、連絡先。背景に流れるハムスター・雲・棒人間のアニメーションあり |
+| `/about/` | `about/index.astro` | 自己紹介（ステータス枠、アルバイト、KKI-Assist、技術） |
+| `/projects/` | `projects/index.astro` | 作品一覧（カード）。詳細は `projects/[slug].astro` |
+| `/achievements/` | `achievements/index.astro` | 実績（資格、経歴、CTF） |
+| `/blog/` | `blog/index.astro` | ブログ一覧。記事は `blog/post/[slug].astro` |
+| `/links/` | `links/index.astro` | 外部リンク一覧 |
+| `/settings/` | `settings/index.astro` | 設定（フォントの切り替え） |
+
+ページは `src/config/view.mjs` の `makePage()` に登録する。ヘッダーのナビは `layouts/Header.astro`、ページ下部のリンクは `components/PageFooter.astro`（トップでは非表示）。
+
+### コンテンツのデータの置き場所
+
+| 内容 | 場所 |
+|---|---|
+| 作品 | `src/pages/projects/_projects.mjs`（動画は `public/assets/video/`） |
+| ブログ記事 | `src/pages/blog/_posts.mjs`（形式は先頭のコメント。本文の描画は `components/PostBody.astro`） |
+| 資格・経歴・CTF | `src/pages/achievements/index.astro` の先頭の配列 |
+| 連絡先 | `src/pages/index.astro` の先頭の `contacts` |
+
+### 仕組みで覚えておくこと
+
+- **スタイル**: SCSS（`public/assets/scss/`）を編集し、`bash build/sass-compile.sh` で CSS を再生成する。ページ別のスタイルは `scss/pages/<ページのキー>.scss` に置くと自動で読み込まれる。
+- **フォントの切り替え**: ヘッダーのボタンと設定ページが、`localStorage` の `font` を共有する。`<head>` の先頭のスクリプトが、描画前に `html[data-font="normal"]` を付ける。
+- **トップの背景アニメーション**: `index.astro` 内の `<script>`。流す画像は `sprites` の配列で、重み（`weight`）と傾き（`tilt`）を指定する。棒人間は確率で 1 回だけ歩く（`WALKER_CHANCE` など）。
+- **アクセス解析**: `layouts/Layout.astro` の GA4 タグ。localhost では読み込まない。
+- **デプロイ**: `main` に push すると GitHub Actions で GitHub Pages に公開される。ビルド時に stylelint が走るので、SCSS のエラーでデプロイが止まることがある。
+
+### Git に載せないもの
+
+- `作品素材/`、`自作素材/`、`drafts/`（下書き用の Markdown）の中身。`.gitignore` を各フォルダに置いて、中身を無視している。
+- Issue / TODO は GitHub の Issues と Projects で管理している。

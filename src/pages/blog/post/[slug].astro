@@ -2,6 +2,7 @@
 import { app, args, pages, assets, img } from '/src/config/view';
 import { Layout } from '/src/layouts';
 import Breadcrumb from '/src/components/Breadcrumb.astro';
+import PostBody from '/src/components/PostBody.astro';
 import { posts } from '../_posts.mjs';
 
 export function getStaticPaths() {
@@ -39,8 +40,50 @@ if (!args.assetList.css.includes('pages/blog.css')) args.assetList.css.push('pag
         <h2 class="blog-post__title">{post.title}</h2>
       </header>
 
+      {post.site && (
+        <section class="blog-site pixel-window">
+          <h3 class="blog-post__heading">サイト情報</h3>
+          <dl class="blog-site__list">
+            <div>
+              <dt>サイト</dt>
+              <dd>
+                {post.site.url ? (
+                  <a href={post.site.url} target="_blank" rel="noopener noreferrer">
+                    {post.site.name}
+                  </a>
+                ) : (
+                  post.site.name
+                )}
+              </dd>
+            </div>
+            {post.site.role && (
+              <div>
+                <dt>役割</dt>
+                <dd>{post.site.role}</dd>
+              </div>
+            )}
+            {post.site.period && (
+              <div>
+                <dt>期間</dt>
+                <dd>{post.site.period}</dd>
+              </div>
+            )}
+            {post.site.tech?.length > 0 && (
+              <div>
+                <dt>技術</dt>
+                <dd class="blog-site__tech">
+                  {post.site.tech.map((tech) => (
+                    <span class="pixel-tag">{tech}</span>
+                  ))}
+                </dd>
+              </div>
+            )}
+          </dl>
+        </section>
+      )}
+
       <div class="blog-post__body pixel-window">
-        {post.body?.length > 0 ? post.body.map((paragraph) => <p>{paragraph}</p>) : <p>じゅんびちゅう...</p>}
+        {post.body?.length > 0 ? <PostBody blocks={post.body} /> : <p>じゅんびちゅう...</p>}
       </div>
     </article>
   </div>
