@@ -227,13 +227,26 @@ img {
   border: none;
   cursor: pointer;
   box-shadow: 0 -4px 0 0 #fff, 0 4px 0 0 #fff, -4px 0 0 0 #fff, 4px 0 0 0 #fff;
+  order: 3;
+}
+#page-header .font-toggle__icon::before {
+  content: "◇";
+  margin-right: 4px;
+  font-size: 1.2rem;
 }
 #page-header .font-toggle[aria-pressed=true] {
   color: #1b2a4a;
   background: #ffd84a;
 }
+#page-header .font-toggle[aria-pressed=true] .font-toggle__icon::before {
+  content: "◆";
+}
+#page-header .font-toggle:hover, #page-header .font-toggle:focus-visible {
+  transform: translate(2px, 2px);
+}
 @media (width <= 768px) {
   #page-header .font-toggle {
+    order: 0;
     margin-left: auto;
   }
 }

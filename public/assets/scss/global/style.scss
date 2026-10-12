@@ -265,12 +265,33 @@ img {
 
     @include pixel-border($c-white, d(2), false);
 
+    // PC: ナビの右（ヘッダーの一番右）に置く
+    order: 3;
+
+    // OFF = hollow diamond, ON = filled diamond
+    &__icon::before {
+      content: '◇';
+      margin-right: d(2);
+      font-size: 1.2rem;
+    }
+
+    // ON = dot font is active
     &[aria-pressed='true'] {
       color: $c-ink;
       background: $c-yellow;
+
+      .font-toggle__icon::before {
+        content: '◆';
+      }
+    }
+
+    &:hover,
+    &:focus-visible {
+      transform: translate(d(1), d(1));
     }
 
     @include sp {
+      order: 0;
       margin-left: auto;
     }
   }
