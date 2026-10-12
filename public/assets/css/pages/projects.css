@@ -7,7 +7,7 @@
 }
 @media (width <= 768px) {
   .projects-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -99,7 +99,7 @@
 .project-detail__text {
   line-height: 1.8;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .project-detail__tech {
   display: flex;
@@ -124,6 +124,6 @@
 .github-icon {
   height: 2.2rem;
   width: auto;
-  margin-right: 0px;
+  margin-right: 0;
   vertical-align: middle;
 }
