@@ -7,7 +7,7 @@ app.setPageConfig();
 
 <Layout>
   <div class="hamster-container" id="hamsterContainer"></div>
-  <img class="walker" src="/assets/img/walking-stickman.svg" alt="" aria-hidden="true" />
+  <img class="walker" src="/assets/img/walking-stickman.svg" alt="" aria-hidden="true" hidden />
   <div class="content-main">
     <section class="hero">
       <p class="hero__sub">PORTFOLIO</p>
@@ -60,18 +60,34 @@ app.setPageConfig();
     const container = document.getElementById('hamsterContainer')!;
 
     // 流す画像の一覧。種類を増やすときは public/assets/img/ に画像を置いてここに追加する
-    const sprites = ['/assets/img/hamster.png', '/assets/img/cloud.png', '/assets/img/coffee.png'];
+    // weight が大きいほど出やすい。tilt が true のものは傾けて表示する
+    const sprites = [
+      { src: '/assets/img/cloud-normal.png', weight: 10, tilt: false },
+      { src: '/assets/img/hamster.png', weight: 1, tilt: true },
+      { src: '/assets/img/cloud.png', weight: 1, tilt: true },
+      { src: '/assets/img/coffee.png', weight: 1, tilt: true },
+    ];
+
+    const pickSprite = () => {
+      const total = sprites.reduce((sum, s) => sum + s.weight, 0);
+      let r = Math.random() * total;
+      for (const s of sprites) {
+        r -= s.weight;
+        if (r < 0) return s;
+      }
+      return sprites[sprites.length - 1];
+    };
 
     const createHamster = (maxDelay: number) => {
       const size = 120 + Math.random() * 60; // 120-180px
-      const sprite = sprites[Math.floor(Math.random() * sprites.length)];
-      const rotate = -30 + Math.random() * 60; // -30〜30度
+      const sprite = pickSprite();
+      const rotate = sprite.tilt ? -30 + Math.random() * 60 : 0; // 傾ける場合は -30〜30度
       const duration = 40 + Math.random() * 30; // 40-70秒でゆっくり横断
       const delay = Math.random() * maxDelay;
 
       const hamster = document.createElement('div');
       hamster.className = 'hamster';
-      hamster.style.backgroundImage = `url('${sprite}')`;
+      hamster.style.backgroundImage = `url('${sprite.src}')`;
       hamster.style.setProperty('--rotate', `${rotate}deg`);
       hamster.style.setProperty('--size', `${size}px`);
       hamster.style.setProperty('--start-y', `${10 + Math.random() * 75}%`);
@@ -96,10 +112,32 @@ app.setPageConfig();
       walker.style.top = `${top}px`;
     };
 
+    const WALKER_CHANCE = 0.2; // 判定ごとの出現確率
+    const WALKER_INTERVAL = 20000; // 判定の間隔（ms）
+    let walking = false;
+
+    const startWalker = () => {
+      walking = true;
+      placeWalker();
+      walker.hidden = false;
+      walker.classList.remove('is-walking');
+      void walker.offsetWidth;
+      walker.classList.add('is-walking');
+    };
+
     walker.addEventListener('load', placeWalker);
+    walker.addEventListener('animationend', () => {
+      walker.classList.remove('is-walking');
+      walker.hidden = true;
+      walking = false;
+    });
     window.addEventListener('scroll', placeWalker, { passive: true });
     window.addEventListener('resize', placeWalker);
     placeWalker();
+
+    setInterval(() => {
+      if (!walking && Math.random() < WALKER_CHANCE) startWalker();
+    }, WALKER_INTERVAL);
   </script>
 
   <style is:global>
@@ -132,7 +170,10 @@ app.setPageConfig();
       z-index: 1;
       pointer-events: none;
       filter: brightness(0) invert(1);
-      animation: walker-move 40s linear infinite;
+    }
+
+    .walker.is-walking {
+      animation: walker-move 40s linear both;
     }
 
     @keyframes walker-move {
