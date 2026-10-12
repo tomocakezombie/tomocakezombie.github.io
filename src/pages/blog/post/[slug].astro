@@ -34,7 +34,9 @@ if (!args.assetList.css.includes('pages/blog.css')) args.assetList.css.push('pag
         <p class="blog-post__meta">
           <time class="blog-post__date" datetime={post.date}>{post.date}</time>
           {post.tags?.map((tag) => (
-            <span class="pixel-tag">{tag}</span>
+            <a class="pixel-tag blog-post__tag" href={`${pages.blog.route}?tag=${encodeURIComponent(tag)}`}>
+              {tag}
+            </a>
           ))}
         </p>
         <h2 class="blog-post__title">{post.title}</h2>

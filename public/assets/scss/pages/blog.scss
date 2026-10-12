@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   gap: d(4);
-  color: inherit;
+  color: $c-ink;
   text-decoration: none;
 
   &__meta {
@@ -149,5 +149,48 @@
     display: flex;
     flex-wrap: wrap;
     gap: d(4);
+  }
+}
+
+// tag filter (blog list)
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: d(4);
+  margin-bottom: d(8);
+
+  &__btn {
+    padding: d(1) d(6);
+    margin: d(2);
+    font: inherit;
+    font-size: 1.2rem;
+    line-height: 2;
+    color: $c-white;
+    background: $c-sky-deep;
+    border: none;
+    cursor: pointer;
+
+    @include pixel-border($c-white, d(2), false);
+
+    &[aria-pressed='true'] {
+      color: $c-ink;
+      background: $c-yellow;
+    }
+
+    &:hover,
+    &:focus-visible {
+      transform: translate(d(1), d(1));
+    }
+  }
+}
+
+// tag link on the article page
+.blog-post__tag {
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    color: $c-ink;
+    background: $c-yellow;
   }
 }

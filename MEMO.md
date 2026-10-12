@@ -205,6 +205,22 @@ const labelColors = {
 - **アクセス解析**: `layouts/Layout.astro` の GA4 タグ。localhost では読み込まない。
 - **デプロイ**: `main` に push すると GitHub Actions で GitHub Pages に公開される。ビルド時に stylelint が走るので、SCSS のエラーでデプロイが止まることがある。
 
+### ブログ記事の書き方（基本）
+
+下書きは `drafts/`（git に載らない）に Markdown で書き、スクリプトで記事のデータに変換する。
+
+1. `drafts/_template.md` をコピーして `drafts/好きな名前.md` を作り、書く
+   - 先頭の `---` で囲んだメタ情報に `slug`（英数字とハイフン）、`title`、`date`（`2026-10-07`）が必須。`tags` は `,` 区切り、`site.name` などを書くと「サイト情報」の枠が出る
+   - 本文は `##` で見出し、空行で段落、`- ` で箇条書き、`![代替](/assets/img/blog/x.png "説明")` で画像、1 行だけの `[ラベル](URL)` でリンクのボタン
+2. `npm run drafts` を実行する（`src/pages/blog/_posts.generated.mjs` が更新される）
+3. 開発サーバーで `/blog/` を確認し、`_posts.generated.mjs` を commit して push する
+   - 公開されるのはこの生成ファイル。GitHub Actions のビルドでは `drafts/` が見えないので、変換は手元で行う
+   - 直したいときは Markdown を直して 2. からやり直す。消したいときは Markdown を削除して `npm run drafts`
+
+詳しい書き方と未対応の記法は `drafts/README.md`。変換のしくみは `build/drafts-to-posts.mjs`。手書きで `src/pages/blog/_posts.mjs` に直接足すこともできる（`slug` が重複するとビルドが止まる）。
+
+- 記事一覧は、タグのボタンで絞り込める（`/blog/?tag=タグ名`）。記事ページのタグも同じ絞り込みへのリンクになる。
+
 ### Git に載せないもの
 
 - `作品素材/`、`自作素材/`、`drafts/`（下書き用の Markdown）の中身。`.gitignore` を各フォルダに置いて、中身を無視している。

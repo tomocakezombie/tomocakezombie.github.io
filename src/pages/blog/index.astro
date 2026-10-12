@@ -10,6 +10,13 @@ app.setPageConfig({
 });
 
 const sortedPosts = [...posts].sort((a, b) => b.date.localeCompare(a.date));
+
+// タグごとの記事数（多い順、同数は名前順）
+const tagCounts = new Map();
+for (const post of sortedPosts) {
+  for (const tag of post.tags ?? []) tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+}
+const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 ---
 
 <Layout>
@@ -24,10 +31,24 @@ const sortedPosts = [...posts].sort((a, b) => b.date.localeCompare(a.date));
     <section class="section">
       <h3>記事一覧</h3>
       {
+        tags.length > 0 && (
+          <div class="tag-filter" role="group" aria-label="タグで絞り込み">
+            <button class="tag-filter__btn" type="button" data-tag="" aria-pressed="true">
+              すべて
+            </button>
+            {tags.map(([tag, count]) => (
+              <button class="tag-filter__btn" type="button" data-tag={tag} aria-pressed="false">
+                {tag}（{count}）
+              </button>
+            ))}
+          </div>
+        )
+      }
+      {
         sortedPosts.length > 0 ? (
           <ul class="blog-list">
             {sortedPosts.map((post) => (
-              <li>
+              <li class="blog-list__item" data-tags={JSON.stringify(post.tags ?? [])}>
                 <a class="blog-card pixel-window" href={`${pages.blog.route}post/${post.slug}/`}>
                   <span class="blog-card__meta">
                     <span class="blog-card__date">{post.date}</span>
@@ -45,6 +66,44 @@ const sortedPosts = [...posts].sort((a, b) => b.date.localeCompare(a.date));
           <p class="blog-empty pixel-window">じゅんびちゅう...</p>
         )
       }
+      <p class="blog-empty pixel-window" id="blogNoMatch" hidden>このタグの記事はまだありません．</p>
     </section>
   </div>
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-filter__btn');
+    const items = document.querySelectorAll<HTMLElement>('.blog-list__item');
+    const noMatch = document.getElementById('blogNoMatch');
+
+    const apply = (tag: string) => {
+      let shown = 0;
+      items.forEach((item) => {
+        const itemTags: string[] = JSON.parse(item.dataset.tags ?? '[]');
+        const visible = tag === '' || itemTags.includes(tag);
+        item.hidden = !visible;
+        if (visible) shown += 1;
+      });
+      buttons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.tag === tag));
+      });
+      if (noMatch) noMatch.hidden = shown > 0 || items.length === 0;
+    };
+
+    const select = (tag: string) => {
+      apply(tag);
+      const url = new URL(location.href);
+      if (tag) url.searchParams.set('tag', tag);
+      else url.searchParams.delete('tag');
+      history.replaceState(null, '', url);
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => select(button.dataset.tag ?? ''));
+    });
+
+    // 存在しないタグが URL に書かれているときは「すべて」にする
+    const initial = new URLSearchParams(location.search).get('tag') ?? '';
+    const known = Array.from(buttons).some((button) => button.dataset.tag === initial);
+    apply(known ? initial : '');
+  </script>
 </Layout>
