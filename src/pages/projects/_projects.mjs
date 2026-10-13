@@ -49,6 +49,19 @@ export const projects = [
     github: '',
     demo: '',
   },
+  {
+    slug: 'seat-display',
+    title: '学内座席表示システム',
+    description:
+`3人チームで作成したシステムです．
+学校の端末に実機でログインしている端末を Web サイトに反映する機能と，ログインしていた時間が長いユーザーをランキングとして反映する機能があります．
+初めての共同開発だったため，役割分担や git のルール，システム案のすり合わせなど，さまざまな壁がありましたが，なんとか形にできました．
+`,
+    videoFile: 'seat_demo.mp4',
+    tech: ['Python（バックエンド）', 'PHP（中間）', 'HTML / CSS（フロント）', 'JavaScript（フロント）'],
+    github: '',
+    demo: '',
+  },
   //   {
   //   slug: 'socket-shooting',
   //   title: 'ソケット通信シューティングゲーム',
