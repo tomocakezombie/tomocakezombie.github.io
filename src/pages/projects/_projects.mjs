@@ -62,6 +62,18 @@ export const projects = [
     github: '',
     demo: '',
   },
+  {
+    slug: 'shopping-list',
+    title: 'ショッピングリストアプリ',
+    description:
+`大学の授業（3年後期）で，チームで役割分担をして作成した，ショッピングリストのアプリです．
+Django を使った，ソフトウェア開発の練習として作りました．
+`,
+    videoFile: 'shopping_demo.mp4',
+    tech: ['Django'],
+    github: 'https://github.com/tomocakezombie/Sdpl_Shopping_public',
+    demo: '',
+  },
   //   {
   //   slug: 'socket-shooting',
   //   title: 'ソケット通信シューティングゲーム',
