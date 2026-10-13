@@ -36,6 +36,19 @@ export const projects = [
     github: 'https://github.com/tomocakezombie/alpenski_public',
     demo: '',
   },
+  {
+    slug: 'bulletin-board',
+    title: '学内掲示板',
+    description:
+`個人開発で作成した掲示板サイトです．
+初期案は，ユーザーの入力データをテキストで保存し，フロントに反映するだけの単純なサービスでした．
+学内で本掲示板への攻撃が多発し，その都度，防御機構を増やしていきました．
+`,
+    videoFile: 'bulletinboard_demo.mp4',
+    tech: ['Python（バックエンド）', 'PHP（中間）', 'HTML / CSS（フロント）', 'JavaScript（フロント）'],
+    github: '',
+    demo: '',
+  },
   //   {
   //   slug: 'socket-shooting',
   //   title: 'ソケット通信シューティングゲーム',
