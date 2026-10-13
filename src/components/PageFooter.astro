@@ -1,27 +1,14 @@
 ---
-import { pages } from '@/config/view.mjs';
-
-const footerLinks = [
-  { key: 'top', label: 'トップ' },
-  { key: 'about', label: '自己紹介' },
-  { key: 'projects', label: '作品' },
-  { key: 'achievements', label: '実績' },
-  { key: 'blog', label: 'ブログ' },
-  { key: 'links', label: '外部リンク一覧' },
-  { key: 'settings', label: '設定' },
-];
+import { img } from '@/config/view.mjs';
 ---
 
-<nav class="page-footer-nav content-main" aria-label="ページ下部ナビゲーション">
-  <ul class="page-footer-nav__list">
-    {
-      footerLinks.map((item) => (
-        <li>
-          <a class="pixel-btn" href={pages[item.key].route}>
-            {item.label}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
-</nav>
+<div class="to-top-area content-main">
+  <p class="to-top-area__text">
+    <span class="wbr">ページの上にもどるときは，</span><span class="wbr">ここを押してね</span>
+    <span class="to-top-area__arrow" aria-hidden="true">▶</span>
+  </p>
+  <a class="to-top" href="#page-container" aria-label="ページの先頭へ戻る">
+    <img class="to-top__default" src={img('global/to-top.png')} alt="" width="50" height="34" />
+    <img class="to-top__hover" src={img('global/to-top-hover.png')} alt="" width="50" height="34" aria-hidden="true" />
+  </a>
+</div>

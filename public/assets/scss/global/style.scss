@@ -424,15 +424,60 @@ img {
 // --------------------------------------------------------------------------
 // Footer
 // --------------------------------------------------------------------------
-// page bottom navigation (PageFooter component)
-.page-footer-nav {
+// back-to-top button (PageFooter component)
+.to-top-area {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: d(6);
   margin-top: d(24);
 
-  &__list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: d(8);
+  &__text {
+    font-size: 1.4rem;
+    text-align: right;
+  }
+
+  &__arrow {
+    margin-left: d(2);
+    font-size: 1.2rem;
+    color: $c-yellow;
+  }
+}
+
+.to-top {
+  display: block;
+  margin: d(2);
+  padding: d(3) d(6);
+  line-height: 0;
+  background: $c-paper;
+
+  @include pixel-border($c-ink);
+
+  img {
+    width: 100px; // 50px x 2 (keep the dots crisp)
+    height: auto;
+    image-rendering: pixelated;
+  }
+
+  .to-top__hover {
+    display: none;
+  }
+
+  // same hover as the menu cards: yellow background, pressed in
+  &:hover,
+  &:focus-visible {
+    background: $c-yellow;
+    transform: translate(d(1), d(1));
+
+    @include pixel-border($c-ink, d(2), false);
+
+    .to-top__default {
+      display: none;
+    }
+
+    .to-top__hover {
+      display: block;
+    }
   }
 }
 
