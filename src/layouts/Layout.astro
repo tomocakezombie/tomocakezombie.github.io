@@ -7,7 +7,7 @@ import PageFooter from '@/components/PageFooter.astro';
 ---
 
 <!doctype html>
-<html lang={args.lang} data-key={args.page.key} data-route={args.page.route} data-app-route={args.page.appRoute}>
+<html lang={args.lang} data-font="normal" data-key={args.page.key} data-route={args.page.route} data-app-route={args.page.appRoute}>
   <head>
     <meta charset="UTF-8" />
     <title>{args.title}</title>
@@ -36,8 +36,9 @@ import PageFooter from '@/components/PageFooter.astro';
     {!args.prevent.css.style && <link rel="stylesheet" href={assets('css/global/style.css', true)} />}
     <script src={assets('js/global/base.js', true)}></script>
     <script is:inline>
+      // 初期値は <html data-font="normal">（ふつうのフォント）。ドットフォントを選んで保存した人だけ切り替える
       try {
-        if (localStorage.getItem('font') === 'normal') document.documentElement.dataset.font = 'normal';
+        if (localStorage.getItem('font') === 'pixel') document.documentElement.dataset.font = 'pixel';
       } catch {}
     </script>
     <script is:inline>

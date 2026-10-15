@@ -1,6 +1,131 @@
 // 自動生成ファイル: drafts/*.md から npm run drafts で作られる。手で編集しない
 export const generatedPosts = [
   {
+    "slug": "markdown-sample",
+    "title": "Markdown 記法のサンプル",
+    "date": "2026-10-15",
+    "tags": [
+      "サンプル",
+      "Markdown"
+    ],
+    "description": "ブログで使える Markdown の書き方の一覧です．",
+    "body": [
+      {
+        "type": "heading",
+        "text": "見出し"
+      },
+      "`##` や `###` で見出しになります（`#` の数による見た目の違いはありません）．",
+      {
+        "type": "heading",
+        "text": "小さめの見出し"
+      },
+      "見出しのあとに文章を続けます．",
+      {
+        "type": "heading",
+        "text": "文章（段落）"
+      },
+      "文章は，空行で区切ると別の段落になります．改行だけでは段落は分かれません．この行は上の行と同じ段落です．",
+      "空行を入れたので，ここからが次の段落です．",
+      {
+        "type": "heading",
+        "text": "文中の書式"
+      },
+      "文章の途中で，**太字**，`インラインコード`，[リンク](https://example.com/) が使えます．",
+      "サイト内のページへのリンクは，[自己紹介](/about/) のように `/` から始まるパスで書きます．",
+      {
+        "type": "heading",
+        "text": "箇条書き"
+      },
+      {
+        "type": "list",
+        "items": [
+          "箇条書きの 1 つ目",
+          "箇条書きの 2 つ目",
+          "**太字**や `コード` も入れられます"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "番号つきリスト"
+      },
+      {
+        "type": "list",
+        "items": [
+          "最初の手順",
+          "次の手順",
+          "最後の手順"
+        ],
+        "ordered": true
+      },
+      {
+        "type": "heading",
+        "text": "コードブロック"
+      },
+      "言語名を付けると，色付きで表示されます．",
+      {
+        "type": "code",
+        "code": "const greet = (name) => {\n  console.log(`Hello, ${name}`);\n};\ngreet('world');",
+        "lang": "js"
+      },
+      {
+        "type": "code",
+        "code": "def add(a, b):\n    return a + b\n\nprint(add(1, 2))",
+        "lang": "python"
+      },
+      "言語名を付けない場合は，色なしで表示されます．",
+      {
+        "type": "code",
+        "code": "$ npm run build"
+      },
+      {
+        "type": "heading",
+        "text": "表"
+      },
+      {
+        "type": "table",
+        "header": [
+          "項目",
+          "内容"
+        ],
+        "rows": [
+          [
+            "名前",
+            "`tomocakezombie`"
+          ],
+          [
+            "サイト",
+            "[ポートフォリオ](https://tomocakezombie.github.io/)"
+          ],
+          [
+            "太字",
+            "**表の中でも書式が使えます**"
+          ]
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "画像"
+      },
+      "画像は `public/assets/img/blog/` に置いて，パスを指定します．引用符の中の文字は，図の説明として画像の下に出ます．",
+      {
+        "type": "image",
+        "src": "/assets/img/hamster.png",
+        "alt": "ハムスターのドット絵",
+        "caption": "図の説明は省略できます"
+      },
+      {
+        "type": "heading",
+        "text": "リンクのボタン"
+      },
+      "リンクだけを 1 行で書くと，ボタンとして表示されます（文章の途中に入れたリンクは，普通のリンクです）．",
+      {
+        "type": "link",
+        "label": "サイトをみる",
+        "url": "https://tomocakezombie.github.io/"
+      }
+    ]
+  },
+  {
     "slug": "my-first-site",
     "title": "ポートフォリオ作りました",
     "date": "2026-10-13",
@@ -67,17 +192,5 @@ export const generatedPosts = [
         "url": "https://neutralx0.net/tools/dot3/"
       }
     ]
-  },
-  {
-    "slug": "part-time-job-thinking",
-    "title": "開発アルバイトを経験して思っていること",
-    "date": "2026-10-13",
-    "tags": [
-      "アルバイト",
-      "長期インターン",
-      "開発アルバイト"
-    ],
-    "description": "現在働いている開発アルバイトで思っていることを紹介",
-    "body": []
   }
 ];

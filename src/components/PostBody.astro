@@ -54,7 +54,7 @@ const resolveLang = (lang) => (lang && lang in bundledLanguages ? lang : 'plaint
                 コピー
               </button>
             </div>
-            <Code code={block.code} lang={resolveLang(block.lang)} theme="github-dark" />
+            <Code code={block.code} lang={resolveLang(block.lang)} theme="min-light" />
           </div>
         );
       case 'table':

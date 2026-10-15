@@ -68,13 +68,17 @@
 .blog-post__heading {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #1d6f99;
+  color: #1b2a4a;
+  text-shadow: none;
 }
 .blog-post__list {
   display: grid;
   gap: 4px;
   padding-left: 16px;
   list-style: square;
+}
+.blog-post__list li::marker {
+  color: #5a6b80;
 }
 .blog-post__list--ordered {
   list-style: decimal;
@@ -177,8 +181,8 @@
 .blog-inline-code {
   padding: 0 4px;
   font-size: 0.9em;
-  color: #fff;
-  background: #1b2a4a;
+  color: #1b2a4a;
+  background: #dde8f1;
 }
 
 .blog-post__body a:not(.pixel-btn) {
@@ -188,14 +192,15 @@
 .blog-code {
   display: grid;
   gap: 0;
+  border: 2px solid #c5d2de;
 }
 .blog-code__bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 2px 8px;
-  color: #fff;
-  background: #1d6f99;
+  color: #5a6b80;
+  background: #dde8f1;
 }
 .blog-code__lang {
   font-size: 1.2rem;
@@ -204,13 +209,14 @@
   padding: 0 8px;
   font: inherit;
   font-size: 1.2rem;
-  color: #1b2a4a;
+  color: #5a6b80;
   cursor: pointer;
-  background: #ffd84a;
-  border: none;
+  background: #fff;
+  border: 2px solid #c5d2de;
 }
 .blog-code__copy:hover, .blog-code__copy:focus-visible {
-  background: #fff;
+  color: #1b2a4a;
+  background: #edf3f8;
 }
 .blog-code pre.astro-code {
   margin: 0;
@@ -218,7 +224,7 @@
   font-family: monospace;
   font-size: 1.3rem;
   line-height: 1.6;
-  background-color: #1b2a4a !important;
+  background-color: #edf3f8 !important;
 }
 
 .blog-table-wrap {
@@ -234,9 +240,13 @@
 .blog-table td {
   padding: 4px 8px;
   text-align: left;
-  border: 2px solid #1b2a4a;
+  border: 2px solid #c5d2de;
 }
 .blog-table th {
-  color: #fff;
-  background: #1d6f99;
+  color: #1b2a4a;
+  background: #dde8f1;
+}
+
+.pixel-window .blog-post__heading::before {
+  color: #5a6b80;
 }

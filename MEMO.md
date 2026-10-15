@@ -200,7 +200,7 @@ const labelColors = {
 ### 仕組みで覚えておくこと
 
 - **スタイル**: SCSS（`public/assets/scss/`）を編集し、`bash build/sass-compile.sh` で CSS を再生成する。ページ別のスタイルは `scss/pages/<ページのキー>.scss` に置くと自動で読み込まれる。
-- **フォントの切り替え**: ヘッダーのボタンと設定ページが、`localStorage` の `font` を共有する。`<head>` の先頭のスクリプトが、描画前に `html[data-font="normal"]` を付ける。
+- **フォントの切り替え**: 初期値は「ふつうのフォント」（`<html data-font="normal">` を最初から付けている）。ヘッダーのボタンと設定ページが、`localStorage` の `font` を共有する。`<head>` の先頭のスクリプトが、`pixel`（ドットフォント）が保存されている人だけ、描画前に `data-font="pixel"` に切り替える。
 - **トップの背景アニメーション**: `index.astro` 内の `<script>`。流す画像は `sprites` の配列で、重み（`weight`）と傾き（`tilt`）を指定する。棒人間は確率で 1 回だけ歩く（`WALKER_CHANCE` など）。
 - **アクセス解析**: `layouts/Layout.astro` の GA4 タグ。localhost では読み込まない。
 - **デプロイ**: `main` に push すると GitHub Actions で GitHub Pages に公開される。ビルド時に stylelint が走るので、SCSS のエラーでデプロイが止まることがある。
