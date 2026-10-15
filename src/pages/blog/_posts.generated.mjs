@@ -67,5 +67,17 @@ export const generatedPosts = [
         "url": "https://neutralx0.net/tools/dot3/"
       }
     ]
+  },
+  {
+    "slug": "part-time-job-thinking",
+    "title": "開発アルバイトを経験して思っていること",
+    "date": "2026-10-13",
+    "tags": [
+      "アルバイト",
+      "長期インターン",
+      "開発アルバイト"
+    ],
+    "description": "現在働いている開発アルバイトで思っていることを紹介",
+    "body": []
   }
 ];

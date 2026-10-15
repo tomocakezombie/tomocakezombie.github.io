@@ -1,26 +1,88 @@
 ---
 // ブログ記事の本文を描画する。blocks の各要素は次のいずれか
-//   '文字列'                                  段落
-//   { type: 'heading', text }                 見出し
-//   { type: 'list', items: ['…', '…'] }       箇条書き
-//   { type: 'image', src, alt, caption }      画像（src は /assets/img/blog/… など）
-//   { type: 'link', label, url }              外部リンクのボタン
+//   '文字列'                                      段落（文中で **太字**・`コード`・[ラベル](URL) が使える）
+//   { type: 'heading', text }                     見出し
+//   { type: 'list', items, ordered }              箇条書き（ordered: true で番号つき）
+//   { type: 'code', code, lang }                  コードブロック（lang は省略可。色付けとコピーボタンつき）
+//   { type: 'table', header: [], rows: [[]] }     表
+//   { type: 'image', src, alt, caption }          画像（src は /assets/img/blog/… など）
+//   { type: 'link', label, url }                  外部リンクのボタン
+import { Code } from 'astro:components';
+import { bundledLanguages } from 'shiki';
+import Inline from './Inline.astro';
+
 const { blocks = [] } = Astro.props;
+
+// 知らない言語名は、エラーにせずに色なしで表示する
+const resolveLang = (lang) => (lang && lang in bundledLanguages ? lang : 'plaintext');
 ---
 
 {
   blocks.map((block) => {
-    if (typeof block === 'string') return <p>{block}</p>;
+    if (typeof block === 'string') {
+      return (
+        <p>
+          <Inline text={block} />
+        </p>
+      );
+    }
     switch (block.type) {
       case 'heading':
-        return <h3 class="blog-post__heading">{block.text}</h3>;
-      case 'list':
         return (
-          <ul class="blog-post__list">
+          <h3 class="blog-post__heading">
+            <Inline text={block.text} />
+          </h3>
+        );
+      case 'list': {
+        const Tag = block.ordered ? 'ol' : 'ul';
+        return (
+          <Tag class:list={['blog-post__list', { 'blog-post__list--ordered': block.ordered }]}>
             {block.items.map((item) => (
-              <li>{item}</li>
+              <li>
+                <Inline text={item} />
+              </li>
             ))}
-          </ul>
+          </Tag>
+        );
+      }
+      case 'code':
+        return (
+          <div class="blog-code">
+            <div class="blog-code__bar">
+              <span class="blog-code__lang">{block.lang ?? 'text'}</span>
+              <button class="blog-code__copy" type="button">
+                コピー
+              </button>
+            </div>
+            <Code code={block.code} lang={resolveLang(block.lang)} theme="github-dark" />
+          </div>
+        );
+      case 'table':
+        return (
+          <div class="blog-table-wrap">
+            <table class="blog-table">
+              <thead>
+                <tr>
+                  {block.header.map((cell) => (
+                    <th>
+                      <Inline text={cell} />
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {block.rows.map((row) => (
+                  <tr>
+                    {row.map((cell) => (
+                      <td>
+                        <Inline text={cell} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         );
       case 'image':
         return (
@@ -42,3 +104,22 @@ const { blocks = [] } = Astro.props;
     }
   })
 }
+
+<script>
+  // コードブロックのコピーボタン（イベントは document でまとめて受ける）
+  document.addEventListener('click', async (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('.blog-code__copy');
+    if (!button) return;
+
+    const code = button.closest('.blog-code')?.querySelector('pre')?.textContent ?? '';
+    try {
+      await navigator.clipboard.writeText(code);
+      button.textContent = 'コピーしました';
+    } catch {
+      button.textContent = 'コピーできません';
+    }
+    setTimeout(() => {
+      button.textContent = 'コピー';
+    }, 1500);
+  });
+</script>

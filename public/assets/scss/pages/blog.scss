@@ -89,6 +89,10 @@
     gap: d(2);
     padding-left: d(8);
     list-style: square;
+
+    &--ordered {
+      list-style: decimal;
+    }
   }
 
   &__figure {
@@ -203,6 +207,85 @@
   &__note {
     font-size: 1.2rem;
     color: #5a6b80;
+  }
+}
+
+// inline code and links inside the article body
+.blog-inline-code {
+  padding: 0 d(2);
+  font-size: 0.9em;
+  color: $c-white;
+  background: $c-ink;
+}
+
+.blog-post__body a:not(.pixel-btn) {
+  color: $c-sky-deep;
+}
+
+// code block (copy button is handled in PostBody.astro)
+.blog-code {
+  display: grid;
+  gap: 0;
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: d(1) d(4);
+    color: $c-white;
+    background: $c-sky-deep;
+  }
+
+  &__lang {
+    font-size: 1.2rem;
+  }
+
+  &__copy {
+    padding: 0 d(4);
+    font: inherit;
+    font-size: 1.2rem;
+    color: $c-ink;
+    cursor: pointer;
+    background: $c-yellow;
+    border: none;
+
+    &:hover,
+    &:focus-visible {
+      background: $c-white;
+    }
+  }
+
+  // Shiki puts the theme colors in an inline style, so override the background to match the site
+  pre.astro-code {
+    margin: 0;
+    padding: d(6);
+    font-family: monospace;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    background-color: $c-ink !important;
+  }
+}
+
+// table
+.blog-table-wrap {
+  overflow-x: auto;
+}
+
+.blog-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4rem;
+
+  th,
+  td {
+    padding: d(2) d(4);
+    text-align: left;
+    border: d(1) solid $c-ink;
+  }
+
+  th {
+    color: $c-white;
+    background: $c-sky-deep;
   }
 }
 

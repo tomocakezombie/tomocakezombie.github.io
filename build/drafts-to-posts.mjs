@@ -68,43 +68,89 @@ const buildPost = (meta, body, file) => {
 const joinLines = (lines) =>
   lines.reduce((text, line) => (/[A-Za-z0-9]$/.test(text) && /^[A-Za-z0-9]/.test(line) ? `${text} ${line}` : text + line));
 
+const TABLE_SEPARATOR = /^\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?$/;
+const splitRow = (line) =>
+  line
+    .trim()
+    .replace(/^\|/, '')
+    .replace(/\|$/, '')
+    .split('|')
+    .map((cell) => cell.trim());
+
+// 文中の **太字**・`コード`・[ラベル](URL) は、そのまま文字列に残す（表示側の Inline.astro が処理する）
 const parseBody = (text, file) => {
   const blocks = [];
   const lines = text.split(/\r?\n/);
   let paragraph = [];
-  let list = [];
-  let inCode = false;
+  let list = null; // { ordered, items }
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
-    const joined = joinLines(paragraph);
-    if (/\]\(/.test(joined)) warn(file, `文中のリンクは未対応です（そのまま文字として出力します）: ${joined.slice(0, 30)}…`);
-    if (/\*\*|__|`/.test(joined)) warn(file, `太字やコードなどの記法は未対応です（そのまま文字として出力します）: ${joined.slice(0, 30)}…`);
-    blocks.push(joined);
+    blocks.push(joinLines(paragraph));
     paragraph = [];
   };
   const flushList = () => {
-    if (!list.length) return;
-    blocks.push({ type: 'list', items: list });
-    list = [];
+    if (!list) return;
+    const block = { type: 'list', items: list.items };
+    if (list.ordered) block.ordered = true;
+    blocks.push(block);
+    list = null;
   };
   const flushAll = () => {
     flushParagraph();
     flushList();
   };
 
-  for (const raw of lines) {
+  for (let i = 0; i < lines.length; i += 1) {
+    const raw = lines[i];
     const line = raw.trim();
 
-    if (line.startsWith('```')) {
-      if (!inCode) warn(file, 'コードブロックは未対応です（内容は無視します）');
-      inCode = !inCode;
+    // HTML コメント（公開前の確認メモなど）は無視する
+    if (line.startsWith('<!--')) {
+      flushAll();
+      while (i < lines.length && !lines[i].includes('-->')) i += 1;
       continue;
     }
-    if (inCode) continue;
+
+    // コードブロック（中身はそのまま、インデントも残す）
+    const fence = line.match(/^```\s*([A-Za-z0-9_+#.-]*)/);
+    if (fence) {
+      flushAll();
+      const code = [];
+      let closed = false;
+      for (i += 1; i < lines.length; i += 1) {
+        if (lines[i].trim().startsWith('```')) {
+          closed = true;
+          break;
+        }
+        code.push(lines[i]);
+      }
+      if (!closed) warn(file, 'コードブロックが ``` で閉じられていません（最後までをコードとして扱います）');
+      const block = { type: 'code', code: code.join('\n').replace(/\n+$/, '') };
+      if (fence[1]) block.lang = fence[1].toLowerCase();
+      blocks.push(block);
+      continue;
+    }
 
     if (!line) {
       flushAll();
+      continue;
+    }
+
+    // 表（| で始まる行と、その次の --- の区切り行）
+    if (line.startsWith('|') && i + 1 < lines.length && TABLE_SEPARATOR.test(lines[i + 1].trim())) {
+      flushAll();
+      const header = splitRow(line);
+      const rows = [];
+      for (i += 2; i < lines.length && lines[i].trim().startsWith('|'); i += 1) {
+        const row = splitRow(lines[i]);
+        if (row.length !== header.length) {
+          warn(file, `表の列の数が見出しと合いません（見出し ${header.length} 列、この行 ${row.length} 列）: ${lines[i].trim().slice(0, 30)}`);
+        }
+        rows.push(header.map((_, index) => row[index] ?? ''));
+      }
+      i -= 1;
+      blocks.push({ type: 'table', header, rows });
       continue;
     }
 
@@ -124,6 +170,7 @@ const parseBody = (text, file) => {
       continue;
     }
 
+    // 1 行だけのリンクは、ボタンにする
     const link = line.match(/^\[([^\]]+)\]\(\s*([^\s)]+)\s*\)$/);
     if (link) {
       flushAll();
@@ -131,15 +178,24 @@ const parseBody = (text, file) => {
       continue;
     }
 
-    const item = line.match(/^[-*]\s+(.+)$/);
-    if (item) {
+    // 箇条書き（- / *）と番号つきリスト（1. / 1)）
+    const bullet = line.match(/^[-*]\s+(.+)$/);
+    const ordered = line.match(/^\d+[.)]\s+(.+)$/);
+    if (bullet || ordered) {
+      const isOrdered = Boolean(ordered);
       flushParagraph();
-      list.push(item[1].trim());
+      if (list && list.ordered !== isOrdered) flushList();
+      if (!list) list = { ordered: isOrdered, items: [] };
+      if (/^\s+/.test(raw)) warn(file, `入れ子の箇条書きは未対応です（同じ階層として出力します）: ${line.slice(0, 30)}`);
+      list.items.push((bullet ?? ordered)[1].trim());
       continue;
     }
 
-    if (/^\d+[.)]\s/.test(line)) {
-      warn(file, `番号つきリストは未対応です（段落として出力します）: ${line.slice(0, 30)}`);
+    if (line.startsWith('>')) {
+      warn(file, `引用（>）は未対応です（> を取って段落として出力します）: ${line.slice(0, 30)}`);
+      flushList();
+      paragraph.push(line.replace(/^>\s?/, ''));
+      continue;
     }
 
     flushList();
@@ -154,10 +210,19 @@ const files = readdirSync(draftsDir)
   .filter((name) => name.endsWith('.md') && !name.startsWith('_') && name !== 'README.md')
   .sort();
 
-const posts = files.map((name) => {
+const isTrue = (value) => ['true', 'yes', '1', 'はい'].includes(String(value ?? '').toLowerCase());
+
+const skipped = [];
+const posts = [];
+for (const name of files) {
   const { meta, body } = parseFrontMatter(readFileSync(join(draftsDir, name), 'utf-8'), name);
-  return buildPost(meta, body, name);
-});
+  // 下書き（draft: true）は書き出さない。生成ファイルは git に載り公開されるため、中身を入れない
+  if (isTrue(meta.draft)) {
+    skipped.push(name);
+    continue;
+  }
+  posts.push(buildPost(meta, body, name));
+}
 
 const slugs = posts.map((post) => post.slug);
 const duplicated = slugs.filter((slug, index) => slugs.indexOf(slug) !== index);
@@ -170,4 +235,5 @@ writeFileSync(outFile, output);
 
 console.log(`${posts.length} 件の記事を ${outFile.replace(`${root}/`, '')} に書き出しました`);
 for (const post of posts) console.log(`  - ${post.slug}（${post.date}）${post.title}`);
+for (const name of skipped) console.log(`  - 下書きのため書き出しません: ${name}`);
 for (const message of warnings) console.warn(`警告 ${message}`);

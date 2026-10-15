@@ -1,0 +1,27 @@
+---
+import { parseInline } from './inline.mjs';
+
+const { text = '' } = Astro.props;
+const nodes = parseInline(String(text));
+---
+
+{
+  nodes.map((node) => {
+    switch (node.type) {
+      case 'code':
+        return <code class="blog-inline-code">{node.text}</code>;
+      case 'strong':
+        return <strong>{node.text}</strong>;
+      case 'link':
+        return /^https?:/.test(node.url) ? (
+          <a href={node.url} target="_blank" rel="noopener noreferrer">
+            {node.text}
+          </a>
+        ) : (
+          <a href={node.url}>{node.text}</a>
+        );
+      default:
+        return node.text;
+    }
+  })
+}

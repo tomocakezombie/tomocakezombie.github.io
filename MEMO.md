@@ -220,6 +220,9 @@ const labelColors = {
 詳しい書き方と未対応の記法は `drafts/README.md`。変換のしくみは `build/drafts-to-posts.mjs`。手書きで `src/pages/blog/_posts.mjs` に直接足すこともできる（`slug` が重複するとビルドが止まる）。
 
 - 記事一覧は、タグのボタンで絞り込める（`/blog/?tag=タグ名`）。記事ページのタグも同じ絞り込みへのリンクになる。
+- 本文では、見出し、段落、箇条書き、番号つきリスト、コードブロック、表、画像、リンクのボタンが使える。文中の `**太字**`・`` `コード` ``・`[ラベル](URL)` も使える（描画は `components/PostBody.astro` と `Inline.astro`）。
+- 下書き: メタ情報に `draft: true` を書くと公開しない（生成ファイルに書き出さない）。
+- 記事の下には、giscus のコメント欄（GitHub の Discussions）がある。設定は `blog/post/[slug].astro` のスクリプトの属性。
 
 ### Git に載せないもの
 

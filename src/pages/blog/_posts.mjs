@@ -24,7 +24,13 @@
 //     { type: 'list', items: ['箇条書き1', '箇条書き2'] },
 //     { type: 'image', src: '/assets/img/blog/example.png', alt: '代替テキスト', caption: '図の説明（省略可）' },
 //     { type: 'link', label: 'サイトをみる', url: 'https://example.com/' },
+//     { type: 'list', ordered: true, items: ['番号つき1', '番号つき2'] },
+//     { type: 'code', lang: 'js', code: 'console.log(1);' },
+//     { type: 'table', header: ['列1', '列2'], rows: [['a', 'b']] },
 //   ],
+//   // 文字列（段落・見出し・リスト・表の中）では **太字**、`コード`、[ラベル](URL) が使える
+//
+//   draft: true,                        // 省略可。true なら公開しない
 // }
 //
 // 画像は public/assets/img/blog/ に置き、src は /assets/img/blog/ファイル名 と書く。
@@ -43,4 +49,10 @@ if (duplicated.length) {
   throw new Error(`ブログ記事の slug が重複しています: ${[...new Set(duplicated)].join(', ')}`);
 }
 
-export const posts = allPosts;
+// draft: true の記事は公開しない
+const hiddenPosts = allPosts.filter((post) => post.draft);
+if (hiddenPosts.length) {
+  console.info(`ブログ: ${hiddenPosts.length} 件の記事を非表示にしました（draft）: ${hiddenPosts.map((post) => post.slug).join(', ')}`);
+}
+
+export const posts = allPosts.filter((post) => !post.draft);

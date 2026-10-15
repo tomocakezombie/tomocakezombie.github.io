@@ -76,6 +76,9 @@
   padding-left: 16px;
   list-style: square;
 }
+.blog-post__list--ordered {
+  list-style: decimal;
+}
 .blog-post__figure {
   display: grid;
   gap: 4px;
@@ -169,4 +172,71 @@
 .blog-comments__note {
   font-size: 1.2rem;
   color: #5a6b80;
+}
+
+.blog-inline-code {
+  padding: 0 4px;
+  font-size: 0.9em;
+  color: #fff;
+  background: #1b2a4a;
+}
+
+.blog-post__body a:not(.pixel-btn) {
+  color: #1d6f99;
+}
+
+.blog-code {
+  display: grid;
+  gap: 0;
+}
+.blog-code__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 8px;
+  color: #fff;
+  background: #1d6f99;
+}
+.blog-code__lang {
+  font-size: 1.2rem;
+}
+.blog-code__copy {
+  padding: 0 8px;
+  font: inherit;
+  font-size: 1.2rem;
+  color: #1b2a4a;
+  cursor: pointer;
+  background: #ffd84a;
+  border: none;
+}
+.blog-code__copy:hover, .blog-code__copy:focus-visible {
+  background: #fff;
+}
+.blog-code pre.astro-code {
+  margin: 0;
+  padding: 12px;
+  font-family: monospace;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  background-color: #1b2a4a !important;
+}
+
+.blog-table-wrap {
+  overflow-x: auto;
+}
+
+.blog-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4rem;
+}
+.blog-table th,
+.blog-table td {
+  padding: 4px 8px;
+  text-align: left;
+  border: 2px solid #1b2a4a;
+}
+.blog-table th {
+  color: #fff;
+  background: #1d6f99;
 }
