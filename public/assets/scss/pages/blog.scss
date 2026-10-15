@@ -194,3 +194,15 @@
     background: $c-yellow;
   }
 }
+
+// comments (giscus)
+.blog-comments {
+  display: grid;
+  gap: d(4);
+
+  &__note {
+    font-size: 1.2rem;
+    color: #5a6b80;
+  }
+}
+

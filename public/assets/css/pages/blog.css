@@ -161,3 +161,12 @@
   color: #1b2a4a;
   background: #ffd84a;
 }
+
+.blog-comments {
+  display: grid;
+  gap: 8px;
+}
+.blog-comments__note {
+  font-size: 1.2rem;
+  color: #5a6b80;
+}

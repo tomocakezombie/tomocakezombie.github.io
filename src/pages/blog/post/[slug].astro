@@ -87,6 +87,28 @@ if (!args.assetList.css.includes('pages/blog.css')) args.assetList.css.push('pag
       <div class="blog-post__body pixel-window">
         {post.body?.length > 0 ? <PostBody blocks={post.body} /> : <p>じゅんびちゅう...</p>}
       </div>
+
+      <section class="blog-comments pixel-window">
+        <h3 class="blog-post__heading">コメント</h3>
+        <p class="blog-comments__note">コメントとリアクション（いいね）には，GitHub のアカウントが必要です．</p>
+        <script
+          is:inline
+          src="https://giscus.app/client.js"
+          data-repo="tomocakezombie/tomocakezombie.github.io"
+          data-repo-id="R_kgDOSw2RJg"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOSw2RJs4DIgUi"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="noborder_light"
+          data-lang="ja"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async></script>
+      </section>
     </article>
   </div>
 </Layout>
