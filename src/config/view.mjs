@@ -27,8 +27,8 @@ export const app = {
   preInit() {
     args.siteName = 'tomocakezombie';
     args.titleSuffix = 'Portfolio';
-    args.description = '山梨大学 工学部 コンピュータ理工学科の学生 tomocakezombie のポートフォリオサイトです。自己紹介や外部リンクをまとめています。';
-    args.twitterIdWithAtMark = '@TWITTER_ID'; // @YOUR_ID
+    args.description = '山梨大学 工学部 コンピュータ理工学科の学生 tomocakezombie のポートフォリオサイトです。自己紹介や作品，実績，ブログをまとめています。';
+    args.twitterIdWithAtMark = '@kan1175423'; // @YOUR_ID
     args.lang = 'ja';
     args.locale = 'ja_JP';
     args.og_image = 'img/global/og.png';

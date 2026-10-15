@@ -2,8 +2,8 @@
   "args": {
     "siteName": "tomocakezombie",
     "titleSuffix": "Portfolio",
-    "description": "山梨大学 工学部 コンピュータ理工学科の学生 tomocakezombie のポートフォリオサイトです。自己紹介や外部リンクをまとめています。",
-    "twitterIdWithAtMark": "@TWITTER_ID",
+    "description": "山梨大学 工学部 コンピュータ理工学科の学生 tomocakezombie のポートフォリオサイトです。自己紹介や作品，実績，ブログをまとめています。",
+    "twitterIdWithAtMark": "@kan1175423",
     "lang": "ja",
     "locale": "ja_JP",
     "og_image": "img/global/og.png"
