@@ -32,6 +32,15 @@ app.setPageConfig({
         </div>
       </div>
     </section>
+
+    <section class="section">
+      <h3>スコア</h3>
+      <div class="pixel-window">
+        <p class="settings-note">サイト内のリンクやボタンを押すと増える，遊び要素です．この端末にだけ保存されていて，他の人とは共有されません．</p>
+        <p class="settings-note">現在のスコア：<span class="settings-score__value">000000</span></p>
+        <button class="pixel-btn" type="button" id="score-reset" data-score="0">スコアをリセット</button>
+      </div>
+    </section>
   </div>
 
   <script>
@@ -60,5 +69,20 @@ app.setPageConfig({
 
     document.addEventListener('fontchange', sync);
     sync();
+
+    const scoreValue = document.querySelector<HTMLElement>('.settings-score__value');
+    const scoreResetBtn = document.querySelector<HTMLButtonElement>('#score-reset');
+
+    const syncScore = () => {
+      const score = (window as any).siteScore?.get() ?? 0;
+      if (scoreValue) scoreValue.textContent = String(score).padStart(6, '0');
+    };
+
+    document.addEventListener('scorechange', syncScore);
+    syncScore();
+
+    scoreResetBtn?.addEventListener('click', () => {
+      (window as any).siteScore?.reset();
+    });
   </script>
 </Layout>
