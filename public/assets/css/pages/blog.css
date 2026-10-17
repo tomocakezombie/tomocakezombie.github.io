@@ -45,6 +45,7 @@
 
 .blog-post {
   display: grid;
+  min-width: 0;
   gap: 24px;
 }
 .blog-post__header {
@@ -62,8 +63,10 @@
 }
 .blog-post__body {
   display: grid;
+  min-width: 0;
   gap: 16px;
   line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 .blog-post__heading {
   font-weight: bold;
@@ -196,6 +199,7 @@
   font-size: 0.9em;
   color: #1b2a4a;
   background: #dde8f1;
+  overflow-wrap: anywhere;
 }
 
 .blog-post__body a:not(.pixel-btn) {
@@ -204,6 +208,7 @@
 
 .blog-problem {
   display: grid;
+  min-width: 0;
   gap: 8px;
   padding: 12px;
   padding-left: 16px;
@@ -220,12 +225,14 @@
 }
 .blog-problem__body {
   display: grid;
+  min-width: 0;
   gap: 8px;
   color: #1b2a4a;
 }
 
 .blog-intro {
   display: grid;
+  min-width: 0;
   gap: 6px;
   color: #1b2a4a;
 }
@@ -287,6 +294,7 @@
 
 .blog-code {
   display: grid;
+  min-width: 0;
   gap: 0;
   border: 2px solid #c5d2de;
 }
@@ -317,6 +325,7 @@
 .blog-code pre.astro-code {
   margin: 0;
   padding: 12px;
+  overflow-x: auto;
   font-family: monospace;
   font-size: 1.3rem;
   line-height: 1.6;

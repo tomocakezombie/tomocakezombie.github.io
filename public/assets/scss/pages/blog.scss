@@ -60,6 +60,9 @@ $blog-muted: #5a6b80; // secondary text, markers
 
 .blog-post {
   display: grid;
+  // grid の子要素は既定で縮まない（min-width: auto）ため、長いコード行などがあると
+  // スマホで画面ごと右にはみ出す。0 にして、はみ出す分は中の要素側で横スクロールさせる
+  min-width: 0;
   gap: d(12);
 
   &__header {
@@ -80,8 +83,10 @@ $blog-muted: #5a6b80; // secondary text, markers
 
   &__body {
     display: grid;
+    min-width: 0;
     gap: d(8);
     line-height: 1.8;
+    overflow-wrap: anywhere; // 長い URL・ハッシュ値などが素の文中にあってもはみ出さないように
   }
 
   // 見出し。# の数（level）ごとに大きさと余白を変える
@@ -246,6 +251,7 @@ $blog-muted: #5a6b80; // secondary text, markers
   font-size: 0.9em;
   color: $c-ink;
   background: $blog-bg-strong;
+  overflow-wrap: anywhere; // 区切りのない長い文字列（ハッシュ値など）でもはみ出さない
 }
 
 .blog-post__body a:not(.pixel-btn) {
@@ -255,6 +261,7 @@ $blog-muted: #5a6b80; // secondary text, markers
 // problem statement block (`>` in the Markdown). Left line + pale background, NOT monospace
 .blog-problem {
   display: grid;
+  min-width: 0;
   gap: d(4);
   padding: d(6);
   padding-left: d(8);
@@ -272,6 +279,7 @@ $blog-muted: #5a6b80; // secondary text, markers
 
   &__body {
     display: grid;
+    min-width: 0;
     gap: d(4);
     color: $c-ink;
   }
@@ -280,6 +288,7 @@ $blog-muted: #5a6b80; // secondary text, markers
 // intro note shown above the main body, for content written before the first `##` heading
 .blog-intro {
   display: grid;
+  min-width: 0;
   gap: d(3);
   color: $c-ink;
 
@@ -352,6 +361,7 @@ $blog-muted: #5a6b80; // secondary text, markers
 // code block (copy button is handled in PostBody.astro)
 .blog-code {
   display: grid;
+  min-width: 0;
   gap: 0;
   border: d(1) solid $blog-line;
 
@@ -388,6 +398,7 @@ $blog-muted: #5a6b80; // secondary text, markers
   pre.astro-code {
     margin: 0;
     padding: d(6);
+    overflow-x: auto; // 長い行はブロック内だけで横スクロールさせ、画面ごとはみ出させない
     font-family: monospace;
     font-size: 1.3rem;
     line-height: 1.6;
