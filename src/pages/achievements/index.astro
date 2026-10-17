@@ -5,7 +5,7 @@ import Breadcrumb from '@/components/Breadcrumb.astro';
 app.init(Astro);
 app.setPageConfig({
   title: '実績',
-  description: 'tomocakezombie の実績ページです。情報系資格・CTF 実績をまとめています。',
+  description: 'tomocakezombie の実績ページです。情報系資格・研修プログラム・CTF 実績をまとめています。',
 });
 
 // TODO: 以下はダミーデータ。実際の内容に差し替える
@@ -14,6 +14,12 @@ const certifications = [
   { name: '基本情報技術者試験（FE）', year: '2024年度', status: 'done', note: '一回受験で合格' },
   { name: '応用情報技術者試験（AP）', year: '2024年度', status: 'done', note: '一回受験で合格' },
   { name: '情報安全確保支援士試験（SC）', year: '2025年度', status: 'done', note: '二回受験で合格' },
+];
+
+// 選考を通って受講・修了した研修プログラム（資格試験ではないので「情報系資格」とは分ける）
+const programs = [
+  { name: 'セキュリティキャンプ全国大会 Cクラス（脅威クラス）', year: '2026年度', label: '修了' },
+  { name: 'セキュリティミニキャンプ in 山梨', year: '2025年度', label: '受講' },
 ];
 
 // links は省略可。{ label: 'リンクの表示名', url: 'https://...' } を並べる
@@ -59,7 +65,7 @@ const statusLabel = { done: '取得', plan: '予定' };
     ]} />
   <div class="content-main">
     <h2>実績</h2>
-    <p class="lead">これまでの資格取得・CTF 参加などの実績をまとめています．</p>
+    <p class="lead">これまでの資格取得・研修プログラム・CTF 参加などの実績をまとめています．</p>
 
     <section class="section">
       <h3>情報系資格</h3>
@@ -71,6 +77,24 @@ const statusLabel = { done: '取得', plan: '予定' };
                 <dt>{item.year}</dt>
                 <dd>
                   {item.name} <span class:list={['pixel-tag', `is-${item.status}`]}>{statusLabel[item.status]}</span>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>研修・プログラム</h3>
+      <div class="pixel-window">
+        <dl class="works-status">
+          {
+            programs.map((item) => (
+              <div>
+                <dt>{item.year}</dt>
+                <dd>
+                  {item.name} <span class="pixel-tag">{item.label}</span>
                 </dd>
               </div>
             ))
