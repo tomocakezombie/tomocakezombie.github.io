@@ -1,0 +1,23 @@
+---
+// 箇条書き / 番号つきリストを入れ子ごと描画する（自分自身を再帰呼び出しする）
+//   items の要素は '文字列'（末端）か { text, list: { ordered, items } }（子リストつき）
+import Inline from './Inline.astro';
+
+const { ordered = false, items = [] } = Astro.props;
+const Tag = ordered ? 'ol' : 'ul';
+---
+
+<Tag class:list={['blog-post__list', { 'blog-post__list--ordered': ordered }]}>
+  {
+    items.map((item) => {
+      const text = typeof item === 'string' ? item : item.text;
+      const child = typeof item === 'string' ? null : item.list;
+      return (
+        <li>
+          <Inline text={text} />
+          {child && <Astro.self ordered={child.ordered} items={child.items} />}
+        </li>
+      );
+    })
+  }
+</Tag>

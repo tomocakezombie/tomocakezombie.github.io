@@ -84,11 +84,30 @@ $blog-muted: #5a6b80; // secondary text, markers
     line-height: 1.8;
   }
 
+  // 見出し。# の数（level）ごとに大きさと余白を変える
   &__heading {
-    font-size: 1.8rem;
     font-weight: bold;
     color: $c-ink;
     text-shadow: none;
+
+    // h3 相当（省略時のデフォルト）
+    font-size: 2rem;
+    margin-top: d(4);
+
+    &--h2 {
+      font-size: 2.6rem;
+      margin-top: d(8);
+    }
+
+    &--h3 {
+      font-size: 2rem;
+      margin-top: d(4);
+    }
+
+    &--h4 {
+      font-size: 1.6rem;
+      margin-top: d(2);
+    }
   }
 
   &__list {
@@ -231,6 +250,31 @@ $blog-muted: #5a6b80; // secondary text, markers
 
 .blog-post__body a:not(.pixel-btn) {
   color: $c-sky-deep;
+}
+
+// problem statement block (`>` in the Markdown). Left line + pale background, NOT monospace
+.blog-problem {
+  display: grid;
+  gap: d(4);
+  padding: d(6);
+  padding-left: d(8);
+  background: $blog-bg;
+  border-left: d(2) solid $c-sky-deep;
+
+  &__label {
+    justify-self: start;
+    padding: 0 d(3);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $c-white;
+    background: $c-sky-deep;
+  }
+
+  &__body {
+    display: grid;
+    gap: d(4);
+    color: $c-ink;
+  }
 }
 
 // code block (copy button is handled in PostBody.astro)

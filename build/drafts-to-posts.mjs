@@ -82,7 +82,11 @@ const parseBody = (text, file) => {
   const blocks = [];
   const lines = text.split(/\r?\n/);
   let paragraph = [];
-  let list = null; // { ordered, items }
+  // list: トップレベルの { ordered, items }。stack は入れ子を組み立てる作業用
+  // items の要素は '文字列'（末端）か { text, list: { ordered, items } }（子リストつき）
+  let list = null;
+  let stack = null; // [{ indent, list }] 浅い順。先頭がトップレベル
+  let depthWarned = false;
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
@@ -95,6 +99,8 @@ const parseBody = (text, file) => {
     if (list.ordered) block.ordered = true;
     blocks.push(block);
     list = null;
+    stack = null;
+    depthWarned = false;
   };
   const flushAll = () => {
     flushParagraph();
@@ -154,10 +160,11 @@ const parseBody = (text, file) => {
       continue;
     }
 
-    const heading = line.match(/^#{1,6}\s+(.+)$/);
+    const heading = line.match(/^(#{1,6})\s+(.+)$/);
     if (heading) {
       flushAll();
-      blocks.push({ type: 'heading', text: heading[1].trim() });
+      // # の数を階層として残す。# は 1 だが見出しの最上位は h2 なので描画側で 2 に寄せる
+      blocks.push({ type: 'heading', level: heading[1].length, text: heading[2].trim() });
       continue;
     }
 
@@ -178,23 +185,60 @@ const parseBody = (text, file) => {
       continue;
     }
 
-    // 箇条書き（- / *）と番号つきリスト（1. / 1)）
-    const bullet = line.match(/^[-*]\s+(.+)$/);
-    const ordered = line.match(/^\d+[.)]\s+(.+)$/);
-    if (bullet || ordered) {
-      const isOrdered = Boolean(ordered);
+    // 箇条書き（- / *）と番号つきリスト（1. / 1)）。先頭の空白（タブ=4）で入れ子にする
+    const item = raw.match(/^(\s*)([-*]|\d+[.)])\s+(.+)$/);
+    if (item) {
+      const indent = item[1].replace(/\t/g, '    ').length;
+      const isOrdered = /\d/.test(item[2]);
+      const text = item[3].trim();
       flushParagraph();
-      if (list && list.ordered !== isOrdered) flushList();
-      if (!list) list = { ordered: isOrdered, items: [] };
-      if (/^\s+/.test(raw)) warn(file, `入れ子の箇条書きは未対応です（同じ階層として出力します）: ${line.slice(0, 30)}`);
-      list.items.push((bullet ?? ordered)[1].trim());
+
+      // 同じ最上位の並びで ordered / unordered が変わったら、別のリストとして区切る
+      if (list && indent <= stack[0].indent && stack.length === 1 && list.ordered !== isOrdered) flushList();
+
+      if (!list) {
+        list = { ordered: isOrdered, items: [] };
+        stack = [{ indent, list }];
+      } else if (indent > stack[stack.length - 1].indent) {
+        // 一段深い: 直前の項目の子リストにする
+        if (stack.length >= 3) {
+          if (!depthWarned) warn(file, `入れ子の箇条書きは 3 段までです（それより深い項目は同じ階層にします）: ${text.slice(0, 30)}`);
+          depthWarned = true;
+        } else {
+          const parent = stack[stack.length - 1].list;
+          const lastIndex = parent.items.length - 1;
+          if (lastIndex >= 0) {
+            if (typeof parent.items[lastIndex] === 'string') parent.items[lastIndex] = { text: parent.items[lastIndex] };
+            const child = { ordered: isOrdered, items: [] };
+            parent.items[lastIndex].list = child;
+            stack.push({ indent, list: child });
+          }
+        }
+      } else {
+        // 同じか浅い: その深さまで戻る
+        while (stack.length > 1 && indent < stack[stack.length - 1].indent) stack.pop();
+      }
+
+      stack[stack.length - 1].list.items.push(text);
       continue;
     }
 
+    // 問題文ブロック（連続する > の行）。> を外した中身を本文として再帰的に解釈する
     if (line.startsWith('>')) {
-      warn(file, `引用（>）は未対応です（> を取って段落として出力します）: ${line.slice(0, 30)}`);
-      flushList();
-      paragraph.push(line.replace(/^>\s?/, ''));
+      flushAll();
+      const inner = [];
+      for (; i < lines.length; i += 1) {
+        const l = lines[i];
+        if (!l.trim().startsWith('>')) {
+          i -= 1;
+          break;
+        }
+        inner.push(l.replace(/^\s*>\s?/, ''));
+      }
+      if (inner.some((l) => /^```/.test(l.trim()))) {
+        warn(file, '引用（>）の中のコードブロックは未対応です（``` の行はそのまま文字として出力します）');
+      }
+      blocks.push({ type: 'problem', blocks: parseBody(inner.join('\n'), file) });
       continue;
     }
 

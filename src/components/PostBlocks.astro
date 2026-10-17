@@ -1,0 +1,112 @@
+---
+// ブログ記事の本文ブロックを描画する。blocks の各要素は次のいずれか
+//   '文字列'                                      段落（文中で **太字**・`コード`・[ラベル](URL) が使える）
+//   { type: 'heading', text, level }              見出し（level 2→h2 / 3→h3 / 4 以上→h4。省略時は h3）
+//   { type: 'list', items, ordered }              箇条書き（ordered: true で番号つき。items は入れ子可）
+//   { type: 'problem', blocks }                   問題文の枠（中身は blocks を再帰的に描画する）
+//   { type: 'code', code, lang }                  コードブロック（lang は省略可。色付けとコピーボタンつき）
+//   { type: 'table', header: [], rows: [[]] }     表
+//   { type: 'image', src, alt, caption }          画像（src は /assets/img/blog/… など）
+//   { type: 'link', label, url }                  外部リンクのボタン
+// 問題文ブロックの中で自分自身を再帰呼び出しするため、コピーボタンの script は PostBody.astro 側に置く
+import { Code } from 'astro:components';
+import { bundledLanguages } from 'shiki';
+import Inline from './Inline.astro';
+import BlogList from './BlogList.astro';
+
+const { blocks = [] } = Astro.props;
+
+// 知らない言語名は、エラーにせずに色なしで表示する
+const resolveLang = (lang) => (lang && lang in bundledLanguages ? lang : 'plaintext');
+// 見出しの # の数を h2 / h3 / h4 に割り当てる（最上位は h2 なので 1〜2 は h2 に寄せる）
+const headingTag = (level) => (level <= 2 ? 'h2' : level === 3 ? 'h3' : 'h4');
+---
+
+{
+  blocks.map((block) => {
+    if (typeof block === 'string') {
+      return (
+        <p>
+          <Inline text={block} />
+        </p>
+      );
+    }
+    switch (block.type) {
+      case 'heading': {
+        const Tag = headingTag(block.level ?? 3);
+        return (
+          <Tag class:list={['blog-post__heading', `blog-post__heading--${Tag}`]}>
+            <Inline text={block.text} />
+          </Tag>
+        );
+      }
+      case 'list':
+        return <BlogList ordered={block.ordered} items={block.items} />;
+      case 'problem':
+        return (
+          <div class="blog-problem">
+            <span class="blog-problem__label">問題文</span>
+            <div class="blog-problem__body">
+              <Astro.self blocks={block.blocks} />
+            </div>
+          </div>
+        );
+      case 'code':
+        return (
+          <div class="blog-code">
+            <div class="blog-code__bar">
+              <span class="blog-code__lang">{block.lang ?? 'text'}</span>
+              <button class="blog-code__copy" type="button">
+                コピー
+              </button>
+            </div>
+            <Code code={block.code} lang={resolveLang(block.lang)} theme="min-light" />
+          </div>
+        );
+      case 'table':
+        return (
+          <div class="blog-table-wrap">
+            <table class="blog-table">
+              <thead>
+                <tr>
+                  {block.header.map((cell) => (
+                    <th>
+                      <Inline text={cell} />
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {block.rows.map((row) => (
+                  <tr>
+                    {row.map((cell) => (
+                      <td>
+                        <Inline text={cell} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      case 'image':
+        return (
+          <figure class="blog-post__figure">
+            <img src={block.src} alt={block.alt ?? ''} loading="lazy" />
+            {block.caption && <figcaption>{block.caption}</figcaption>}
+          </figure>
+        );
+      case 'link':
+        return (
+          <p>
+            <a class="pixel-btn" href={block.url} target="_blank" rel="noopener noreferrer">
+              {block.label}
+            </a>
+          </p>
+        );
+      default:
+        return null;
+    }
+  })
+}
