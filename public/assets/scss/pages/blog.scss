@@ -308,23 +308,42 @@ $blog-muted: #5a6b80; // secondary text, markers
     background: $c-sky-deep;
   }
 
+  // 縦1列だと項目数が少ないとき右側が余るので、ピクセル風のチップを横に並べる
   &__list {
-    display: grid;
-    gap: d(2);
-    padding-left: d(6);
-    list-style: decimal;
+    display: flex;
+    flex-wrap: wrap;
+    gap: d(3);
+    padding-left: 0;
+    list-style: none;
+  }
 
-    li::marker {
-      color: $blog-muted;
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: d(2);
+    padding: d(3) d(6);
+    font-weight: bold;
+    color: $c-ink;
+    text-decoration: none;
+    background: $blog-bg;
+    border: d(1) solid $blog-line;
+    box-shadow: d(1) d(1) 0 0 $blog-line;
+
+    &::before {
+      content: '▶';
+      font-size: 1rem;
+      color: $c-sky-deep;
     }
 
-    a {
-      color: $c-sky-deep;
-      text-decoration: none;
+    &:hover,
+    &:focus-visible {
+      color: $c-white;
+      background: $c-sky-deep;
+      border-color: $c-sky-deep;
+      box-shadow: d(1) d(1) 0 0 $c-sky-deep;
 
-      &:hover,
-      &:focus-visible {
-        text-decoration: underline;
+      &::before {
+        color: $c-white;
       }
     }
   }

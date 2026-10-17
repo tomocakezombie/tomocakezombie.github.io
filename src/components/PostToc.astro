@@ -8,13 +8,13 @@ const { items = [] } = Astro.props;
 
 <nav class="blog-toc pixel-window" aria-label="目次">
   <p class="blog-toc__label">目次</p>
-  <ol class="blog-toc__list">
+  <ul class="blog-toc__list">
     {items.map((item) => (
       <li>
-        <a href={`#${item.id}`}>
+        <a class="blog-toc__link" href={`#${item.id}`}>
           <Inline text={item.text} />
         </a>
       </li>
     ))}
-  </ol>
+  </ul>
 </nav>
