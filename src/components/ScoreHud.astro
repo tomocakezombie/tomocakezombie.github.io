@@ -1,0 +1,29 @@
+---
+// ゲーム風の遊びのスコア表示（初代マリオの画面左上の SCORE のイメージ）。
+// 枠や背景は付けず、白文字を直接 body の背景（空色）に乗せるだけ。値は score.js が localStorage から入れる
+---
+
+<p class="score-hud" aria-live="polite">
+  <span class="score-hud__label">SCORE</span>
+  <span class="score-hud__value">000000</span>
+</p>
+
+<script>
+  const hud = document.querySelector<HTMLElement>('.score-hud');
+  const value = document.querySelector<HTMLElement>('.score-hud__value');
+
+  const syncScore = () => {
+    const score = (window as any).siteScore?.get() ?? 0;
+    if (value) value.textContent = String(score).padStart(6, '0');
+  };
+
+  document.addEventListener('scorechange', () => {
+    syncScore();
+    // 加点のたびに一瞬ふくらむ演出をやり直す
+    hud?.classList.remove('is-pulse');
+    void hud?.offsetWidth;
+    hud?.classList.add('is-pulse');
+  });
+
+  syncScore();
+</script>

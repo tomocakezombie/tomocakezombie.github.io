@@ -170,6 +170,35 @@ img {
   padding-bottom: d(40);
 }
 
+// ゲーム風の遊びのスコア表示（score.js が値を入れる）。初代マリオの SCORE 表示のように、
+// 枠や背景は付けず白文字をそのまま空色の背景に乗せるだけ
+.score-hud {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: d(6) d(8) 0;
+  color: $c-white;
+  text-align: right;
+  white-space: nowrap;
+  text-shadow: d(1) d(1) 0 $c-sky-deep;
+
+  &__label {
+    margin-right: d(2);
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 0.14em;
+  }
+
+  &__value {
+    font-size: 2rem;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &.is-pulse &__value {
+    animation: score-pulse 0.3s steps(3);
+  }
+}
+
 // --------------------------------------------------------------------------
 // Header
 // --------------------------------------------------------------------------
@@ -403,6 +432,18 @@ img {
 @keyframes pixel-blink {
   50% {
     opacity: 0;
+  }
+}
+
+@keyframes score-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    color: $c-sky-deep;
+    transform: scale(1.3);
   }
 }
 

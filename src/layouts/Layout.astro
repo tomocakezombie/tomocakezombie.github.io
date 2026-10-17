@@ -4,6 +4,7 @@ import { args, rootPath, assets, img } from '@/config/view.mjs';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
 import PageFooter from '@/components/PageFooter.astro';
+import ScoreHud from '@/components/ScoreHud.astro';
 ---
 
 <!doctype html>
@@ -35,6 +36,7 @@ import PageFooter from '@/components/PageFooter.astro';
     {!args.prevent.css.reset && <link rel="stylesheet" href={assets('css/global/reset.css', true)} />}
     {!args.prevent.css.style && <link rel="stylesheet" href={assets('css/global/style.css', true)} />}
     <script src={assets('js/global/base.js', true)}></script>
+    <script src={assets('js/global/score.js', true)}></script>
     <script is:inline>
       // 初期値は <html data-font="normal">（ふつうのフォント）。ドットフォントを選んで保存した人だけ切り替える
       try {
@@ -66,6 +68,7 @@ import PageFooter from '@/components/PageFooter.astro';
         )
       }
       <main id="page-main">
+        <ScoreHud />
         <slot />
         {args.page.key !== 'top' && <PageFooter />}
       </main>
