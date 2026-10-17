@@ -35,7 +35,7 @@ const headingTag = (level) => (level <= 2 ? 'h2' : level === 3 ? 'h3' : 'h4');
       case 'heading': {
         const Tag = headingTag(block.level ?? 3);
         return (
-          <Tag class:list={['blog-post__heading', `blog-post__heading--${Tag}`]}>
+          <Tag id={block.id} class:list={['blog-post__heading', `blog-post__heading--${Tag}`]}>
             <Inline text={block.text} />
           </Tag>
         );

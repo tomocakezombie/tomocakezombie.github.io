@@ -277,6 +277,59 @@ $blog-muted: #5a6b80; // secondary text, markers
   }
 }
 
+// intro note shown above the main body, for content written before the first `##` heading
+.blog-intro {
+  display: grid;
+  gap: d(3);
+  color: $c-ink;
+
+  &__label {
+    justify-self: start;
+    padding: 0 d(3);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $c-white;
+    background: $blog-muted;
+  }
+}
+
+// table of contents (level-2 headings), auto-generated when a post has more than one
+.blog-toc {
+  display: grid;
+  gap: d(3);
+  color: $c-ink;
+
+  &__label {
+    justify-self: start;
+    padding: 0 d(3);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $c-white;
+    background: $c-sky-deep;
+  }
+
+  &__list {
+    display: grid;
+    gap: d(2);
+    padding-left: d(6);
+    list-style: decimal;
+
+    li::marker {
+      color: $blog-muted;
+    }
+
+    a {
+      color: $c-sky-deep;
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
 // code block (copy button is handled in PostBody.astro)
 .blog-code {
   display: grid;

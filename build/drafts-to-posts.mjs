@@ -59,7 +59,28 @@ const buildPost = (meta, body, file) => {
     if (meta['site.tech']) post.site.tech = splitList(meta['site.tech']);
   }
 
-  post.body = parseBody(body, file);
+  const blocks = parseBody(body, file);
+
+  // 最初の見出し（## 問1 など）より前に書いた部分は、記事の概要として別枠に表示する
+  let introEnd = 0;
+  while (introEnd < blocks.length && blocks[introEnd]?.type !== 'heading') introEnd += 1;
+  const intro = blocks.slice(0, introEnd);
+  const main = blocks.slice(introEnd);
+
+  // 大見出し（## 問1 など、level 2）に id を振って、ジャンプリンク（目次）を作る
+  const toc = [];
+  let sectionCount = 0;
+  for (const block of main) {
+    if (block?.type === 'heading' && (block.level ?? 3) <= 2) {
+      sectionCount += 1;
+      block.id = `section-${sectionCount}`;
+      toc.push({ id: block.id, text: block.text });
+    }
+  }
+
+  if (intro.length) post.intro = intro;
+  if (toc.length > 1) post.toc = toc;
+  post.body = main;
   return post;
 };
 

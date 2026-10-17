@@ -224,6 +224,50 @@
   color: #1b2a4a;
 }
 
+.blog-intro {
+  display: grid;
+  gap: 6px;
+  color: #1b2a4a;
+}
+.blog-intro__label {
+  justify-self: start;
+  padding: 0 6px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  background: #5a6b80;
+}
+
+.blog-toc {
+  display: grid;
+  gap: 6px;
+  color: #1b2a4a;
+}
+.blog-toc__label {
+  justify-self: start;
+  padding: 0 6px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  background: #1d6f99;
+}
+.blog-toc__list {
+  display: grid;
+  gap: 4px;
+  padding-left: 12px;
+  list-style: decimal;
+}
+.blog-toc__list li::marker {
+  color: #5a6b80;
+}
+.blog-toc__list a {
+  color: #1d6f99;
+  text-decoration: none;
+}
+.blog-toc__list a:hover, .blog-toc__list a:focus-visible {
+  text-decoration: underline;
+}
+
 .blog-code {
   display: grid;
   gap: 0;

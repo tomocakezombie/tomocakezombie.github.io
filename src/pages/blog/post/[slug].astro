@@ -3,6 +3,8 @@ import { app, args, pages, assets, img } from '@/config/view.mjs';
 import { Layout } from '@/layouts';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import PostBody from '@/components/PostBody.astro';
+import PostBlocks from '@/components/PostBlocks.astro';
+import PostToc from '@/components/PostToc.astro';
 import { posts } from '../_posts.mjs';
 
 export function getStaticPaths() {
@@ -83,6 +85,15 @@ if (!args.assetList.css.includes('pages/blog.css')) args.assetList.css.push('pag
           </dl>
         </section>
       )}
+
+      {post.intro?.length > 0 && (
+        <section class="blog-intro pixel-window">
+          <p class="blog-intro__label">このページについて</p>
+          <PostBlocks blocks={post.intro} />
+        </section>
+      )}
+
+      {post.toc?.length > 0 && <PostToc items={post.toc} />}
 
       <div class="blog-post__body pixel-window">
         {post.body?.length > 0 ? <PostBody blocks={post.body} /> : <p>じゅんびちゅう...</p>}

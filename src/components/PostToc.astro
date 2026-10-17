@@ -1,0 +1,20 @@
+---
+// 記事の目次（大見出し = level 2 の見出しへのジャンプリンク）。
+// post.toc は build/drafts-to-posts.mjs が見出しを集めて作る（見出しが2個以上あるときだけ）
+import Inline from './Inline.astro';
+
+const { items = [] } = Astro.props;
+---
+
+<nav class="blog-toc pixel-window" aria-label="目次">
+  <p class="blog-toc__label">目次</p>
+  <ol class="blog-toc__list">
+    {items.map((item) => (
+      <li>
+        <a href={`#${item.id}`}>
+          <Inline text={item.text} />
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
