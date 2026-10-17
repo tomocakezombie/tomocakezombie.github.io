@@ -7,6 +7,17 @@ app.setPageConfig({
   title: '自己紹介',
   description: 'tomocakezombie の自己紹介ページです。所属や普段の活動について紹介しています。',
 });
+
+// 古い順に並べる（タイムラインとして上から読める向き）
+const timeline = [
+  { name: '山梨大学入学', role: '学部生', period: '2023' },
+  { name: 'kki-assist', role: '部員', period: '2023 - 現在' },
+  { name: 'kki-assist', role: '副代表', period: '2024 - 2025' },
+  { name: 'セキュリティミニキャンプ in山梨', role: '受講者', period: '2025' },
+  { name: '井上研究室に参加', role: '研究室生', period: '2025 - 現在' },
+  { name: 'kki-assist', role: '代表', period: '2025 - 2026' },
+  { name: 'セキュリティキャンプ全国 Cクラス', role: '受講者', period: '2026' },
+];
 ---
 
 <Layout>
@@ -55,6 +66,27 @@ app.setPageConfig({
             </div>
           </dl>
         </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>経歴</h3>
+      <div class="pixel-window">
+        <ol class="timeline">
+          {
+            timeline.map((item) => (
+              <li class="timeline__item">
+                <span class="timeline__marker" aria-hidden="true" />
+                <div class="timeline__body">
+                  <p class="timeline__period">{item.period}</p>
+                  <p class="timeline__title">
+                    {item.name} <span class="pixel-tag">{item.role}</span>
+                  </p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
       </div>
     </section>
 

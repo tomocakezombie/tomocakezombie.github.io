@@ -5,7 +5,7 @@ import Breadcrumb from '@/components/Breadcrumb.astro';
 app.init(Astro);
 app.setPageConfig({
   title: '実績',
-  description: 'tomocakezombie の実績ページです。情報系資格・サークル経歴・CTF 実績をまとめています。',
+  description: 'tomocakezombie の実績ページです。情報系資格・CTF 実績をまとめています。',
 });
 
 // TODO: 以下はダミーデータ。実際の内容に差し替える
@@ -14,16 +14,6 @@ const certifications = [
   { name: '基本情報技術者試験（FE）', year: '2024年度', status: 'done', note: '一回受験で合格' },
   { name: '応用情報技術者試験（AP）', year: '2024年度', status: 'done', note: '一回受験で合格' },
   { name: '情報安全確保支援士試験（SC）', year: '2025年度', status: 'done', note: '二回受験で合格' },
-];
-
-const background = [
-  { name: '山梨大学入学', role: '学部生', period: '2023 - 現在'},
-  { name: 'kki-assist', role: '代表', period: '2025 後期 - 2026 前期' },
-  { name: 'kki-assist', role: '副代表', period: '2024 前期 - 2025 前期' },
-  { name: 'kki-assist', role: '部員', period: '2023 - 現在' },
-  { name: 'セキュリティミニキャンプ in山梨', role: '受講者', period: '2025' },
-  { name: '井上研究室に参加', role: '研究室生', period: '2025 - 現在' },
-  { name: 'セキュリティキャンプ全国 Cクラス', role: '受講者', period: '2026' },
 ];
 
 // links は省略可。{ label: 'リンクの表示名', url: 'https://...' } を並べる
@@ -69,7 +59,7 @@ const statusLabel = { done: '取得', plan: '予定' };
     ]} />
   <div class="content-main">
     <h2>実績</h2>
-    <p class="lead">これまでの資格取得・サークル活動・CTF 参加などの実績をまとめています．</p>
+    <p class="lead">これまでの資格取得・CTF 参加などの実績をまとめています．</p>
 
     <section class="section">
       <h3>情報系資格</h3>
@@ -81,24 +71,6 @@ const statusLabel = { done: '取得', plan: '予定' };
                 <dt>{item.year}</dt>
                 <dd>
                   {item.name} <span class:list={['pixel-tag', `is-${item.status}`]}>{statusLabel[item.status]}</span>
-                </dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
-    </section>
-
-    <section class="section">
-      <h3>経歴</h3>
-      <div class="pixel-window">
-        <dl class="works-status">
-          {
-            background.map((item) => (
-              <div>
-                <dt>{item.period}</dt>
-                <dd>
-                  {item.name} <span class="pixel-tag">{item.role}</span>
                 </dd>
               </div>
             ))

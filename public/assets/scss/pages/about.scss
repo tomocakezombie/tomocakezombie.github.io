@@ -74,3 +74,59 @@
     }
   }
 }
+
+// RPG のクエストログ風タイムライン（経歴）。縦のドット線 + 四角いマーカー
+.timeline {
+  position: relative;
+  display: grid;
+  gap: d(10);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  // 縦のドット線（pixel-dots の縦版）
+  &::before {
+    content: '';
+    position: absolute;
+    top: d(2);
+    bottom: d(2);
+    left: d(4);
+    width: d(1);
+    background-image: linear-gradient(to bottom, $c-sky-deep 50%, transparent 50%);
+    background-size: d(1) d(4);
+    background-repeat: repeat-y;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: d(8) 1fr;
+    column-gap: d(6);
+    align-items: start;
+  }
+
+  &__marker {
+    position: relative; // 縦線は position: absolute で後から重ねて描画されるため、マーカーも位置指定して手前に出す
+    width: d(2);
+    height: d(2);
+    margin-top: d(3);
+    margin-left: d(1);
+    background: $c-yellow;
+    justify-self: center;
+
+    @include pixel-border($c-ink, $dot, false);
+  }
+
+  &__period {
+    margin: 0 0 d(1);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $c-sky-deep;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: bold;
+    line-height: 1.6;
+  }
+}
