@@ -1,63 +1,13 @@
 ---
 import { app, args, pages, assets, img } from '@/config/view.mjs';
 import { Layout } from '@/layouts';
+import { certifications, languages, programs, ctfs } from './_achievements.mjs';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 app.init(Astro);
 app.setPageConfig({
   title: '実績',
   description: 'tomocakezombie の実績ページです。情報系資格・語学・研修プログラム・CTF 実績をまとめています。',
 });
-
-// TODO: 以下はダミーデータ。実際の内容に差し替える
-// status: 'done'（取得済み） / 'plan'（受験予定）
-const certifications = [
-  { name: '基本情報技術者試験（FE）', year: '2024年度', status: 'done', note: '一回受験で合格' },
-  { name: '応用情報技術者試験（AP）', year: '2024年度', status: 'done', note: '一回受験で合格' },
-  { name: '情報安全確保支援士試験（SC）', year: '2025年度', status: 'done', note: '二回受験で合格' },
-];
-
-// 語学系の試験（情報系資格とは別に分ける）
-// TODO: 受験年度が仮（2026年度）。正しい年度に直してください
-const languages = [{ name: 'TOEIC', year: '2026年度', score: '775点' }];
-
-// 選考を通って受講・修了した研修プログラム（資格試験ではないので「情報系資格」とは分ける）
-const programs = [
-  { name: 'セキュリティキャンプ全国大会 Cクラス（脅威クラス）', year: '2026年度', label: '修了' },
-  { name: 'セキュリティミニキャンプ in 山梨', year: '2025年度', label: '受講' },
-];
-
-// links は省略可。{ label: 'リンクの表示名', url: 'https://...' } を並べる
-// scale は省略可。参加規模（例: '15チーム/30名'）
-// details は省略可。参加形式など、補足を 1 行ずつ文字列で書く
-const ctfs = [
-  {
-    name: '	サイバーセキュリティCTFコンテンスト2024',
-    year: '2024',
-    rank: '8位くらい / 2人チーム',
-    team: 'CTF Lovers',
-    scale: '15チーム/30名',
-    details: ['初めて対面で参加した CTF です．'],
-    links: [{ label: '参考Webページ(外部)', url: 'https://www.ysa.or.jp/?p=1980' }],
-  },
-  {
-    name: '山梨県警察主催 学生サイバーセキュリティCTFコンテスト',
-    year: '2025',
-    rank: '1位 / 2人チーム',
-    team: 'CTF狂い',
-    scale: '16チーム/30名',
-    details: ['1位を獲得しました．', '嬉しかったです．'],
-    links: [{ label: '参考Webページ(外部)', url: 'https://www.ysa.or.jp/?p=2100' }],
-  },
-  {
-    name: '関東管区内警察合同サイバーボランティア・学生',
-    year: '2026',
-    rank: '2位 / 3人チーム',
-    team: '空っぽコード',
-    scale : '59チーム/150人',
-    details: ['2位を獲得しました．', '優勝は逃しましたが，良い経験を積めました．'],
-    links: [{ label: '参考Webページ(外部)', url: 'https://www.keio.ac.jp/ja/sfc-pem/news/20260319/' }],
-  },
-];
 
 const statusLabel = { done: '取得', plan: '予定' };
 ---
