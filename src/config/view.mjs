@@ -23,6 +23,7 @@ export const app = {
     app.makePage('blog', '/blog', 'ブログ');
     app.makePage('links', '/links', '外部リンク');
     app.makePage('settings', '/settings', '設定');
+    app.makePage('record', '/record', 'きろく');
   },
   preInit() {
     args.siteName = 'tomocakezombie';

@@ -1,0 +1,92 @@
+---
+import { app, pages } from '@/config/view.mjs';
+import { Layout } from '@/layouts';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+app.init(Astro);
+app.setPageConfig({
+  title: 'きろく',
+  description: 'tomocakezombie のサイトで遊んで集めた「きろく」の一覧ページです。',
+});
+// きろくの中身（名前・説明・ヒント）は public/assets/js/global/score.js の ACHIEVEMENTS で定義している
+---
+
+<Layout>
+  <Breadcrumb items={[
+      { label: 'トップ', route: pages.top.route },
+      { label: 'きろく', route: pages.record.route },
+    ]} />
+  <div class="content-main">
+    <h2>きろく</h2>
+    <p class="lead">このサイトで遊ぶと集まる「きろく」です．<br> この端末のブラウザにだけ保存されていて，他の人とは共有されません．</p>
+
+    <section class="section">
+      <h3>あつめた きろく</h3>
+      <div class="pixel-window record">
+        <div class="record-progress">
+          <p class="record-progress__count"><span data-record-count>0</span> / <span data-record-total>0</span> かいじょ</p>
+          <div class="record-progress__bar" role="progressbar" aria-label="きろくの かいじょ率" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span class="record-progress__fill"></span>
+          </div>
+        </div>
+        <ul class="record-list" data-record-list></ul>
+        <noscript><p>きろくを見るには JavaScript を有効にしてください．</p></noscript>
+        <p class="record__note">きろくは <a href={pages.settings.route}>せってい</a> の「スコアときろくをリセット」で最初からにできます．</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const list = document.querySelector<HTMLElement>('[data-record-list]')!;
+    const count = document.querySelector<HTMLElement>('[data-record-count]')!;
+    const total = document.querySelector<HTMLElement>('[data-record-total]')!;
+    const bar = document.querySelector<HTMLElement>('.record-progress__bar')!;
+
+    type RecordItem = { id: string; title: string; text: string; hint: string; unlocked: boolean; unlockedAt: number | null };
+
+    const formatDate = (time: number) => {
+      const date = new Date(time);
+      return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+    };
+
+    const line = (className: string, text: string) => {
+      const p = document.createElement('p');
+      p.className = className;
+      p.textContent = text;
+      return p;
+    };
+
+    // 解除していないものは名前を伏せて、ヒントだけ出す
+    const render = () => {
+      const records: RecordItem[] = (window as any).siteScore?.records() ?? [];
+      const unlockedCount = records.filter((record) => record.unlocked).length;
+      const rate = records.length ? Math.round((unlockedCount / records.length) * 100) : 0;
+
+      count.textContent = String(unlockedCount);
+      total.textContent = String(records.length);
+      bar.setAttribute('aria-valuenow', String(rate));
+      bar.style.setProperty('--rate', `${rate}%`);
+
+      list.replaceChildren(
+        ...records.map((record) => {
+          const item = document.createElement('li');
+          item.className = record.unlocked ? 'record-item is-unlocked' : 'record-item';
+          const icon = line('record-item__icon', record.unlocked ? '★' : '？');
+          icon.setAttribute('aria-hidden', 'true');
+          item.append(icon, line('record-item__title', record.unlocked ? record.title : '？？？'));
+          if (record.unlocked) {
+            item.append(line('record-item__text', record.text));
+            if (record.unlockedAt) item.append(line('record-item__date', `${formatDate(record.unlockedAt)} かいじょ`));
+          } else {
+            item.append(line('record-item__text', `ヒント：${record.hint}`));
+          }
+          return item;
+        }),
+      );
+    };
+
+    // このページにいる間に解除・リセットされたときも表示を合わせる
+    document.addEventListener('unlock', render);
+    document.addEventListener('scorechange', render);
+    render();
+  </script>
+</Layout>

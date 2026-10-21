@@ -194,6 +194,28 @@ img {
     font-variant-numeric: tabular-nums;
   }
 
+  // きろくページへのリンク（SCORE とは別の小さなボタン）
+  &__more {
+    display: inline-block;
+    margin-left: d(6);
+    padding: 0 d(4);
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 2;
+    color: $c-yellow;
+    text-decoration: none;
+    vertical-align: middle;
+
+    @include pixel-border($c-yellow, d(1), false);
+
+    &:hover,
+    &:focus-visible {
+      color: $c-ink;
+      text-shadow: none;
+      background: $c-yellow;
+    }
+  }
+
   &.is-pulse &__value {
     animation: score-pulse 0.3s steps(3);
   }

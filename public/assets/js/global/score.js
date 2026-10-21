@@ -28,28 +28,40 @@
     document.dispatchEvent(new CustomEvent('scorechange', { detail: { score } }));
   };
 
-  // スコアや特定の行動で解除される「じっせき」。解除済みの id を localStorage に持つ
+  // スコアや特定の行動で解除される「きろく」。解除済みの id と解除した日時（ミリ秒）を localStorage に持つ
   // score を書いたものはスコアがその値に届いたときに解除される。それ以外は unlock(id) で解除する
+  // hint は、きろくページで まだ解除していないものの代わりに出す
+  // 左側の id はプログラムから参照しているので変えないこと。並び順はきろくページの表示順になる
   const UNLOCKS_KEY = 'unlocks';
   const ACHIEVEMENTS = {
-    start: { title: 'ぼうけんの はじまり', text: 'PRESS START を おした' },
-    score300: { title: 'みならい たんけんか', text: 'スコア 300 に とうたつした', score: 300 },
-    walker: { title: 'たびびとを つかまえた', text: 'あるく ぼうにんげんを クリックした' },
-    konami: { title: 'うらわざ はっけん', text: '↑↑↓↓←→←→BA を にゅうりょくした' },
-    score1000: { title: 'ハムスターつかい', text: 'スコア 1000 に とうたつ。トップに かくしコマンドが ふえた', score: 1000 },
+    start: { title: 'ぼうけんの はじまり', text: 'PRESS START を おした', hint: 'トップページで ゲームを はじめよう' },
+    score300: { title: 'みならい たんけんか', text: 'スコア 300 に とうたつした', hint: 'スコアを 300 ためよう', score: 300 },
+    walker: { title: 'たびびとを つかまえた', text: 'あるく ぼうにんげんを クリックした', hint: 'トップページを あるく だれかを さがそう' },
+    konami: { title: 'うらわざ はっけん', text: '↑↑↓↓←→←→BA を にゅうりょくした', hint: 'むかしから つたわる あの コマンド…' },
+    score1000: { title: 'ハムスターつかい', text: 'スコア 1000 に とうたつ。トップに かくしコマンドが ふえた', hint: 'スコアを 1000 ためよう', score: 1000 },
   };
   const TOAST_DURATION = 4000;
 
+  // { id: 解除日時 } の形で読む。以前の形式（id の配列）は日時なし（null）として引き継ぐ
   const readUnlocks = () => {
     try {
-      const value = JSON.parse(localStorage.getItem(UNLOCKS_KEY) ?? '[]');
-      return Array.isArray(value) ? value : [];
+      const value = JSON.parse(localStorage.getItem(UNLOCKS_KEY) ?? '{}');
+      if (Array.isArray(value)) return value.map((id) => [id, null]);
+      return value && typeof value === 'object' ? Object.entries(value) : [];
     } catch {
       return [];
     }
   };
 
-  const unlocked = new Set(readUnlocks());
+  const unlocked = new Map(readUnlocks());
+
+  const saveUnlocks = () => {
+    try {
+      localStorage.setItem(UNLOCKS_KEY, JSON.stringify(Object.fromEntries(unlocked)));
+    } catch {
+      // 保存できない環境ではページを離れるまでの解除になる
+    }
+  };
 
   let toastBox = null;
   const showToast = (achievement) => {
@@ -62,7 +74,7 @@
     const toast = document.createElement('div');
     toast.className = 'unlock-toast';
     [
-      ['unlock-toast__label', 'じっせき かいじょ！'],
+      ['unlock-toast__label', 'あたらしい きろく！'],
       ['unlock-toast__title', achievement.title],
       ['unlock-toast__text', achievement.text],
     ].forEach(([className, text]) => {
@@ -79,12 +91,8 @@
   const unlock = (id) => {
     const achievement = ACHIEVEMENTS[id];
     if (!achievement || unlocked.has(id)) return false;
-    unlocked.add(id);
-    try {
-      localStorage.setItem(UNLOCKS_KEY, JSON.stringify([...unlocked]));
-    } catch {
-      // 保存できない環境ではページを離れるまでの解除になる
-    }
+    unlocked.set(id, Date.now());
+    saveUnlocks();
     showToast(achievement);
     document.dispatchEvent(new CustomEvent('unlock', { detail: { id } }));
     return true;
@@ -105,13 +113,24 @@
       unlockByScore();
       return score;
     },
+    // スコアと一緒に、きろくも消す
     reset() {
       score = 0;
       save();
+      unlocked.clear();
+      saveUnlocks();
       notify();
     },
     unlock,
     isUnlocked: (id) => unlocked.has(id),
+    // きろくページ用。定義の順に、解除済みかどうかと解除日時（不明なら null）を付けて返す
+    records: () =>
+      Object.entries(ACHIEVEMENTS).map(([id, achievement]) => ({
+        id,
+        ...achievement,
+        unlocked: unlocked.has(id),
+        unlockedAt: unlocked.get(id) ?? null,
+      })),
   };
 
   // クリックしたリンク・ボタンの種類ごとに加点する。data-score="100" のように個別指定もできる
@@ -138,7 +157,7 @@
     if (points > 0) window.siteScore.add(points);
   });
 
-  // うらわざ（↑↑↓↓←→←→BA）。入力のたびに konami イベントを出し、初回はじっせきも解除する
+  // うらわざ（↑↑↓↓←→←→BA）。入力のたびに konami イベントを出し、初回はきろくも解除する
   const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   let konamiPos = 0;
   document.addEventListener('keydown', (event) => {

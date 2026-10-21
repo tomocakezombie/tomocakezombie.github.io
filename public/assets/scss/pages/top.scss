@@ -190,6 +190,7 @@
   &__menu &__item {
     display: block;
     position: relative;
+    box-sizing: border-box; // a と button で幅の計算をそろえる（a は padding のぶん はみ出していた）
     width: 100%;
     padding: d(3) d(4) d(3) d(14);
     font: inherit;

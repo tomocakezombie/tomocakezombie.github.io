@@ -155,6 +155,7 @@
 .command__menu .command__item {
   display: block;
   position: relative;
+  box-sizing: border-box;
   width: 100%;
   padding: 6px 8px 6px 28px;
   font: inherit;

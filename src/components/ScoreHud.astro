@@ -1,11 +1,16 @@
 ---
 // ゲーム風の遊びのスコア表示（初代マリオの画面左上の SCORE のイメージ）。
 // 枠や背景は付けず、白文字を直接 body の背景（空色）に乗せるだけ。値は score.js が localStorage から入れる
+// 横の「▶きろく」から、きろくページへ移動できる
+import { pages } from '@/config/view.mjs';
 ---
 
-<p class="score-hud" aria-live="polite">
-  <span class="score-hud__label">SCORE</span>
-  <span class="score-hud__value">000000</span>
+<p class="score-hud">
+  <span aria-live="polite">
+    <span class="score-hud__label">SCORE</span>
+    <span class="score-hud__value">000000</span>
+  </span>
+  <a class="score-hud__more" href={pages.record.route}>▶きろく</a>
 </p>
 
 <script>

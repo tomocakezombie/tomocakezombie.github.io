@@ -168,6 +168,23 @@ img {
   font-weight: bold;
   font-variant-numeric: tabular-nums;
 }
+.score-hud__more {
+  display: inline-block;
+  margin-left: 12px;
+  padding: 0 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 2;
+  color: #ffd84a;
+  text-decoration: none;
+  vertical-align: middle;
+  box-shadow: 0 -2px 0 0 #ffd84a, 0 2px 0 0 #ffd84a, -2px 0 0 0 #ffd84a, 2px 0 0 0 #ffd84a;
+}
+.score-hud__more:hover, .score-hud__more:focus-visible {
+  color: #1b2a4a;
+  text-shadow: none;
+  background: #ffd84a;
+}
 .score-hud.is-pulse .score-hud__value {
   animation: score-pulse 0.3s steps(3);
 }
