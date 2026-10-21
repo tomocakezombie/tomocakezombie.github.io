@@ -1,69 +1,10 @@
 // Projects page
 @use '../global/pixel' as *;
+@use '../global/projects-card';
 
 // --------------------------------------------------------------------------
 // List
 // --------------------------------------------------------------------------
-.projects-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: d(12);
-  row-gap: d(12);
-
-  @include sp {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-.projects-card {
-  display: flex;
-  flex-direction: column;
-  gap: d(6);
-  color: inherit;
-  text-decoration: none;
-
-  &__title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: $c-ink;
-
-    &::before {
-      content: '▶';
-      margin-right: d(2);
-      font-size: 1.2rem;
-      color: $c-sky-deep;
-    }
-  }
-
-  &__media {
-    display: block;
-    margin: d(2);
-    aspect-ratio: 16 / 9;
-    background: $c-ink;
-    overflow: hidden;
-
-    @include pixel-border($c-ink, d(2), false);
-  }
-
-  &__video {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-  }
-
-  &:hover &__title,
-  &:focus-visible &__title {
-    color: $c-sky-deep;
-  }
-
-  &:hover &__media,
-  &:focus-visible &__media {
-    @include pixel-border($c-yellow, d(2), false);
-  }
-}
-
 .projects-empty {
   text-align: center;
 }

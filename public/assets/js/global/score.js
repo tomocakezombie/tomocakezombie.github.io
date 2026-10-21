@@ -28,12 +28,81 @@
     document.dispatchEvent(new CustomEvent('scorechange', { detail: { score } }));
   };
 
+  // スコアや特定の行動で解除される「じっせき」。解除済みの id を localStorage に持つ
+  // score を書いたものはスコアがその値に届いたときに解除される。それ以外は unlock(id) で解除する
+  const UNLOCKS_KEY = 'unlocks';
+  const ACHIEVEMENTS = {
+    start: { title: 'ぼうけんの はじまり', text: 'PRESS START を おした' },
+    score300: { title: 'みならい たんけんか', text: 'スコア 300 に とうたつした', score: 300 },
+    walker: { title: 'たびびとを つかまえた', text: 'あるく ぼうにんげんを クリックした' },
+    konami: { title: 'うらわざ はっけん', text: '↑↑↓↓←→←→BA を にゅうりょくした' },
+    score1000: { title: 'ハムスターつかい', text: 'スコア 1000 に とうたつ。トップに かくしコマンドが ふえた', score: 1000 },
+  };
+  const TOAST_DURATION = 4000;
+
+  const readUnlocks = () => {
+    try {
+      const value = JSON.parse(localStorage.getItem(UNLOCKS_KEY) ?? '[]');
+      return Array.isArray(value) ? value : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const unlocked = new Set(readUnlocks());
+
+  let toastBox = null;
+  const showToast = (achievement) => {
+    if (!toastBox) {
+      toastBox = document.createElement('div');
+      toastBox.className = 'unlock-toasts';
+      toastBox.setAttribute('role', 'status');
+      document.body.appendChild(toastBox);
+    }
+    const toast = document.createElement('div');
+    toast.className = 'unlock-toast';
+    [
+      ['unlock-toast__label', 'じっせき かいじょ！'],
+      ['unlock-toast__title', achievement.title],
+      ['unlock-toast__text', achievement.text],
+    ].forEach(([className, text]) => {
+      const p = document.createElement('p');
+      p.className = className;
+      p.textContent = text;
+      toast.appendChild(p);
+    });
+    toastBox.appendChild(toast);
+    setTimeout(() => toast.classList.add('is-leaving'), TOAST_DURATION);
+    setTimeout(() => toast.remove(), TOAST_DURATION + 300);
+  };
+
+  const unlock = (id) => {
+    const achievement = ACHIEVEMENTS[id];
+    if (!achievement || unlocked.has(id)) return false;
+    unlocked.add(id);
+    try {
+      localStorage.setItem(UNLOCKS_KEY, JSON.stringify([...unlocked]));
+    } catch {
+      // 保存できない環境ではページを離れるまでの解除になる
+    }
+    showToast(achievement);
+    document.dispatchEvent(new CustomEvent('unlock', { detail: { id } }));
+    return true;
+  };
+
+  const unlockByScore = () => {
+    Object.entries(ACHIEVEMENTS).forEach(([id, achievement]) => {
+      if (achievement.score && score >= achievement.score) unlock(id);
+    });
+  };
+
   window.siteScore = {
     get: () => score,
     add(points) {
       score += points;
       save();
       notify();
+      unlockByScore();
       return score;
     },
     reset() {
@@ -41,6 +110,8 @@
       save();
       notify();
     },
+    unlock,
+    isUnlocked: (id) => unlocked.has(id),
   };
 
   // クリックしたリンク・ボタンの種類ごとに加点する。data-score="100" のように個別指定もできる
@@ -65,5 +136,22 @@
     if (!target || target.closest(EXCLUDE_SELECTOR)) return;
     const points = pointsFor(target);
     if (points > 0) window.siteScore.add(points);
+  });
+
+  // うらわざ（↑↑↓↓←→←→BA）。入力のたびに konami イベントを出し、初回はじっせきも解除する
+  const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  let konamiPos = 0;
+  document.addEventListener('keydown', (event) => {
+    const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+    if (key === KONAMI[konamiPos]) konamiPos += 1;
+    // ↑ を 3 回以上押したときも、最後の 2 回から続きとして数える
+    else if (key === KONAMI[0]) konamiPos = konamiPos === 2 ? 2 : 1;
+    else konamiPos = 0;
+
+    if (konamiPos === KONAMI.length) {
+      konamiPos = 0;
+      unlock('konami');
+      document.dispatchEvent(new CustomEvent('konami'));
+    }
   });
 })();

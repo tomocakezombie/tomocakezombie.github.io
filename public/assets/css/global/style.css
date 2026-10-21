@@ -539,3 +539,63 @@ img {
 .is-pixelated {
   image-rendering: pixelated;
 }
+
+.unlock-toasts {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 100;
+  display: grid;
+  gap: 12px;
+  width: min(320px, 100vw - 32px);
+  pointer-events: none;
+}
+
+.unlock-toast {
+  margin: 4px;
+  padding: 12px 16px;
+  color: #1b2a4a;
+  background: #f4fbff;
+  animation: toast-in 0.24s steps(4) both;
+  box-shadow: 0 -4px 0 0 #1b2a4a, 0 4px 0 0 #1b2a4a, -4px 0 0 0 #1b2a4a, 4px 0 0 0 #1b2a4a, 8px 8px 0 0 rgba(0, 0, 0, 0.2);
+}
+.unlock-toast.is-leaving {
+  animation: toast-out 0.24s steps(4) both;
+}
+.unlock-toast__label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1d6f99;
+}
+.unlock-toast__label::before {
+  content: "★";
+  margin-right: 4px;
+  color: #c9a20f;
+}
+.unlock-toast__title {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+.unlock-toast__text {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+@keyframes toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .unlock-toast,
+  .unlock-toast.is-leaving {
+    animation: none;
+  }
+}

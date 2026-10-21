@@ -8,6 +8,7 @@
 //   tech: ['C言語'],
 //   github: 'https://github.com/...',     // なければ空文字
 //   demo: '',                             // 公開デモの URL（なければ空文字）
+//   featured: true,                       // 省略可。true にするとトップページの「注目の作品」に表示される
 // }
 export const projects = [
   {
@@ -22,6 +23,7 @@ export const projects = [
     tech: ['C言語'],
     github: 'https://github.com/tomocakezombie/terminal-shooting-game',
     demo: '',
+    featured: true,
   },
   {
     slug: 'alpenski',
@@ -48,6 +50,7 @@ export const projects = [
     tech: ['Python（バックエンド）', 'PHP（中間）', 'HTML / CSS（フロント）', 'JavaScript（フロント）'],
     github: '',
     demo: '',
+    featured: true,
   },
   {
     slug: 'seat-display',
@@ -61,6 +64,7 @@ export const projects = [
     tech: ['Python（バックエンド）', 'PHP（中間）', 'HTML / CSS（フロント）', 'JavaScript（フロント）'],
     github: '',
     demo: '',
+    featured: true,
   },
   {
     slug: 'shopping-list',

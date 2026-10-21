@@ -1,8 +1,44 @@
 ---
 import { app, args, pages, assets, img } from '@/config/view.mjs';
 import { Layout } from '@/layouts';
+import { certifications, programs, ctfs } from './achievements/_achievements.mjs';
+import { projects } from './projects/_projects.mjs';
 app.init(Astro);
 app.setPageConfig();
+
+// ステータス画面の項目
+const status = [
+  { label: 'なまえ', value: args.siteName },
+  { label: 'しょくぎょう', value: 'がくせい（B4）' },
+  { label: 'しょぞく', value: '山梨大学 工学部 コンピュータ理工学科' },
+  { label: 'とくい', value: 'セキュリティ・計算機運用' },
+];
+
+// しょうごう：実績データのうち highlight: true のものだけを出す
+// value は大きく表示する一言（順位・合格など）
+const titles = [
+  ...programs.filter((item) => item.highlight).map((item) => ({ year: item.year, value: item.label, name: item.name })),
+  ...certifications.filter((item) => item.highlight).map((item) => ({ year: item.year, value: '合格', name: item.name })),
+  ...ctfs.filter((item) => item.highlight).map((item) => ({ year: item.year, value: item.rank.split(' / ')[0], name: item.name })),
+];
+
+// コマンドメニュー。選ぶと message がメッセージウィンドウに 1 文字ずつ出る
+// preview を書いたものは、選んでいる間だけ同じ名前の data-preview の中身も表示する
+const commands = [
+  { label: 'じこしょうかい', route: pages.about.route, message: 'tomocakezombie の プロフィールや しょぞく，ふだんの かつどうを みる。' },
+  { label: 'さくひん', route: pages.projects.route, message: 'これまでに つくった アプリや ゲームを みる。', preview: 'projects' },
+  { label: 'じっせき', route: pages.achievements.route, message: 'しかく・ごがく・けんしゅう・CTF の きろくを みる。' },
+  { label: 'ブログ', route: pages.blog.route, message: 'ぎじゅつメモや かつどうきろく。' },
+  { label: 'リンク', route: pages.links.route, message: 'GitHub や がくないサイトへの リンクを みる。' },
+  { label: 'せってい', route: pages.settings.route, message: 'フォントを きりかえたり スコアを リセットしたり できる。' },
+];
+// leaveMessage は呼んだハムスターが全員画面の外へ出たときに出る
+const secretCommand = {
+  label: 'ハムスターをよぶ',
+  message: 'ハムスターたちが あつまってきた！',
+  leaveMessage: 'ハムスターたちは さっそうと さっていった…',
+};
+const featuredProjects = projects.filter((project) => project.featured);
 
 const contacts = [
   { label: 'メール', text: 't23cs014@yamanashi.ac.jp', href: 'mailto:t23cs014@yamanashi.ac.jp', external: false },
@@ -13,9 +49,11 @@ const contacts = [
 
 <Layout>
   <div class="hamster-container" id="hamsterContainer"></div>
-  <img class="walker" src="/assets/img/walking-stickman.svg" alt="" aria-hidden="true" hidden />
+  <button type="button" class="walker" data-score="0" aria-label="あるく ぼうにんげんを つかまえる" hidden>
+    <img src="/assets/img/walking-stickman.svg" alt="" />
+  </button>
   <div class="content-main">
-    <section class="hero">
+    <section class="hero title-screen" id="title">
       <p class="hero__sub">PORTFOLIO</p>
       <h2 class="hero__title">{args.siteName}</h2>
       <p class="hero__text">
@@ -23,51 +61,96 @@ const contacts = [
         <span class="wbr">サイバーセキュリティと計算機の保守運用をメインに活動しています．</span><br />
         <span class="wbr">このサイトでは自己紹介や活動，</span><span class="wbr">各種リンクを紹介しています．</span>
       </p>
-      <p class="hero__start"><span class="hero__cursor">▶</span> PRESS START</p>
+      <a class="hero__start" href="#game"><span class="hero__cursor">▶</span> PRESS START</a>
+      <p class="title-screen__hint">クリック または Enter キー</p>
     </section>
 
-    <section class="section">
-      <h2>メニュー</h2>
-      <ul class="menu-list">
-        <li>
-          <a class="menu-card" href={pages.about.route}>
-            <span class="menu-card__title">自己紹介</span>
-            <span class="menu-card__text">プロフィール・所属・活動について</span>
-          </a>
-        </li>
-        <li>
-          <a class="menu-card" href={pages.links.route}>
-            <span class="menu-card__title">外部リンク</span>
-            <span class="menu-card__text">GitHub や学内サイトへのリンク集</span>
-          </a>
-        </li>
-        <li>
-          <a class="menu-card" href={pages.projects.route}>
-            <span class="menu-card__title">作品</span>
-            <span class="menu-card__text">作成したアプリ・GitHub プロジェクト</span>
-          </a>
-        </li>
-        <li>
-          <a class="menu-card" href={pages.achievements.route}>
-            <span class="menu-card__title">実績</span>
-            <span class="menu-card__text">資格・サークル経歴・CTF 実績</span>
-          </a>
-        </li>
-        <li>
-          <a class="menu-card" href={pages.blog.route}>
-            <span class="menu-card__title">ブログ</span>
-            <span class="menu-card__text">技術メモ・活動記録（じゅんびちゅう…）</span>
-          </a>
-        </li>
-        <li>
-          <a class="menu-card" href={pages.settings.route}>
-            <span class="menu-card__title">設定</span>
-            <span class="menu-card__text">サイトの設定</span>
-            <span class="menu-card__text">フォントの切り替えができます</span>
-          </a>
-        </li>
-      </ul>
-    </section>
+    <div class="game" id="game">
+      <section class="section">
+        <h2>コマンド</h2>
+        <div class="command">
+          <nav class="command__menu pixel-window" aria-label="コマンド">
+            <ul class="command__list">
+              {commands.map((command, i) => (
+                <li>
+                  <a
+                    class="command__item"
+                    href={command.route}
+                    data-message={command.message}
+                    data-preview={command.preview}
+                    aria-describedby={`command-desc-${i}`}
+                  >
+                    {command.label}
+                  </a>
+                  <p id={`command-desc-${i}`} hidden>{command.message}</p>
+                </li>
+              ))}
+              <li data-secret hidden>
+                <button
+                  type="button"
+                  class="command__item"
+                  data-score="0"
+                  data-message={secretCommand.message}
+                  data-leave-message={secretCommand.leaveMessage}
+                >
+                  {secretCommand.label}
+                </button>
+              </li>
+            </ul>
+          </nav>
+          <div class="command__message pixel-window">
+            <p class="command__text">tomocakezombie は なにを する？</p>
+            <ul class="command__preview" data-preview="projects" hidden>
+              {featuredProjects.map((project) => (
+                <li>
+                  <a class="command-preview" href={`${pages.projects.route}${project.slug}/`}>
+                    {project.videoFile && (
+                      <span class="command-preview__media">
+                        <video
+                          src={`/assets/video/${project.videoFile}`}
+                          autoplay
+                          muted
+                          loop
+                          playsinline
+                          preload="metadata"
+                          aria-label={`${project.title} のデモ動画`}
+                        />
+                      </span>
+                    )}
+                    <span class="command-preview__title">{project.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>ステータス</h2>
+        <div class="status pixel-window">
+          <dl class="status__params">
+            {status.map((item) => (
+              <div>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <h3>しょうごう</h3>
+          <ul class="status__titles">
+            {titles.map((item) => (
+              <li class="status__title">
+                <span class="status__value">{item.value}</span>
+                <span class="status__name">{item.name}</span>
+                <span class="status__year">{item.year}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="status__more"><a href={pages.achievements.route}>じっせきを すべて みる</a></p>
+        </div>
+      </section>
+    </div>
 
     <section class="section contact">
       <h2>連絡先</h2>
@@ -89,6 +172,12 @@ const contacts = [
   </div>
 
   <script>
+    const score = (window as any).siteScore;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ------------------------------------------------------------------
+    // 背景を流れる雲・ハムスター
+    // ------------------------------------------------------------------
     const container = document.getElementById('hamsterContainer')!;
 
     // 流す画像の一覧。種類を増やすときは public/assets/img/ に画像を置いてここに追加する
@@ -99,6 +188,7 @@ const contacts = [
       { src: '/assets/img/cloud.png', weight: 1, tilt: true },
       { src: '/assets/img/coffee.png', weight: 1, tilt: true },
     ];
+    const hamsterSprite = sprites[1];
 
     const pickSprite = () => {
       const total = sprites.reduce((sum, s) => sum + s.weight, 0);
@@ -110,11 +200,10 @@ const contacts = [
       return sprites[sprites.length - 1];
     };
 
-    const createHamster = (maxDelay: number) => {
+    // duration を省略すると 40-70 秒でゆっくり横断する
+    const createHamster = (maxDelay: number, sprite = pickSprite(), duration = 40 + Math.random() * 30) => {
       const size = 120 + Math.random() * 60; // 120-180px
-      const sprite = pickSprite();
       const rotate = sprite.tilt ? -30 + Math.random() * 60 : 0; // 傾ける場合は -30〜30度
-      const duration = 40 + Math.random() * 30; // 40-70秒でゆっくり横断
       const delay = Math.random() * maxDelay;
 
       const hamster = document.createElement('div');
@@ -129,17 +218,37 @@ const contacts = [
       container.appendChild(hamster);
 
       hamster.addEventListener('animationend', () => hamster.remove());
+      return hamster;
     };
 
     for (let i = 0; i < 3; i++) createHamster(20);
     setInterval(() => createHamster(0), 15000);
 
-    const walker = document.querySelector<HTMLImageElement>('.walker')!;
+    // かくしコマンド・うらわざで呼ぶハムスターの大群
+    // 全員が画面の外へ出たら、ほかのコマンドを選んでいない限り「さっていった」と表示する
+    let rushCount = 0;
+    const summonHamsters = () => {
+      for (let i = 0; i < 12; i++) {
+        rushCount += 1;
+        createHamster(4, hamsterSprite, 8 + Math.random() * 6).addEventListener('animationend', () => {
+          rushCount -= 1;
+          if (rushCount === 0 && (!selected || selected === secretButton)) typeMessage(secretButton.dataset.leaveMessage ?? '');
+        });
+      }
+    };
+    document.addEventListener('konami', summonHamsters);
+
+    // ------------------------------------------------------------------
+    // 歩く棒人間（クリックすると加点）
+    // ------------------------------------------------------------------
+    const walker = document.querySelector<HTMLButtonElement>('.walker')!;
+    const walkerImg = walker.querySelector('img')!;
     const copyright = document.querySelector<HTMLElement>('.copyright')!;
     const FEET_RATIO = 0.87; // 画像内で足先が来る高さの割合（viewBox 200 中の約 174）
     const GROUND_OFFSET = -18; // 地面の微調整（px）。正の値で下に、負の値で上に動く
 
     const WALKER_SIZE = 120; // CSS の width と同じ値（非表示中は offsetHeight が取れないため固定値を使う）
+    const WALKER_POINTS = 300; // つかまえたときの加点
 
     const placeWalker = () => {
       const top = copyright.getBoundingClientRect().top - WALKER_SIZE * FEET_RATIO + GROUND_OFFSET;
@@ -149,18 +258,30 @@ const contacts = [
     const WALKER_CHANCE = 0.6; // 判定ごとの出現確率
     const WALKER_INTERVAL = 10000; // 判定の間隔（ms）
     let walking = false;
+    let caught = false;
 
     const startWalker = () => {
       walking = true;
+      caught = false;
       placeWalker();
       walker.hidden = false;
-      walker.classList.remove('is-walking');
+      walker.classList.remove('is-walking', 'is-caught');
       void walker.offsetWidth;
       walker.classList.add('is-walking');
     };
 
-    walker.addEventListener('load', placeWalker);
-    walker.addEventListener('animationend', () => {
+    walker.addEventListener('click', () => {
+      if (caught) return;
+      caught = true;
+      walker.classList.add('is-caught');
+      score?.add(WALKER_POINTS);
+      score?.unlock('walker');
+    });
+
+    walkerImg.addEventListener('load', placeWalker);
+    walker.addEventListener('animationend', (event) => {
+      // 中の画像のジャンプ演出の終わりは無視する
+      if (event.target !== walker) return;
       walker.classList.remove('is-walking');
       walker.hidden = true;
       walking = false;
@@ -172,6 +293,118 @@ const contacts = [
     setInterval(() => {
       if (!walking && Math.random() < WALKER_CHANCE) startWalker();
     }, WALKER_INTERVAL);
+
+    // ------------------------------------------------------------------
+    // コマンドメニュー
+    // ------------------------------------------------------------------
+    const menu = document.querySelector<HTMLElement>('.command__list')!;
+    const messageText = document.querySelector<HTMLElement>('.command__text')!;
+    const previews = document.querySelectorAll<HTMLElement>('[data-preview]:not(.command__item)');
+    const secret = menu.querySelector<HTMLElement>('[data-secret]')!;
+    const secretButton = secret.querySelector('button')!;
+    const TYPE_INTERVAL = 40; // 1 文字あたりの表示間隔（ms）
+
+    const commandItems = () => [...menu.querySelectorAll<HTMLElement>('.command__item')].filter((item) => !item.closest('[hidden]'));
+
+    let typingTimer = 0;
+    const typeMessage = (text: string) => {
+      clearInterval(typingTimer);
+      messageText.classList.remove('is-done');
+      if (reduceMotion) {
+        messageText.textContent = text;
+        messageText.classList.add('is-done');
+        return;
+      }
+      const chars = Array.from(text);
+      let count = 0;
+      messageText.textContent = '';
+      typingTimer = window.setInterval(() => {
+        count += 1;
+        messageText.textContent = chars.slice(0, count).join('');
+        if (count >= chars.length) {
+          clearInterval(typingTimer);
+          messageText.classList.add('is-done');
+        }
+      }, TYPE_INTERVAL);
+    };
+
+    let selected: HTMLElement | null = null;
+    const select = (item: HTMLElement | null | undefined) => {
+      if (!item || item === selected) return;
+      selected?.classList.remove('is-selected');
+      selected = item;
+      item.classList.add('is-selected');
+      typeMessage(item.dataset.message ?? '');
+      previews.forEach((preview) => {
+        preview.hidden = preview.dataset.preview !== item.dataset.preview;
+      });
+    };
+
+    const itemFrom = (target: EventTarget | null) => (target instanceof Element ? target.closest<HTMLElement>('.command__item') : null);
+    menu.addEventListener('focusin', (event) => select(itemFrom(event.target)));
+    menu.addEventListener('mouseover', (event) => select(itemFrom(event.target)));
+
+    // ↑↓ でコマンドを移動する（端まで行くと反対側に戻る）
+    menu.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+      event.preventDefault();
+      const items = commandItems();
+      const current = items.indexOf(document.activeElement as HTMLElement);
+      const step = event.key === 'ArrowDown' ? 1 : -1;
+      items[(current + step + items.length) % items.length]?.focus();
+    });
+
+    // かくしコマンドは、スコア 1000 か うらわざ で出てくる
+    const revealSecret = () => {
+      if (score?.isUnlocked('score1000') || score?.isUnlocked('konami')) secret.hidden = false;
+    };
+    revealSecret();
+    document.addEventListener('unlock', revealSecret);
+    // タップではフォーカスが移らないブラウザもあるので、押したときにも選択とメッセージを出し直す
+    secretButton.addEventListener('click', () => {
+      select(secretButton);
+      typeMessage(secretButton.dataset.message ?? '');
+      summonHamsters();
+    });
+
+    // ------------------------------------------------------------------
+    // タイトル画面（PRESS START でゲーム画面へ）
+    // ------------------------------------------------------------------
+    const title = document.getElementById('title')!;
+    const game = document.getElementById('game')!;
+    const startLink = title.querySelector<HTMLAnchorElement>('.hero__start')!;
+    const START_DELAY = 600; // 点滅させてから移動するまで（ms）
+    let starting = false;
+
+    const pressStart = () => {
+      if (starting) return;
+      starting = true;
+      startLink.classList.add('is-starting');
+      score?.unlock('start');
+      setTimeout(
+        () => {
+          starting = false;
+          startLink.classList.remove('is-starting');
+          game.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+          const first = commandItems()[0];
+          first?.focus({ preventScroll: true });
+          select(first);
+        },
+        reduceMotion ? 0 : START_DELAY,
+      );
+    };
+
+    startLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      pressStart();
+    });
+
+    // どこにもフォーカスがなく、タイトル画面が見えているときは Enter でも始められる
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' || document.activeElement !== document.body) return;
+      if (title.getBoundingClientRect().bottom < window.innerHeight / 2) return;
+      pressStart();
+    });
   </script>
 
   <style is:global>
@@ -200,14 +433,31 @@ const contacts = [
       left: 0;
       top: 0;
       width: 120px;
-      height: auto;
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
       z-index: 1;
-      pointer-events: none;
+    }
+
+    .walker img {
+      display: block;
+      width: 100%;
+      height: auto;
       filter: brightness(0) invert(1);
     }
 
     .walker.is-walking {
       animation: walker-move 40s linear both;
+    }
+
+    .walker.is-caught {
+      cursor: default;
+    }
+
+    .walker.is-caught img {
+      animation: walker-hop 0.4s steps(4) 2;
+      filter: brightness(0) invert(1) drop-shadow(0 0 6px #ffd84a);
     }
 
     @keyframes walker-move {
@@ -216,6 +466,12 @@ const contacts = [
       }
       to {
         transform: translateX(100vw);
+      }
+    }
+
+    @keyframes walker-hop {
+      50% {
+        transform: translateY(-24px);
       }
     }
 

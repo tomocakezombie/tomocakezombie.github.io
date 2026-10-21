@@ -656,3 +656,74 @@ img {
 .is-pixelated {
   image-rendering: pixelated;
 }
+
+// --------------------------------------------------------------------------
+// Achievement unlock toast (created by score.js)
+// --------------------------------------------------------------------------
+.unlock-toasts {
+  position: fixed;
+  right: d(8);
+  bottom: d(8);
+  z-index: 100;
+  display: grid;
+  gap: d(6);
+  width: min(320px, calc(100vw - #{d(16)}));
+  pointer-events: none;
+}
+
+.unlock-toast {
+  margin: d(2);
+  padding: d(6) d(8);
+  color: $c-ink;
+  background: $c-paper;
+  animation: toast-in 0.24s steps(4) both;
+
+  @include pixel-border($c-ink, d(2));
+
+  &.is-leaving {
+    animation: toast-out 0.24s steps(4) both;
+  }
+
+  &__label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $c-sky-deep;
+
+    &::before {
+      content: '★';
+      margin-right: d(2);
+      color: $c-yellow-dark;
+    }
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+
+  &__text {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(d(12));
+  }
+}
+
+@keyframes toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(d(12));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .unlock-toast,
+  .unlock-toast.is-leaving {
+    animation: none;
+  }
+}

@@ -1,6 +1,9 @@
 // Top page
 @use '../global/pixel' as *;
 
+// --------------------------------------------------------------------------
+// Title screen
+// --------------------------------------------------------------------------
 .hero {
   padding-block: d(40) d(32);
   text-align: center;
@@ -35,14 +38,42 @@
   }
 
   &__start {
+    display: inline-block;
     margin-top: d(16);
-    font-size: 1.2rem;
+    padding: d(4) d(8);
+    font-size: 1.6rem;
+    font-weight: bold;
     letter-spacing: 0.2em;
+    color: $c-white;
+    text-decoration: none;
+    text-shadow: d(1) d(1) 0 $c-sky-deep;
     animation: hero-blink 1.2s steps(1) infinite;
+
+    &:hover,
+    &:focus-visible {
+      color: $c-yellow;
+    }
+
+    // PRESS START を押した直後の速い点滅
+    &.is-starting {
+      color: $c-yellow;
+      animation-duration: 0.15s;
+    }
   }
 
   &__cursor {
     color: $c-yellow;
+  }
+}
+
+// keep it short so the command window peeks into the first view
+.title-screen {
+  padding-block: d(24) d(16);
+
+  &__hint {
+    margin-top: d(4);
+    font-size: 1.2rem;
+    opacity: 0.8;
   }
 }
 
@@ -52,78 +83,225 @@
   }
 }
 
+// --------------------------------------------------------------------------
+// Status window
+// --------------------------------------------------------------------------
+.status {
+  display: grid;
+  gap: d(10);
+
+  &__params {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: d(2) d(12);
+
+    > div {
+      display: grid;
+      grid-template-columns: 6.5em 1fr;
+      gap: d(4);
+      padding-block: d(2);
+      background-position: left bottom;
+
+      @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+    }
+
+    dt {
+      font-weight: bold;
+      color: $c-sky-deep;
+    }
+
+    @include sp {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &__titles {
+    display: grid;
+    gap: d(6);
+  }
+
+  // 左に大きな値、右に名前と年度を縦に並べる
+  &__title {
+    display: grid;
+    grid-template-columns: 4.5em minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0 d(6);
+  }
+
+  &__value {
+    grid-row: span 2;
+    font-size: 2.4rem;
+    font-weight: bold;
+    line-height: 1.3;
+    color: $c-sky-deep;
+
+    &::before {
+      content: '★';
+      margin-right: d(2);
+      font-size: 1.6rem;
+      color: $c-yellow-dark;
+    }
+  }
+
+  &__name {
+    line-height: 1.5;
+  }
+
+  &__year {
+    grid-column: 2;
+    font-size: 1.2rem;
+    color: #4a5a75;
+  }
+
+  &__more {
+    text-align: right;
+
+    a::before {
+      content: '▶';
+      margin-right: d(2);
+      font-size: 1.2rem;
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// Command menu + message window
+// --------------------------------------------------------------------------
+.command {
+  display: grid;
+  grid-template-columns: 15em minmax(0, 1fr);
+  gap: d(12);
+  align-items: start;
+
+  @include sp {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  &__menu {
+    padding: d(8);
+  }
+
+  &__list {
+    display: grid;
+    gap: d(2);
+  }
+
+  // .pixel-window a より強くするために &__menu の下に書く
+  &__menu &__item {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: d(3) d(4) d(3) d(14);
+    font: inherit;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: $c-ink;
+    text-align: left;
+    text-decoration: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+
+    // フォーカス枠がウィンドウの外にはみ出さないよう内側に描く
+    &:focus-visible {
+      outline-offset: d(-2);
+    }
+
+    &::before {
+      content: '▶';
+      position: absolute;
+      top: 50%;
+      left: d(4);
+      font-size: 1.2rem;
+      visibility: hidden;
+      transform: translateY(-50%);
+      animation: hero-blink 0.8s steps(1) infinite;
+    }
+
+    &.is-selected {
+      color: $c-sky-deep;
+
+      &::before {
+        visibility: visible;
+      }
+    }
+  }
+
+  &__message {
+    display: grid;
+    gap: d(8);
+    min-height: 14em;
+    align-content: start;
+  }
+
+  &__text {
+    min-height: 3.8em;
+    font-size: 1.8rem;
+    line-height: 1.9;
+    white-space: pre-wrap;
+
+    &.is-done::after {
+      content: '▼';
+      margin-left: d(2);
+      font-size: 1.2rem;
+      color: $c-sky-deep;
+      animation: hero-blink 0.8s steps(1) infinite;
+    }
+  }
+
+  &__preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: d(8);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+}
+
+.command-preview {
+  display: grid;
+  gap: d(3);
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+
+  &__media {
+    display: block;
+    margin: d(1);
+    aspect-ratio: 16 / 9;
+    background: $c-ink;
+    overflow: hidden;
+
+    @include pixel-border($c-ink, d(1), false);
+  }
+
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  &:hover &__media,
+  &:focus-visible &__media {
+    @include pixel-border($c-yellow, d(2), false);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero__start {
+  .hero__start,
+  .command__menu .command__item::before,
+  .command__text.is-done::after {
     animation: none;
   }
 }
 
-.menu-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: d(12);
-
-  > li {
-    display: flex;
-  }
-}
-
-.menu-card {
-  display: flex;
-  flex-direction: column;
-  gap: d(2);
-  flex: 1;
-  min-height: 100px;
-  margin: d(2);
-  padding: d(8) d(8) d(8) d(16);
-  position: relative;
-  color: $c-ink;
-  text-decoration: none;
-  background: $c-paper;
-
-  @include pixel-border($c-ink);
-
-  &__title {
-    font-size: 2.4rem;
-    font-weight: bold;
-  }
-
-  &__text {
-    font-size: 1.2rem;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    line-height: 1.5;
-  }
-
-  &::before {
-    content: '▶';
-    position: absolute;
-    top: d(10);
-    left: d(4);
-    font-size: 1.2rem;
-    visibility: hidden;
-  }
-
-  &:is(a):hover,
-  &:is(a):focus-visible {
-    color: $c-ink;
-    background: $c-yellow;
-    transform: translate(d(1), d(1));
-  }
-
-  &:is(a):hover::before,
-  &:is(a):focus-visible::before {
-    visibility: visible;
-  }
-
-  &.is-disabled {
-    color: #7a8799;
-    background: #d9e6ee;
-  }
-}
-
+// --------------------------------------------------------------------------
+// Contact
+// --------------------------------------------------------------------------
 // the top page has no page-footer nav, so keep some room above the footer
 .contact {
   padding-bottom: d(24);
