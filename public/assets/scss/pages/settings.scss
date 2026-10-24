@@ -81,24 +81,24 @@ $offer-green-dark: #0e8a3a;
     background: $c-ink;
   }
 
-  // 「FREE!」の星形バッジ
+  // 「FREE!」の星形バッジ。枠の外にはみ出さないよう、右側の縦中央に置く
   &__badge {
     position: absolute;
-    top: d(-12);
-    right: d(10);
+    top: 50%;
+    right: d(8);
     z-index: 1;
     display: grid;
     place-content: center;
-    width: 96px;
-    height: 96px;
-    font-size: 1.8rem;
+    width: 80px;
+    height: 80px;
+    font-size: 1.6rem;
     font-weight: bold;
     line-height: 1.2;
     text-align: center;
     color: $offer-yellow;
     background: $offer-red;
     clip-path: polygon(50% 0%, 61% 18%, 82% 10%, 80% 32%, 100% 40%, 85% 56%, 96% 76%, 74% 78%, 68% 100%, 50% 87%, 32% 100%, 26% 78%, 4% 76%, 15% 56%, 0% 40%, 20% 32%, 18% 10%, 39% 18%);
-    transform: rotate(12deg);
+    transform: translateY(-50%) rotate(12deg);
     pointer-events: none;
   }
 
@@ -137,7 +137,7 @@ $offer-green-dark: #0e8a3a;
     display: grid;
     justify-items: start;
     gap: d(4);
-    padding-right: 80px; // バッジと重ならないように
+    padding-right: 96px; // バッジと重ならないように
   }
 
   &__title {
@@ -194,19 +194,16 @@ $offer-green-dark: #0e8a3a;
   }
 
   @include sp {
-    margin-top: d(24);
-
-    // 狭い画面ではバッジを枠の上にはみ出させて，文字に重ならないようにする
+    // 狭い画面では、バッジを小さくして余白も詰める
     &__badge {
-      top: -62px;
-      right: d(2);
-      width: 76px;
-      height: 76px;
-      font-size: 1.4rem;
+      right: d(4);
+      width: 64px;
+      height: 64px;
+      font-size: 1.2rem;
     }
 
     &__text {
-      padding-right: 0;
+      padding-right: 68px;
     }
 
     &__body {

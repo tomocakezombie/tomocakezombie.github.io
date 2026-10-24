@@ -62,21 +62,21 @@
 }
 .hamster-offer__badge {
   position: absolute;
-  top: -24px;
-  right: 20px;
+  top: 50%;
+  right: 16px;
   z-index: 1;
   display: grid;
   place-content: center;
-  width: 96px;
-  height: 96px;
-  font-size: 1.8rem;
+  width: 80px;
+  height: 80px;
+  font-size: 1.6rem;
   font-weight: bold;
   line-height: 1.2;
   text-align: center;
   color: #ffe600;
   background: #ff2d55;
   clip-path: polygon(50% 0%, 61% 18%, 82% 10%, 80% 32%, 100% 40%, 85% 56%, 96% 76%, 74% 78%, 68% 100%, 50% 87%, 32% 100%, 26% 78%, 4% 76%, 15% 56%, 0% 40%, 20% 32%, 18% 10%, 39% 18%);
-  transform: rotate(12deg);
+  transform: translateY(-50%) rotate(12deg);
   pointer-events: none;
 }
 .hamster-offer__body {
@@ -109,7 +109,7 @@
   display: grid;
   justify-items: start;
   gap: 8px;
-  padding-right: 80px;
+  padding-right: 96px;
 }
 .hamster-offer__title {
   padding: 4px 8px;
@@ -156,18 +156,14 @@
   text-align: center;
 }
 @media (width <= 768px) {
-  .hamster-offer {
-    margin-top: 48px;
-  }
   .hamster-offer__badge {
-    top: -62px;
-    right: 4px;
-    width: 76px;
-    height: 76px;
-    font-size: 1.4rem;
+    right: 8px;
+    width: 64px;
+    height: 64px;
+    font-size: 1.2rem;
   }
   .hamster-offer__text {
-    padding-right: 0;
+    padding-right: 68px;
   }
   .hamster-offer__body {
     gap: 8px;
