@@ -52,3 +52,25 @@ export const ctfs = [
     links: [{ label: '参考Webページ(外部)', url: 'https://www.keio.ac.jp/ja/sfc-pem/news/20260319/' }],
   },
 ];
+
+// ハッカソン・チーム開発イベント（CTF と同じ形式。team は省略可，work は作ったもの，role は自分の担当）
+export const hackathons = [
+  {
+    name: 'Yamanashi AIハッカソン 2024',
+    year: '2024',
+    rank: 'デザイン賞',
+    team: 'ポイズンマッシュ',
+    scale: '定員40名',
+    work: '山梨県の観光スポットを巡る旅程表を作成する生成 AI アプリ',
+    role: 'バックエンド',
+    details: [
+      '初めてチーム開発に参加したイベントです．',
+      '情報共有・技術力・グループワークでの貢献など，チームで働く力の不足を痛感しました．',
+      'ここでの反省が，その後チームで成果を出すことを意識するきっかけになりました．',
+    ],
+    links: [
+      { label: '参考Webページ(外部)', url: 'https://www.ysa.or.jp/?p=1975' },
+      { label: '募集チラシ(PDF)', url: 'https://www.yamanashi.ac.jp/wp-content/uploads/2021/08/yamanashi_aihackathon_2024.pdf' },
+    ],
+  },
+];

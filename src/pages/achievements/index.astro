@@ -1,15 +1,21 @@
 ---
 import { app, args, pages, assets, img } from '@/config/view.mjs';
 import { Layout } from '@/layouts';
-import { certifications, languages, programs, ctfs } from './_achievements.mjs';
+import { certifications, languages, programs, ctfs, hackathons } from './_achievements.mjs';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 app.init(Astro);
 app.setPageConfig({
   title: '実績',
-  description: 'tomocakezombie の実績ページです。情報系資格・語学・研修プログラム・CTF 実績をまとめています。',
+  description: 'tomocakezombie の実績ページです。情報系資格・語学・研修プログラム・CTF・ハッカソンの実績をまとめています。',
 });
 
 const statusLabel = { done: '取得', plan: '予定' };
+
+// CTF とハッカソンは同じカード形式で並べる
+const events = [
+  { title: 'CTF 実績', tag: 'CTF', items: ctfs },
+  { title: 'ハッカソン', tag: 'HACKATHON', items: hackathons },
+];
 ---
 
 <Layout>
@@ -19,7 +25,7 @@ const statusLabel = { done: '取得', plan: '予定' };
     ]} />
   <div class="content-main">
     <h2>実績</h2>
-    <p class="lead">これまでの資格取得・語学・研修プログラム・CTF 参加などの実績をまとめています．</p>
+    <p class="lead">これまでの資格取得・語学・研修プログラム・CTF・ハッカソン参加などの実績をまとめています．</p>
 
     <section class="section">
       <h3>情報系資格</h3>
@@ -73,60 +79,78 @@ const statusLabel = { done: '取得', plan: '予定' };
       </div>
     </section>
 
-    <section class="section">
-      <h3>CTF 実績</h3>
-      <ul class="works-list">
-        {
-          ctfs.map((item) => (
-            <li class="works-card pixel-window">
-              <div class="works-card__meta">
-                <span class="pixel-tag">CTF</span>
-                <span class="works-card__date">{item.year}</span>
-              </div>
-              <p class="works-card__title">{item.name}</p>
-              <dl class="works-card__detail">
-                <div>
-                  <dt>順位</dt>
-                  <dd>{item.rank}</dd>
+    {
+      events.map((event) => (
+      <section class="section">
+        <h3>{event.title}</h3>
+        <ul class="works-list">
+          {
+            event.items.map((item) => (
+              <li class="works-card pixel-window">
+                <div class="works-card__meta">
+                  <span class="pixel-tag">{event.tag}</span>
+                  <span class="works-card__date">{item.year}</span>
                 </div>
-                {item.scale && (
+                <p class="works-card__title">{item.name}</p>
+                <dl class="works-card__detail">
                   <div>
-                    <dt>規模</dt>
-                    <dd>{item.scale}</dd>
+                    <dt>結果</dt>
+                    <dd>{item.rank}</dd>
                   </div>
+                  {item.scale && (
+                    <div>
+                      <dt>規模</dt>
+                      <dd>{item.scale}</dd>
+                    </div>
+                  )}
+                  {item.work && (
+                    <div>
+                      <dt>作品</dt>
+                      <dd>{item.work}</dd>
+                    </div>
+                  )}
+                  {item.role && (
+                    <div>
+                      <dt>担当</dt>
+                      <dd>{item.role}</dd>
+                    </div>
+                  )}
+                  {item.team && (
+                    <div>
+                      <dt>チーム</dt>
+                      <dd>{item.team}</dd>
+                    </div>
+                  )}
+                  {item.details.length > 0 && (
+                    <div>
+                      <dt>コメント</dt>
+                      <dd>
+                        <ul class="works-card__notes">
+                          {item.details.map((line) => (
+                            <li>{line}</li>
+                          ))}
+                        </ul>
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+                {item.links.length > 0 && (
+                  <ul class="works-card__links">
+                    {item.links.map((link) => (
+                      <li>
+                        <a class="pixel-btn" href={link.url} target="_blank" rel="noopener noreferrer">
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 )}
-                <div>
-                  <dt>チーム</dt>
-                  <dd>{item.team}</dd>
-                </div>
-                {item.details.length > 0 && (
-                  <div>
-                    <dt>コメント</dt>
-                    <dd>
-                      <ul class="works-card__notes">
-                        {item.details.map((line) => (
-                          <li>{line}</li>
-                        ))}
-                      </ul>
-                    </dd>
-                  </div>
-                )}
-              </dl>
-              {item.links.length > 0 && (
-                <ul class="works-card__links">
-                  {item.links.map((link) => (
-                    <li>
-                      <a class="pixel-btn" href={link.url} target="_blank" rel="noopener noreferrer">
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+      ))
+    }
   </div>
 </Layout>
