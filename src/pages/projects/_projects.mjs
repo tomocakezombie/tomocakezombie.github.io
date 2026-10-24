@@ -5,6 +5,9 @@
 //   title: '作品タイトル',
 //   description: '詳細ページに表示する説明文',
 //   videoFile: 'shooting_demo.mp4',       // public/assets/video/ 配下のファイル名（なければ空文字）
+//   images: [                             // 省略可。詳細ページのスクリーンショット（クリックで拡大）
+//     { file: 'sasutena/sasutena_1.webp', alt: '代替テキスト', caption: '画像の下に出す説明' }, // file は public/assets/img/projects/ 配下のパス
+//   ],
 //   tech: ['C言語'],
 //   github: 'https://github.com/...',     // なければ空文字
 //   demo: '',                             // 公開デモの URL（なければ空文字）
@@ -77,6 +80,28 @@ Django を使った，ソフトウェア開発の練習として作りました�
     tech: ['Django'],
     github: 'https://github.com/tomocakezombie/Sdpl_Shopping_public',
     demo: '',
+  },
+  {
+    slug: 'sasutena',
+    title: 'SASUTENA',
+    description:
+`大学の授業「ソフトウェア開発プロジェクト実習2」で，4人チームで制作した Web アプリです．自分はコーディングリーダーを担当しました．
+生産者が抱える余剰食品や未使用品を，必要とする消費者とマッチングし，食品ロスの削減を目指すサービスです．
+生産者 / 消費者 / 管理者の3ロールがあり，メール認証付きの登録，出品と申請，ダイレクトメッセージ，取引後の評価などの機能があります．
+`,
+    videoFile: 'sasutena_demo.mp4',
+    images: [
+      { file: 'sasutena/sasutena_3.webp', alt: 'SASUTENA のトップページ', caption: 'トップページ' },
+      { file: 'sasutena/sasutena_4.webp', alt: '利用登録申請フォーム', caption: '利用登録申請（生産者 / 消費者を選択）' },
+      { file: 'sasutena/sasutena_5.webp', alt: '認証コード確認画面', caption: 'メールで届く認証コードの確認' },
+      { file: 'sasutena/sasutena_6.webp', alt: 'ログイン画面', caption: 'ログイン（管理者の承認後に利用可能）' },
+      { file: 'sasutena/sasutena_1.webp', alt: '生産者のプロフィール画面', caption: '生産者のプロフィール（評価・自己紹介）' },
+      { file: 'sasutena/sasutena_2.webp', alt: 'ダイレクトメッセージ画面', caption: 'ダイレクトメッセージ' },
+    ],
+    tech: ['Django', 'Python', 'SQLite', 'Bootstrap'],
+    github: 'https://github.com/tomocakezombie/SASUTENA_public',
+    demo: '',
+    featured: true,
   },
   //   {
   //   slug: 'socket-shooting',

@@ -25,6 +25,9 @@ app.setPageConfig({
 // 動的ルートは pages に登録されないため、作品として扱い projects.css を読み込む
 args.page.key = 'projects';
 if (!args.assetList.css.includes('pages/projects.css')) args.assetList.css.push('pages/projects.css');
+if (!args.assetList.js.includes('pages/projects.js')) args.assetList.js.push('pages/projects.js');
+
+const images = project.images ?? [];
 ---
 
 <Layout>
@@ -50,6 +53,36 @@ if (!args.assetList.css.includes('pages/projects.css')) args.assetList.css.push(
             aria-label={`${project.title} のデモ動画`}
           />
         </div>
+      )}
+
+      {images.length > 0 && (
+        <section class="project-detail__gallery pixel-window" aria-label="スクリーンショット">
+          <h3 class="project-detail__heading">スクリーンショット</h3>
+          <ul class="project-detail__shots">
+            {images.map((image) => (
+              <li>
+                <figure class="project-detail__shot">
+                  <button
+                    type="button"
+                    class="project-detail__shot-button"
+                    data-lightbox-src={`/assets/img/projects/${image.file}`}
+                    data-lightbox-caption={image.caption ?? ''}
+                    aria-label={`${image.alt} を拡大表示`}
+                  >
+                    <img
+                      class="project-detail__shot-img"
+                      src={`/assets/img/projects/${image.file}`}
+                      alt={image.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </button>
+                  {image.caption && <figcaption class="project-detail__caption">{image.caption}</figcaption>}
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       <div class="project-detail__body pixel-window">
@@ -101,4 +134,14 @@ if (!args.assetList.css.includes('pages/projects.css')) args.assetList.css.push(
       </div>
     </article>
   </div>
+
+  {images.length > 0 && (
+    <dialog class="project-lightbox" aria-label="拡大表示">
+      <figure class="project-lightbox__figure">
+        <img class="project-lightbox__img" src="" alt="" />
+        <figcaption class="project-lightbox__caption"></figcaption>
+      </figure>
+      <button type="button" class="project-lightbox__close pixel-btn" aria-label="閉じる">×</button>
+    </dialog>
+  )}
 </Layout>

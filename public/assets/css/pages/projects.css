@@ -70,6 +70,47 @@
   aspect-ratio: 16/9;
   object-fit: contain;
 }
+.project-detail__gallery {
+  display: grid;
+  gap: 12px;
+}
+.project-detail__shots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (width <= 768px) {
+  .project-detail__shots {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.project-detail__shot {
+  display: grid;
+  gap: 4px;
+}
+.project-detail__shot-button {
+  display: block;
+  padding: 4px;
+  border: 0;
+  background: #1b2a4a;
+  cursor: zoom-in;
+}
+.project-detail__shot-button:hover, .project-detail__shot-button:focus-visible {
+  outline: 4px solid #ffd84a;
+}
+.project-detail__shot-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2/1;
+  object-fit: cover;
+  object-position: top;
+}
+.project-detail__caption {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  text-align: center;
+}
 .project-detail__body {
   display: grid;
   gap: 20px;
@@ -118,6 +159,40 @@
 .project-detail__links--no-divider {
   background-image: none;
   padding-top: 0;
+}
+
+.project-lightbox {
+  max-width: min(96vw, 1280px);
+  max-height: 96vh;
+  margin: auto;
+  padding: 8px;
+  border: 0;
+  overflow: visible;
+  background: #1b2a4a;
+  cursor: zoom-out;
+}
+.project-lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+.project-lightbox__figure {
+  display: grid;
+  gap: 8px;
+}
+.project-lightbox__img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(96vh - 8rem);
+  margin: 0 auto;
+  cursor: default;
+}
+.project-lightbox__caption {
+  color: #fff;
+  text-align: center;
+}
+.project-lightbox__close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
 }
 
 .github-icon {
