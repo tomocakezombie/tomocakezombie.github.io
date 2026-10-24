@@ -9,10 +9,7 @@ export const astroConfig = {
   compressHTML: false,
   integrations: [
     myExtIntegration(),
-    sitemap({
-      // subpage はナビやメニューから辿れない未使用のサンプルページのため除外する
-      filter: (page) => !page.includes('/subpage/'),
-    }),
+    sitemap(),
   ],
   build: {
     format: 'directory',

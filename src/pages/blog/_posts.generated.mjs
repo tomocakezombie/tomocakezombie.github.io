@@ -3,22 +3,13 @@ export const generatedPosts = [
   {
     "slug": "security-camp-assignments",
     "title": "セキュリティキャンプ応募課題晒し(2026, Cクラス)",
-    "date": "2026-10-30",
+    "date": "2026-10-17",
     "tags": [
       "securitycamp",
       "md",
       "脅威解析"
     ],
     "description": "セキュリティキャンプの応募課題を晒します．",
-    "site": {
-      "name": "サイト名",
-      "role": "制作・執筆",
-      "period": "2026 後期",
-      "tech": [
-        "Astro",
-        "SCSS"
-      ]
-    },
     "intro": [
       "このページは、セキュリティ・キャンプ全国大会 2026 の C トラック（脅威クラス）に応募した際の応募課題を、実際に提出した内容を書いています。かなり幸運なご縁があり、無事全国大会を修了することができました。これからセキュリティキャンプに参加して見たいという方の参考になればと考えています。",
       "参考：[セキュリティ・キャンプ2026全国大会](https://www.ipa.go.jp/jinzai/security-camp/zenkoku.html)"

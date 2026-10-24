@@ -15,12 +15,6 @@
       "label": "トップ",
       "appRoute": "/"
     },
-    "subpage": {
-      "key": "subpage",
-      "route": "/subpage/",
-      "label": "Subpage",
-      "appRoute": "/subpage/"
-    },
     "about": {
       "key": "about",
       "route": "/about/",

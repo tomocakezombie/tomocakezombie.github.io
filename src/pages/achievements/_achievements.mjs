@@ -23,9 +23,9 @@ export const programs = [
 // details は省略可。参加形式など、補足を 1 行ずつ文字列で書く
 export const ctfs = [
   {
-    name: '	サイバーセキュリティCTFコンテンスト2024',
+    name: 'サイバーセキュリティCTFコンテスト2024',
     year: '2024',
-    rank: '8位くらい / 2人チーム',
+    rank: '参加 / 2人チーム',
     team: 'CTF Lovers',
     scale: '15チーム/30名',
     details: ['初めて対面で参加した CTF です．'],
