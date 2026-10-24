@@ -31,7 +31,7 @@ export const app = {
     args.twitterIdWithAtMark = '@kan1175423'; // @YOUR_ID
     args.lang = 'ja';
     args.locale = 'ja_JP';
-    args.og_image = 'img/global/og.png';
+    args.og_image = 'img/global/og-large.png'; // 1200x630（X・Slack などのカード用）
   },
   postInit(pageArgs) {
     app.args = pageArgs ?? {};
@@ -48,8 +48,11 @@ export const app = {
     // <title>PAGE_TITLE - SITE_NAME | TITLE_SUFFIX</title>
     args.title = Util.concatStr(app.args.title, { suffix: ' - ' }) + args.siteName + Util.concatStr(args.titleSuffix, { prefix: ' | ' });
 
-    args.og_type = args.path === '/' ? 'website' : 'article';
-    if (!getIsAbsUrl(args.og_image)) args.og_image = assetsUrl(args.og_image, true);
+    // ブログ記事だけ article、それ以外（トップ・一覧・作品など）は website
+    args.og_type = args.path.startsWith('/blog/post/') ? 'article' : 'website';
+    // ビルドごとに URL が変わるとカードのキャッシュが効かないため、og:image には cacheBuster を付けない
+    if (!getIsAbsUrl(args.og_image)) args.og_image = assetsUrl(args.og_image);
+    args.og_image_alt = `${args.siteName} のロゴ`;
   },
   setConfig(Astro) {
     app.Astro = Astro;
