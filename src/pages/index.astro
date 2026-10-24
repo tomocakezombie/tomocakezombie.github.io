@@ -33,10 +33,11 @@ const commands = [
   { label: 'きろく', route: pages.record.route, message: 'このサイトで あそんで あつめた きろくを みる。\nぜんぶ あつめられるかな？' },
   { label: 'せってい', route: pages.settings.route, message: 'フォントを きりかえたり スコアを リセットしたり できる。' },
 ];
-// leaveMessage は呼んだハムスターが全員画面の外へ出たときに出る
+// message は選んだときの説明、callMessage は実行したとき、leaveMessage は呼んだハムスターが全員画面の外へ出たときに出る
 const secretCommand = {
   label: 'ハムスターをよぶ',
-  message: 'ハムスターたちが あつまってきた！',
+  message: 'ハムスターを よんで、がめんに あつめる。\nたくさん くるので ちゅうい。',
+  callMessage: 'ハムスターたちが あつまってきた！',
   leaveMessage: 'ハムスターたちは さっそうと さっていった…',
 };
 const featuredProjects = projects.filter((project) => project.featured);
@@ -92,6 +93,7 @@ const contacts = [
                   class="command__item"
                   data-score="0"
                   data-message={secretCommand.message}
+                  data-call-message={secretCommand.callMessage}
                   data-leave-message={secretCommand.leaveMessage}
                 >
                   {secretCommand.label}
@@ -395,7 +397,7 @@ const contacts = [
     // タップではフォーカスが移らないブラウザもあるので、押したときにも選択とメッセージを出し直す
     secretButton.addEventListener('click', () => {
       select(secretButton);
-      typeMessage(secretButton.dataset.message ?? '');
+      typeMessage(secretButton.dataset.callMessage ?? '');
       summonHamsters();
     });
 
