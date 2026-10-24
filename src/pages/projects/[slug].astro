@@ -2,6 +2,8 @@
 import { app, args, pages, assets, img } from '@/config/view.mjs';
 import { Layout } from '@/layouts';
 import Breadcrumb from '@/components/Breadcrumb.astro';
+import PostBlocks from '@/components/PostBlocks.astro';
+import { parseMarkdown } from '@/components/markdown.mjs';
 import { projects } from './_projects.mjs';
 
 export function getStaticPaths() {
@@ -10,16 +12,21 @@ export function getStaticPaths() {
 
 const { project } = Astro.props;
 
-// 説明は改行ごとに <br> で区切って出力する（ビルド時の HTML 整形で行頭に空白が入るため、pre-wrap には頼らない）
-const descriptionLines = (project.description ?? '')
-  .split('\n')
-  .map((line) => line.trim())
-  .filter(Boolean);
+// 説明は Markdown で書く（段落・入れ子の箇条書き・**太字** など。書き方は drafts/README.md の「本文」）
+const descriptionBlocks = parseMarkdown(project.description ?? '', (message) => {
+  console.warn(`警告 projects/${project.slug}: ${message}`);
+});
+// meta description には、最初の段落を書式記号を外した文字列で使う
+const firstParagraph = descriptionBlocks.find((block) => typeof block === 'string');
+const summary = firstParagraph
+  ?.replace(/\*\*([^*]+)\*\*/g, '$1')
+  .replace(/`([^`]+)`/g, '$1')
+  .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
 
 app.init(Astro);
 app.setPageConfig({
   title: project.title,
-  description: project.description ?? `${project.title} - tomocakezombie の作品です。`,
+  description: summary ?? `${project.title} - tomocakezombie の作品です。`,
 });
 
 // 動的ルートは pages に登録されないため、作品として扱い projects.css を読み込む
@@ -106,16 +113,9 @@ const images = project.images ?? [];
       <div class="project-detail__body pixel-window">
         <section class="project-detail__section">
           <h3 class="project-detail__heading">説明</h3>
-          <p class="project-detail__text">
-            {descriptionLines.length > 0
-              ? descriptionLines.map((line, index) => (
-                  <>
-                    {index > 0 && <br />}
-                    {line}
-                  </>
-                ))
-              : '準備中...'}
-          </p>
+          <div class="project-detail__text">
+            {descriptionBlocks.length > 0 ? <PostBlocks blocks={descriptionBlocks} /> : <p>準備中...</p>}
+          </div>
           <div class="project-detail__divider"></div>
         </section>
 

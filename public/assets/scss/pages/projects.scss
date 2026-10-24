@@ -144,9 +144,40 @@
     }
   }
 
+  // 説明（Markdown を PostBlocks.astro で描画したもの）
   &__text {
+    display: grid;
+    gap: d(4);
     line-height: 1.8;
     overflow-wrap: break-word;
+
+    ul,
+    ol {
+      display: grid;
+      gap: d(1);
+      padding-left: d(10);
+      list-style: square;
+    }
+
+    ol {
+      list-style: decimal;
+    }
+
+    // 入れ子のリストは丸印にして，親と区別する
+    li > ul {
+      margin-top: d(1);
+      list-style: circle;
+    }
+
+    li::marker {
+      color: $c-sky-deep;
+    }
+
+    code {
+      padding: 0 d(1);
+      background: rgb(27 42 74 / 0.08);
+      font-size: 0.9em;
+    }
   }
 
   &__tech {

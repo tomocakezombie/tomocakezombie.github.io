@@ -165,8 +165,32 @@
   font-size: 1.2rem;
 }
 .project-detail__text {
+  display: grid;
+  gap: 8px;
   line-height: 1.8;
   overflow-wrap: break-word;
+}
+.project-detail__text ul,
+.project-detail__text ol {
+  display: grid;
+  gap: 2px;
+  padding-left: 20px;
+  list-style: square;
+}
+.project-detail__text ol {
+  list-style: decimal;
+}
+.project-detail__text li > ul {
+  margin-top: 2px;
+  list-style: circle;
+}
+.project-detail__text li::marker {
+  color: #1d6f99;
+}
+.project-detail__text code {
+  padding: 0 2px;
+  background: rgba(27, 42, 74, 0.08);
+  font-size: 0.9em;
 }
 .project-detail__tech {
   display: flex;
