@@ -98,6 +98,7 @@ const contacts = [
                 </button>
               </li>
             </ul>
+            <p class="command__tap-hint">もういちど タップで けってい</p>
           </nav>
           <div class="command__message pixel-window">
             <p class="command__text">tomocakezombie は なにを する？</p>
@@ -344,6 +345,36 @@ const contacts = [
     const itemFrom = (target: EventTarget | null) => (target instanceof Element ? target.closest<HTMLElement>('.command__item') : null);
     menu.addEventListener('focusin', (event) => select(itemFrom(event.target)));
     menu.addEventListener('mouseover', (event) => select(itemFrom(event.target)));
+
+    // タッチ操作（スマホ）では、1 回目のタップで選択して説明を出し、同じ場所をもう 1 回タップするとコマンドを実行する
+    // タップすると mouseover / focus で先に選択されてしまうため、指が触れた瞬間（pointerdown）に「もう選択済みだったか」を覚えておく
+    // マウス・キーボード（Enter）は pointerdown が touch / pen にならないので、これまでどおり 1 回で実行する
+    let tappedItem: HTMLElement | null = null;
+    let tappedWasSelected = false;
+    menu.addEventListener(
+      'pointerdown',
+      (event) => {
+        tappedItem = event.pointerType === 'mouse' ? null : itemFrom(event.target);
+        tappedWasSelected = tappedItem !== null && tappedItem === selected;
+      },
+      true,
+    );
+    // かくしコマンド（ボタン）の click より先に判定するため、キャプチャ段階で受ける
+    menu.addEventListener(
+      'click',
+      (event) => {
+        const item = itemFrom(event.target);
+        const wasSelected = tappedWasSelected;
+        const tapped = tappedItem;
+        tappedItem = null;
+        if (!item || item !== tapped || wasSelected) return;
+        // 選ぶだけのタップなので、遷移・かくしコマンドの実行・スコアの加点はしない
+        event.preventDefault();
+        event.stopPropagation();
+        select(item);
+      },
+      true,
+    );
 
     // ↑↓ でコマンドを移動する（端まで行くと反対側に戻る）
     menu.addEventListener('keydown', (event) => {

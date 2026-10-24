@@ -188,6 +188,19 @@ $c-message-dark: #0b1020; // 表示パネルの背景（黒に近い紺）
     gap: d(2);
   }
 
+  // タッチ操作のときだけ、操作のしかたを出す
+  &__tap-hint {
+    display: none;
+    margin-top: d(4);
+    font-size: 1.2rem;
+    text-align: center;
+    color: $c-sky-deep;
+
+    @media (hover: none) {
+      display: block;
+    }
+  }
+
   // .pixel-window a より強くするために &__menu の下に書く
   &__menu &__item {
     display: block;

@@ -152,6 +152,18 @@
   display: grid;
   gap: 4px;
 }
+.command__tap-hint {
+  display: none;
+  margin-top: 8px;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #1d6f99;
+}
+@media (hover: none) {
+  .command__tap-hint {
+    display: block;
+  }
+}
 .command__menu .command__item {
   display: block;
   position: relative;
