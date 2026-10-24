@@ -34,19 +34,26 @@
     gap: d(6);
   }
 
+  // 1枚ずつ横に並べ，scroll-snap で止める（自動送りは projects.js）
   &__shots {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: d(6);
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
 
-    @include sp {
-      grid-template-columns: repeat(2, 1fr);
+    &::-webkit-scrollbar {
+      display: none;
     }
+  }
+
+  &__slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
   }
 
   &__shot {
     display: grid;
-    gap: d(2);
+    gap: d(4);
   }
 
   &__shot-button {
@@ -59,6 +66,7 @@
     &:hover,
     &:focus-visible {
       outline: d(2) solid $c-yellow;
+      outline-offset: d(-2);
     }
   }
 
@@ -67,14 +75,43 @@
     width: 100%;
     height: auto;
     aspect-ratio: 2 / 1;
-    object-fit: cover;
-    object-position: top;
+    object-fit: contain;
   }
 
   &__caption {
-    font-size: 1.3rem;
     line-height: 1.5;
     text-align: center;
+  }
+
+  &__carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: d(6);
+  }
+
+  &__carousel-dots {
+    display: flex;
+    gap: d(4);
+  }
+
+  &__carousel-dot {
+    display: block;
+    width: d(5);
+    height: d(5);
+    padding: 0;
+    border: d(1) solid $c-ink;
+    background: $c-white;
+    cursor: pointer;
+
+    &[aria-current='true'] {
+      background: $c-ink;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background: $c-yellow;
+    }
   }
 
   &__body {

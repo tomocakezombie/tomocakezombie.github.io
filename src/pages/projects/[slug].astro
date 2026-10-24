@@ -56,11 +56,11 @@ const images = project.images ?? [];
       )}
 
       {images.length > 0 && (
-        <section class="project-detail__gallery pixel-window" aria-label="スクリーンショット">
+        <section class="project-detail__gallery pixel-window" aria-label="スクリーンショット" aria-roledescription="カルーセル" data-carousel>
           <h3 class="project-detail__heading">スクリーンショット</h3>
-          <ul class="project-detail__shots">
-            {images.map((image) => (
-              <li>
+          <ul class="project-detail__shots" data-carousel-track>
+            {images.map((image, index) => (
+              <li class="project-detail__slide" aria-roledescription="スライド" aria-label={`${index + 1} / ${images.length}`}>
                 <figure class="project-detail__shot">
                   <button
                     type="button"
@@ -73,7 +73,6 @@ const images = project.images ?? [];
                       class="project-detail__shot-img"
                       src={`/assets/img/projects/${image.file}`}
                       alt={image.alt}
-                      loading="lazy"
                       decoding="async"
                     />
                   </button>
@@ -82,6 +81,25 @@ const images = project.images ?? [];
               </li>
             ))}
           </ul>
+          {images.length > 1 && (
+            <div class="project-detail__carousel-nav">
+              <button type="button" class="project-detail__carousel-arrow pixel-btn" data-carousel-prev aria-label="前の画像">◀</button>
+              <ul class="project-detail__carousel-dots">
+                {images.map((_, index) => (
+                  <li>
+                    <button
+                      type="button"
+                      class="project-detail__carousel-dot"
+                      data-carousel-dot={index}
+                      aria-label={`${index + 1} 枚目を表示`}
+                      aria-current={index === 0 ? 'true' : undefined}
+                    />
+                  </li>
+                ))}
+              </ul>
+              <button type="button" class="project-detail__carousel-arrow pixel-btn" data-carousel-next aria-label="次の画像">▶</button>
+            </div>
+          )}
         </section>
       )}
 
