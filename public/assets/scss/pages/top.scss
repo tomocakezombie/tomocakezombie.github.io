@@ -167,6 +167,8 @@
 // --------------------------------------------------------------------------
 // Command menu + message window
 // --------------------------------------------------------------------------
+$c-message-dark: #0b1020; // 表示パネルの背景（黒に近い紺）
+
 .command {
   display: grid;
   grid-template-columns: 15em minmax(0, 1fr);
@@ -228,11 +230,42 @@
     }
   }
 
+  // 操作するメニュー（明るい色）と区別できるよう、表示パネルは黒に近い色にする
   &__message {
     display: grid;
     gap: d(8);
     min-height: 14em;
     align-content: start;
+    color: $c-white;
+    background: $c-message-dark;
+
+    @include pixel-border($c-white, d(2));
+
+    // .pixel-window a と，全体の a:hover（黄色い背景）より強くするために &__message の下に書く
+    // カード全体は黄色くせず，サムネイルの枠とタイトルの文字部分だけを強調する
+    .command-preview {
+      color: $c-white;
+
+      &:hover,
+      &:focus-visible {
+        color: $c-white;
+        background: none;
+      }
+    }
+
+    .command-preview__title {
+      justify-self: start;
+    }
+
+    .command-preview:hover .command-preview__title,
+    .command-preview:focus-visible .command-preview__title {
+      color: $c-ink;
+      background: $c-yellow;
+    }
+
+    .command-preview__media {
+      @include pixel-border($c-white, d(1), false);
+    }
   }
 
   &__text {
@@ -245,7 +278,7 @@
       content: '▼';
       margin-left: d(2);
       font-size: 1.2rem;
-      color: $c-sky-deep;
+      color: $c-yellow;
       animation: hero-blink 0.8s steps(1) infinite;
     }
   }
