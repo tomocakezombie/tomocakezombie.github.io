@@ -199,6 +199,12 @@
 .command__menu .command__item.is-selected::before {
   visibility: visible;
 }
+@media (hover: none) {
+  .command__menu .command__item.is-selected {
+    outline: 4px dashed #ffd84a;
+    outline-offset: -4px;
+  }
+}
 .command__message {
   display: grid;
   gap: 16px;

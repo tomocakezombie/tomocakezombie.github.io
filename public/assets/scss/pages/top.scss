@@ -240,6 +240,13 @@ $c-message-dark: #0b1020; // 表示パネルの背景（黒に近い紺）
       &::before {
         visibility: visible;
       }
+
+      // タップではフォーカス枠（:focus-visible）が出ないので、タッチ端末では選択中のコマンドに同じ黄色の枠を付ける
+      // （マウスでは ▶ と文字色で十分なので付けない）
+      @media (hover: none) {
+        outline: d(2) dashed $c-yellow;
+        outline-offset: d(-2);
+      }
     }
   }
 
