@@ -35,8 +35,9 @@ import ScoreHud from '@/components/ScoreHud.astro';
     <link rel="icon" type="image/vnd.microsoft.icon" href={rootPath('favicon.ico', true)} />
     {!args.prevent.css.reset && <link rel="stylesheet" href={assets('css/global/reset.css', true)} />}
     {!args.prevent.css.style && <link rel="stylesheet" href={assets('css/global/style.css', true)} />}
-    <script src={assets('js/global/base.js', true)}></script>
-    <script src={assets('js/global/score.js', true)}></script>
+    {/* src を式で書く script は is:inline がないと Astro 7 で出力されなくなる */}
+    <script is:inline src={assets('js/global/base.js', true)}></script>
+    <script is:inline src={assets('js/global/score.js', true)}></script>
     <script is:inline>
       // 初期値は <html data-font="normal">（ふつうのフォント）。ドットフォントを選んで保存した人だけ切り替える
       try {
@@ -56,7 +57,7 @@ import ScoreHud from '@/components/ScoreHud.astro';
       }
     </script>
     {args.assetList.css.map((css) => <link rel="stylesheet" href={assets('css/' + Util.ltrim(css), true)} />)}
-    {args.assetList.js.map((js) => <script src={assets('js/' + Util.ltrim(js), true)} />)}
+    {args.assetList.js.map((js) => <script is:inline src={assets('js/' + Util.ltrim(js), true)} />)}
   </head>
   <body>
     <div id="page-container">
