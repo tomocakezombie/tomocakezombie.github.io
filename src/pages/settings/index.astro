@@ -2,6 +2,7 @@
 import { app, pages } from '@/config/view.mjs';
 import { Layout } from '@/layouts';
 import Breadcrumb from '@/components/Breadcrumb.astro';
+import HamsterOffer from '@/components/HamsterOffer.astro';
 app.init(Astro);
 app.setPageConfig({
   title: '設定',
@@ -43,6 +44,8 @@ app.setPageConfig({
       </div>
     </section>
   </div>
+
+  <HamsterOffer slot="after-footer" />
 
   <script>
     const options = document.querySelectorAll<HTMLButtonElement>('.settings-option');

@@ -43,3 +43,208 @@
     transform: translate(d(1), d(1));
   }
 }
+
+// --------------------------------------------------------------------------
+// Hamster offer（HamsterOffer.astro）: 無料ゲームの画面下に出る広告のパロディ
+// サイトの配色になじまないよう，わざと派手な色（しま模様・点滅する枠・緑のボタン）にしている
+// --------------------------------------------------------------------------
+$offer-red: #ff2d55;
+$offer-yellow: #ffe600;
+$offer-green: #1fc75a;
+$offer-green-dark: #0e8a3a;
+
+.hamster-offer {
+  margin-top: d(12);
+
+  &__frame {
+    position: relative;
+    display: flex;
+    max-width: 728px; // よくある横長広告の幅
+    margin: d(2) auto;
+    border: d(2) solid $offer-red;
+    animation: hamster-offer-flash 0.8s steps(1) infinite;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__pr {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 0 d(2);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: $c-white;
+    background: $c-ink;
+  }
+
+  // 「FREE!」の星形バッジ
+  &__badge {
+    position: absolute;
+    top: d(-12);
+    right: d(10);
+    z-index: 1;
+    display: grid;
+    place-content: center;
+    width: 96px;
+    height: 96px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+    color: $offer-yellow;
+    background: $offer-red;
+    clip-path: polygon(50% 0%, 61% 18%, 82% 10%, 80% 32%, 100% 40%, 85% 56%, 96% 76%, 74% 78%, 68% 100%, 50% 87%, 32% 100%, 26% 78%, 4% 76%, 15% 56%, 0% 40%, 20% 32%, 18% 10%, 39% 18%);
+    transform: rotate(12deg);
+    pointer-events: none;
+  }
+
+  &__body {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: d(8);
+    padding: d(6) d(10);
+    font: inherit;
+    color: $c-ink;
+    text-align: left;
+    background: repeating-linear-gradient(-45deg, $offer-yellow 0 14px, #ffb800 14px 28px);
+    border: 0;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: repeating-linear-gradient(-45deg, #fff27a 0 14px, $offer-yellow 14px 28px);
+    }
+  }
+
+  &__img {
+    flex-shrink: 0;
+    width: 72px; // 24px x 3（ドットをくっきり保つ）
+    height: auto;
+    image-rendering: pixelated;
+    filter: drop-shadow(d(1) d(1) 0 $c-ink);
+
+    &.is-jump {
+      animation: hamster-offer-jump 0.6s steps(6);
+    }
+  }
+
+  &__text {
+    display: grid;
+    justify-items: start;
+    gap: d(4);
+    padding-right: 80px; // バッジと重ならないように
+  }
+
+  &__title {
+    padding: d(2) d(4);
+    font-size: 1.7rem;
+    font-weight: bold;
+    line-height: 1.5;
+    color: $offer-red;
+    background: $c-white;
+    box-shadow: d(2) d(2) 0 $c-ink;
+  }
+
+  // よくある緑の「いますぐ」ボタン
+  &__cta {
+    padding: d(2) d(8);
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: $c-white;
+    background: $offer-green;
+    box-shadow: 0 d(2) 0 $offer-green-dark;
+    animation: pixel-blink 1s steps(1) infinite;
+  }
+
+  &.is-done &__cta {
+    animation: none;
+  }
+
+  // わざと小さめの ×（広告あるある）
+  &__close {
+    position: absolute;
+    right: d(1);
+    bottom: d(1);
+    z-index: 2;
+    width: d(9);
+    height: d(9);
+    padding: 0;
+    font: inherit;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: $c-ink;
+    background: $c-white;
+    border: d(1) solid $c-ink;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: $c-yellow;
+    }
+  }
+
+  &__closed {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  @include sp {
+    margin-top: d(24);
+
+    // 狭い画面ではバッジを枠の上にはみ出させて，文字に重ならないようにする
+    &__badge {
+      top: -62px;
+      right: d(2);
+      width: 76px;
+      height: 76px;
+      font-size: 1.4rem;
+    }
+
+    &__text {
+      padding-right: 0;
+    }
+
+    &__body {
+      gap: d(4);
+      padding: d(6);
+    }
+
+    &__img {
+      width: 48px; // 24px x 2
+    }
+
+    &__title {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+@keyframes hamster-offer-flash {
+  50% {
+    border-color: $offer-green;
+  }
+}
+
+@keyframes hamster-offer-jump {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-16px) rotate(-10deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hamster-offer__frame,
+  .hamster-offer__cta,
+  .hamster-offer__img.is-jump {
+    animation: none;
+  }
+}

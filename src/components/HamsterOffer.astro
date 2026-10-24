@@ -1,0 +1,69 @@
+---
+// 無料ゲームの画面下に出る広告のパロディ（遊び要素。外部へのリンクはしない）
+//   広告を押す → きろく「こうこくに ひっかかった」+ 500 点、ハムスターが なかまに なる（解除後はずっとその表示）
+//   × を押す   → きろく「きょひの いし」、広告を閉じる（広告らしく、ページを開き直すと また出てくる）
+// 広告ブロッカーに消されないよう、クラス名に ad / banner / sponsor などの語は使わない
+import { img } from '@/config/view.mjs';
+---
+
+<aside class="hamster-offer content-main" aria-label="ジョーク広告（おすと きろくが かいじょされます）">
+  <div class="hamster-offer__frame">
+    <span class="hamster-offer__pr" aria-hidden="true">PR</span>
+    <span class="hamster-offer__badge" aria-hidden="true">FREE!</span>
+    <button type="button" class="hamster-offer__body" data-score="0">
+      <img class="hamster-offer__img" src={img('hamster-color.png')} alt="" width="24" height="34" />
+      <span class="hamster-offer__text">
+        <span class="hamster-offer__title">ハムスターが なかまに なりたそうに こちらを みている！</span>
+        <span class="hamster-offer__cta">▶ いますぐ タップ！</span>
+      </span>
+    </button>
+    <button type="button" class="hamster-offer__close" data-score="0" aria-label="こうこくを とじる">×</button>
+  </div>
+  <p class="hamster-offer__closed" hidden>こうこくを とじた。しかし こうこくは また あらわれるだろう…</p>
+</aside>
+
+<script>
+  const OFFER_POINTS = 500; // 初めて押したときだけ加点する（何度も押して稼げないよう data-score は 0 にしてある）
+  const TEXT = {
+    title: 'ハムスターが なかまに なった！',
+    cta: '▶ ありがとう ございました',
+  };
+
+  const offer = document.querySelector<HTMLElement>('.hamster-offer');
+  if (offer) {
+    const score = (window as any).siteScore;
+    const frame = offer.querySelector<HTMLElement>('.hamster-offer__frame')!;
+    const body = offer.querySelector<HTMLButtonElement>('.hamster-offer__body')!;
+    const hamster = offer.querySelector<HTMLElement>('.hamster-offer__img')!;
+    const title = offer.querySelector<HTMLElement>('.hamster-offer__title')!;
+    const cta = offer.querySelector<HTMLElement>('.hamster-offer__cta')!;
+    const closed = offer.querySelector<HTMLElement>('.hamster-offer__closed')!;
+    const initial = { title: title.textContent, cta: cta.textContent };
+
+    // 解除済みなら「なかまに なった」表示にする（設定ページでリセットしたときは元に戻す）
+    const sync = () => {
+      const done = Boolean(score?.isUnlocked('ad'));
+      offer.classList.toggle('is-done', done);
+      title.textContent = done ? TEXT.title : initial.title;
+      cta.textContent = done ? TEXT.cta : initial.cta;
+    };
+
+    body.addEventListener('click', () => {
+      if (score?.unlock('ad')) score.add(OFFER_POINTS);
+      sync();
+      // ハムスターが とびはねる演出をやり直す
+      hamster.classList.remove('is-jump');
+      void hamster.offsetWidth;
+      hamster.classList.add('is-jump');
+    });
+
+    offer.querySelector('.hamster-offer__close')!.addEventListener('click', () => {
+      score?.unlock('adClose');
+      frame.hidden = true;
+      closed.hidden = false;
+    });
+
+    document.addEventListener('scorechange', sync);
+    sync();
+  }
+</script>

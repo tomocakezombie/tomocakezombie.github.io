@@ -72,6 +72,8 @@ import ScoreHud from '@/components/ScoreHud.astro';
         <ScoreHud />
         <slot />
         {args.page.key !== 'top' && <PageFooter />}
+        {/* ページごとに「ページの上にもどる」の下へ置きたいもの（設定ページのハムスター広告など） */}
+        <slot name="after-footer" />
       </main>
       {
         !args.prevent.footer && (
