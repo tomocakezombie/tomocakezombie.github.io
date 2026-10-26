@@ -151,6 +151,40 @@ Django を使った，ソフトウェア開発の練習として作りました�
     github: '',
     demo: '',
   },
+  {
+    slug: 'assist-ctf-3rd',
+    title: 'Assist CTF 3rd',
+    description:
+`サークル Assist 向けの CTF 競技サーバーの構築と，問題作成を担当しました．
+
+サーバーは CTFd を使ったため，構築自体は時間がかかりませんでしたが，問題作成には2か月ほどかかりました．問題の作成は初めてでした．
+
+テーマは「楽しく端末保守に使う skill を身につける」です．サーバーは外部に公開していないため，問題の概要だけ紹介します．
+
+- 写真の撮影場所特定
+- BASE64
+- flag 文字列の検索
+- Web サイトの隠し文字探し
+- 拡張子の特定
+- プロセス名の取得
+- diff
+- zip の入れ子
+- バイナリ解析
+- ハッシュ値からのレインボーテーブル割り出し
+- リダイレクトの判定
+`,
+    videoFile: 'assist_ctf_demo.mp4',
+    images: [
+      { file: 'assist-ctf/assist_ctf_1.webp', alt: '問題「拡張子マトリックス」の画面', caption: '拡張子マトリックス（File・50点）' },
+      { file: 'assist-ctf/assist_ctf_2.webp', alt: '問題「ZIPマトリョーシカ2」の画面', caption: 'ZIPマトリョーシカ2（File・150点）' },
+      { file: 'assist-ctf/assist_ctf_3.webp', alt: '問題「二十一×二十一」の画面', caption: '二十一×二十一（Steganography・100点）' },
+      { file: 'assist-ctf/assist_ctf_4.webp', alt: '問題「password cracking2」の画面', caption: 'password cracking2（binary・150点）' },
+      { file: 'assist-ctf/assist_ctf_5.webp', alt: '問題「redirect」の画面', caption: 'redirect（Web・150点）' },
+    ],
+    tech: ['CTFd'],
+    github: '',
+    demo: '',
+  },
   //   {
   //   slug: 'socket-shooting',
   //   title: 'ソケット通信シューティングゲーム',
