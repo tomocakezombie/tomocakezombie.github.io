@@ -3,6 +3,7 @@ import { app, args, pages, assets, img } from '@/config/view.mjs';
 import { Layout } from '@/layouts';
 import { certifications, programs, ctfs } from './achievements/_achievements.mjs';
 import { projects } from './projects/_projects.mjs';
+import githubStats from '@/data/github-stats.json';
 app.init(Astro);
 app.setPageConfig();
 
@@ -40,6 +41,47 @@ const secretCommand = {
   leaveMessage: 'ハムスターたちは さっそうと さっていった…',
 };
 const featuredProjects = projects.filter((project) => project.featured);
+
+// GitHub の実績（build/fetch-github-stats.mjs がビルド時に取得した JSON）
+// 一度も取得できていない（fetchedAt が null）ときは出さない
+const formatNumber = (value: number) => value.toLocaleString('ja-JP');
+const fetchedDate = githubStats.fetchedAt ? new Date(githubStats.fetchedAt).toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' }) : '';
+
+// 草：週ごとに縦 7 マス（日〜土）。先頭の週が日曜始まりでないときは空きマスで詰める
+type GrassDay = { date: string; count: number; level: number };
+const grassWeeks: GrassDay[][] = githubStats.weeks ?? [];
+const grassOffset = grassWeeks[0]?.[0] ? new Date(`${grassWeeks[0][0].date}T00:00:00Z`).getUTCDay() : 0;
+const grassDays = grassWeeks.flat();
+
+// 草のデータから計算するゲージ
+// れんぞく：いちばん新しい日から さかのぼって つづいている日数（今日がまだ 0 件なら きのうまで）。さいちょう は 1 年の中の最長
+const activeDays = grassDays.filter((day) => day.count > 0).length;
+const streaks = (() => {
+  let longest = 0;
+  let run = 0;
+  for (const day of grassDays) {
+    run = day.count > 0 ? run + 1 : 0;
+    longest = Math.max(longest, run);
+  }
+  let current = 0;
+  for (let i = grassDays.length - 1; i >= 0; i -= 1) {
+    if (grassDays[i].count > 0) current += 1;
+    else if (i !== grassDays.length - 1) break;
+  }
+  return { current, longest };
+})();
+const github = githubStats.fetchedAt
+  ? {
+      total: formatNumber(githubStats.totalContributions),
+      gauges:
+        grassDays.length > 0
+          ? [
+              { label: 'かつどうび', now: activeDays, max: grassDays.length },
+              { label: 'れんぞく', now: streaks.current, max: Math.max(streaks.longest, 1), maxLabel: 'さいちょう' },
+            ]
+          : [],
+    }
+  : null;
 
 // レベルは しょうごう の数（実績が増えると上がる）
 const level = titles.length;
@@ -153,6 +195,41 @@ const contacts = [
               </div>
             ))}
           </dl>
+          {github && (
+            <>
+              <h3>GitHub</h3>
+              <dl class="status__github">
+                <div class="status__exp">
+                  <dt>コントリビューション<span class="status__github-note">（かこ 1ねん）</span></dt>
+                  <dd>{github.total}</dd>
+                </div>
+                {github.gauges.map((gauge) => (
+                  <div class="status__gauge-row">
+                    <dt>{gauge.label}</dt>
+                    <dd>
+                      <span class="status__gauge" aria-hidden="true">
+                        <span class="status__gauge-fill" style={`width: ${Math.min(100, (gauge.now / gauge.max) * 100)}%`}></span>
+                      </span>
+                      <span class="status__gauge-text">
+                        {gauge.now} / {gauge.max}{gauge.maxLabel && <span class="status__github-note">（{gauge.maxLabel}）</span>}
+                      </span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {grassDays.length > 0 && (
+                <div class="status__grass" role="img" aria-label={`かこ 1ねんの コントリビューション ${github.total} けん`}>
+                  <div class="status__grass-grid">
+                    {Array.from({ length: grassOffset }, () => <span class="status__grass-day is-blank" aria-hidden="true"></span>)}
+                    {grassDays.map((day) => (
+                      <span class={`status__grass-day is-level-${day.level}`} title={`${day.date}: ${day.count}`} aria-hidden="true"></span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <p class="status__github-date">{fetchedDate} じてん</p>
+            </>
+          )}
           <h3>しょうごう</h3>
           <ul class="status__titles">
             {titles.map((item) => (

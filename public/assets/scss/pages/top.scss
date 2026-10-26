@@ -167,6 +167,125 @@
     }
   }
 
+  // GitHub の実績：コントリビューション数を大きく、その下に ゲージを並べる
+  &__github {
+    display: grid;
+    gap: d(2);
+
+    > div {
+      display: grid;
+      grid-template-columns: 11em minmax(0, 1fr);
+      align-items: center;
+      gap: d(4) d(8);
+      padding-block: d(2);
+      background-position: left bottom;
+
+      @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+    }
+
+    dt {
+      font-weight: bold;
+      color: $c-sky-deep;
+      overflow-wrap: anywhere;
+    }
+
+    @include sp {
+      > div {
+        grid-template-columns: minmax(0, 1fr);
+        gap: d(2);
+      }
+    }
+  }
+
+  &__exp dd {
+    font-size: 2.4rem;
+    font-weight: bold;
+    line-height: 1.3;
+  }
+
+  // HP ゲージ風の横棒（左から 緑で 満ちていく）
+  &__gauge-row dd {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 9em;
+    align-items: center;
+    gap: d(6);
+  }
+
+  &__gauge {
+    display: block;
+    height: d(10);
+    background: $c-ink;
+
+    @include pixel-border($c-ink, d(2), false);
+  }
+
+  &__gauge-fill {
+    display: block;
+    height: 100%;
+    background: #40c463;
+  }
+
+  &__gauge-text {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  &__github-note {
+    font-size: 1.2rem;
+    font-weight: normal;
+  }
+
+  &__github-date {
+    font-size: 1.2rem;
+    text-align: right;
+    color: #4a5a75;
+  }
+
+  // 草：53 週 × 7 日の小さな正方形。入りきらない幅では草の中だけ横スクロールする
+  &__grass {
+    min-width: 0;
+    overflow-x: auto;
+    padding-block: d(2);
+  }
+
+  &__grass-grid {
+    --cell: 10px;
+
+    display: grid;
+    grid-template-rows: repeat(7, var(--cell));
+    grid-auto-columns: var(--cell);
+    grid-auto-flow: column;
+    gap: d(1);
+    width: max-content;
+  }
+
+  // 0（なし）〜4（いちばん多い）の 5 段階。GitHub と同じ緑
+  &__grass-day {
+    background: rgb(27 42 74 / 0.1);
+
+    &.is-blank {
+      background: none;
+    }
+
+    &.is-level-1 {
+      background: #9be9a8;
+    }
+
+    &.is-level-2 {
+      background: #40c463;
+    }
+
+    &.is-level-3 {
+      background: #30a14e;
+    }
+
+    &.is-level-4 {
+      background: #216e39;
+    }
+  }
+
   &__titles {
     display: grid;
     gap: d(6);
