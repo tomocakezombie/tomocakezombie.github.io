@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { globSync } from 'glob';
 import beautify from 'js-beautify';
 import { app, args, pages } from '/src/config/view';
@@ -34,10 +35,12 @@ export default function () {
     name: 'myExt:integration',
     hooks: {
       'astro:build:generated': (options) => {
-        const projectDir = path.dirname(options.dir.pathname);
+        // pathname は日本語などを %エンコードするので、ファイルパスには fileURLToPath を使う
+        const outDir = fileURLToPath(options.dir);
+        const projectDir = path.dirname(outDir);
         exportAstroConfigJson(projectDir);
 
-        globSync(`${options.dir.pathname}**/*.html`).forEach((filePath) => {
+        globSync(`${outDir}/**/*.html`).forEach((filePath) => {
           htmlFormatter(filePath);
         });
       },
