@@ -410,7 +410,14 @@ const contacts = [
     const START_DELAY = 600; // 点滅させてから移動するまで（ms）
     let starting = false;
 
-    const pressStart = () => {
+    // タッチ操作（スマホ）の PRESS START は、「自己紹介」を 1 回タップしたときと同じく「選択するだけ」にする
+    // focus() まで呼ぶと、選択中の枠（.is-selected）にフォーカス枠が重なって二重に見える
+    let startByTouch = false;
+    startLink.addEventListener('pointerdown', (event) => {
+      startByTouch = event.pointerType !== 'mouse';
+    });
+
+    const pressStart = (byTouch = false) => {
       if (starting) return;
       starting = true;
       startLink.classList.add('is-starting');
@@ -421,7 +428,7 @@ const contacts = [
           startLink.classList.remove('is-starting');
           game.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
           const first = commandItems()[0];
-          first?.focus({ preventScroll: true });
+          if (!byTouch) first?.focus({ preventScroll: true });
           select(first);
         },
         reduceMotion ? 0 : START_DELAY,
@@ -430,7 +437,9 @@ const contacts = [
 
     startLink.addEventListener('click', (event) => {
       event.preventDefault();
-      pressStart();
+      const byTouch = startByTouch;
+      startByTouch = false;
+      pressStart(byTouch);
     });
 
     // どこにもフォーカスがなく、タイトル画面が見えているときは Enter でも始められる
