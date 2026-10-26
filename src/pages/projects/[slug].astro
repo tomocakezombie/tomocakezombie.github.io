@@ -90,13 +90,14 @@ const images = project.images ?? [];
           </ul>
           {images.length > 1 && (
             <div class="project-detail__carousel-nav">
-              <button type="button" class="project-detail__carousel-arrow pixel-btn" data-carousel-prev aria-label="前の画像">◀</button>
+              <button type="button" class="project-detail__carousel-arrow pixel-btn" data-score="5" data-carousel-prev aria-label="前の画像">◀</button>
               <ul class="project-detail__carousel-dots">
                 {images.map((_, index) => (
                   <li>
                     <button
                       type="button"
                       class="project-detail__carousel-dot"
+                      data-score="0"
                       data-carousel-dot={index}
                       aria-label={`${index + 1} 枚目を表示`}
                       aria-current={index === 0 ? 'true' : undefined}
@@ -104,7 +105,7 @@ const images = project.images ?? [];
                   </li>
                 ))}
               </ul>
-              <button type="button" class="project-detail__carousel-arrow pixel-btn" data-carousel-next aria-label="次の画像">▶</button>
+              <button type="button" class="project-detail__carousel-arrow pixel-btn" data-score="5" data-carousel-next aria-label="次の画像">▶</button>
             </div>
           )}
         </section>
@@ -159,7 +160,7 @@ const images = project.images ?? [];
         <img class="project-lightbox__img" src="" alt="" />
         <figcaption class="project-lightbox__caption"></figcaption>
       </figure>
-      <button type="button" class="project-lightbox__close pixel-btn" aria-label="閉じる">×</button>
+      <button type="button" class="project-lightbox__close pixel-btn" data-score="0" aria-label="閉じる">×</button>
     </dialog>
   )}
 </Layout>
