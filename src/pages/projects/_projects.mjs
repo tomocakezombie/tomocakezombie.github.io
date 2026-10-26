@@ -136,6 +136,21 @@ Django を使った，ソフトウェア開発の練習として作りました�
     demo: '',
     featured: true,
   },
+  {
+    slug: 'minesweeper',
+    title: 'マインスウィーパー',
+    description:
+`DxLibを使って作ったマインスウィーパーです．
+
+ソースコードは紛失してしまいました．
+
+クリアすると，ハムスターが喜びます．
+`,
+    videoFile: 'minesweeper_demo.mp4',
+    tech: ['C++', 'DxLib'],
+    github: '',
+    demo: '',
+  },
   //   {
   //   slug: 'socket-shooting',
   //   title: 'ソケット通信シューティングゲーム',
