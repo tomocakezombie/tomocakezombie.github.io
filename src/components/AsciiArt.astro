@@ -1,0 +1,9 @@
+---
+import { asciiArt } from '@/config/ascii.mjs';
+
+const { name = 'banner' } = Astro.props;
+// HTML コメントを閉じてしまう `-->` / `--!>` だけ崩す（`--` 単体は問題ない）
+const art = (asciiArt[name] ?? '').replace(/--(!?)>/g, '- -$1>');
+---
+
+{art && <Fragment set:html={`<!--\n${art}\n-->`} />}

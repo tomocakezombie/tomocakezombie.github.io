@@ -5,12 +5,14 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import PageFooter from '@/components/PageFooter.astro';
 import ScoreHud from '@/components/ScoreHud.astro';
+import AsciiArt from '@/components/AsciiArt.astro';
 ---
 
 <!doctype html>
 <html lang={args.lang} data-font="normal" data-key={args.page.key} data-route={args.page.route} data-app-route={args.page.appRoute}>
   <head>
     <meta charset="UTF-8" />
+    <AsciiArt name="banner" />
     <title>{args.title}</title>
     <meta name="description" content={args.description} />
     <link rel="canonical" href={args.url} />
