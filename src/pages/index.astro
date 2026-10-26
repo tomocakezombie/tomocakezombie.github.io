@@ -7,9 +7,8 @@ app.init(Astro);
 app.setPageConfig();
 
 // ステータス画面の項目
+const job = 'がくせい（B4）';
 const status = [
-  { label: 'なまえ', value: args.siteName },
-  { label: 'しょくぎょう', value: 'がくせい（B4）' },
   { label: 'しょぞく', value: '山梨大学 工学部 コンピュータ理工学科' },
   { label: 'とくい', value: 'セキュリティ・計算機運用' },
 ];
@@ -41,6 +40,9 @@ const secretCommand = {
   leaveMessage: 'ハムスターたちは さっそうと さっていった…',
 };
 const featuredProjects = projects.filter((project) => project.featured);
+
+// レベルは しょうごう の数（実績が増えると上がる）
+const level = titles.length;
 
 const contacts = [
   { label: 'メール', text: 't23cs014@yamanashi.ac.jp', href: 'mailto:t23cs014@yamanashi.ac.jp', external: false },
@@ -133,6 +135,16 @@ const contacts = [
       <section class="section">
         <h2>ステータス</h2>
         <div class="status pixel-window">
+          <div class="status__head">
+            <div class="status__portrait">
+              <img src={img('about/profile.png')} alt="" width="96" height="96" />
+            </div>
+            <div class="status__summary">
+              <p class="status__name">{args.siteName}</p>
+              <p class="status__job">{job}</p>
+              <p class="status__level"><span class="status__level-label">LV</span> {level}</p>
+            </div>
+          </div>
           <dl class="status__params">
             {status.map((item) => (
               <div>

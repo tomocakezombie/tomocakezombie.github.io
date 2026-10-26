@@ -90,6 +90,58 @@
   display: grid;
   gap: d(10);
 
+  // 左に顔グラフィック、右に名前・しょくぎょう・レベル（RPG のステータス画面風）
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: d(12);
+  }
+
+  &__portrait {
+    flex-shrink: 0;
+    margin: d(2);
+    line-height: 0;
+    background: $c-white;
+
+    @include pixel-border($c-ink, d(2), false);
+
+    img {
+      width: 96px;
+      height: 96px;
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
+  }
+
+  &__summary {
+    display: grid;
+    gap: d(2);
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: 2.4rem;
+    font-weight: bold;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  &__job {
+    color: $c-sky-deep;
+  }
+
+  &__level {
+    font-size: 2rem;
+    font-weight: bold;
+    color: $c-sky-deep;
+  }
+
+  &__level-label {
+    margin-right: d(2);
+    font-size: 1.4rem;
+    color: $c-yellow-dark;
+  }
+
   &__params {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
