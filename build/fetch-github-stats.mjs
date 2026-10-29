@@ -5,6 +5,7 @@
 // - トークンが無い・API が失敗したときは、既存の JSON をそのまま残して警告だけ出す（ビルドは止めない）
 // - JSON は git に載せる。取得できなかったときのフォールバックになる
 // - 公開リポジトリ数・スター数は fork を除いた自分のリポジトリだけを数える
+// - 全期間のコントリビューション数は、API が 1 回に 1 年分しか返さないため、活動した年ごとに取って合計する
 
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -22,6 +23,7 @@ const query = `
   query ($login: String!, $cursor: String) {
     user(login: $login) {
       contributionsCollection {
+        contributionYears
         contributionCalendar {
           totalContributions
           weeks {
@@ -47,7 +49,7 @@ const query = `
   }
 `;
 
-const request = async (cursor) => {
+const graphql = async (body) => {
   const response = await fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
@@ -55,7 +57,7 @@ const request = async (cursor) => {
       'Content-Type': 'application/json',
       'User-Agent': `${login}-portfolio-build`,
     },
-    body: JSON.stringify({ query, variables: { login, cursor } }),
+    body: JSON.stringify(body),
     signal: AbortSignal.timeout(30000),
   });
   if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`);
@@ -63,6 +65,18 @@ const request = async (cursor) => {
   if (json.errors?.length) throw new Error(json.errors.map((error) => error.message).join(' / '));
   if (!json.data?.user) throw new Error(`ユーザー ${login} が見つかりません`);
   return json.data.user;
+};
+
+const request = (cursor) => graphql({ query, variables: { login, cursor } });
+
+// 年ごとの合計を 1 回のクエリでまとめて取る（y2024: contributionsCollection(from, to) のように別名をつける）
+const fetchAllTimeContributions = async (years) => {
+  const fields = years.map(
+    (year) =>
+      `y${year}: contributionsCollection(from: "${year}-01-01T00:00:00Z", to: "${year}-12-31T23:59:59Z") { contributionCalendar { totalContributions } }`,
+  );
+  const user = await graphql({ query: `query ($login: String!) { user(login: $login) { ${fields.join(' ')} } }`, variables: { login } });
+  return years.reduce((sum, year) => sum + user[`y${year}`].contributionCalendar.totalContributions, 0);
 };
 
 const fetchStats = async () => {
@@ -79,10 +93,13 @@ const fetchStats = async () => {
     ({ hasNextPage, endCursor } = page.pageInfo);
   }
 
+  const allTimeContributions = await fetchAllTimeContributions(first.contributionsCollection.contributionYears);
+
   return {
     login,
     fetchedAt: new Date().toISOString(),
     totalContributions: calendar.totalContributions,
+    allTimeContributions,
     publicRepos: repos.totalCount,
     stars,
     // weeks[週][曜日]。先頭の週は日曜始まりとは限らない（表示側で空きマスを詰める）
@@ -108,7 +125,7 @@ if (!token) {
     writeFileSync(outFile, `${json}\n`);
     console.log(
       `GitHub の実績を ${outFile.replace(`${root}/`, '')} に書き出しました` +
-        `（コントリビューション ${stats.totalContributions} / 公開リポジトリ ${stats.publicRepos} / スター ${stats.stars}）`,
+        `（コントリビューション ${stats.totalContributions}・全期間 ${stats.allTimeContributions} / 公開リポジトリ ${stats.publicRepos} / スター ${stats.stars}）`,
     );
   } catch (error) {
     console.warn(`警告 GitHub の実績を取得できませんでした（既存の src/data/github-stats.json を使います）: ${error.message}`);
