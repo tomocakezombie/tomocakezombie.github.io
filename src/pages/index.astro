@@ -41,6 +41,11 @@ const secretCommand = {
   leaveMessage: 'ハムスターたちは さっそうと さっていった…',
 };
 const featuredProjects = projects.filter((project) => project.featured);
+// セキュリティクエスト：quest を書いた作品を、セキュリティ面の概要として出す（動画は「さくひん」のプレビューと重なるので出さない）
+// label がなければ作品名をそのまま出す
+const quests = projects.flatMap((project) =>
+  project.quest ? [{ ...project.quest, label: project.quest.label ?? project.title, slug: project.slug }] : [],
+);
 
 // GitHub の実績（build/fetch-github-stats.mjs がビルド時に取得した JSON）
 // 一度も取得できていない（fetchedAt が null）ときは出さない
@@ -242,6 +247,35 @@ const contacts = [
           </ul>
           <p class="status__more"><a href={pages.achievements.route}>じっせきを すべて みる</a></p>
         </div>
+      </section>
+
+      <section class="section">
+        <h2>セキュリティクエスト</h2>
+        <ul class="quest pixel-window">
+          {quests.map((quest) => (
+            <li class="quest__item">
+              <span class="quest__icon">
+                <img src={`/assets/img/quest/${quest.icon}.svg`} alt="" width="48" height="48" />
+              </span>
+              <div class="quest__body">
+                <p class="quest__name">
+                  {quest.name}
+                  <span class="quest__clear">CLEAR</span>
+                </p>
+                <p class="quest__meta">{quest.label}</p>
+                <p class="quest__summary">{quest.summary}</p>
+                <ul class="quest__tags">
+                  {quest.tags.map((tag) => (
+                    <li>{tag}</li>
+                  ))}
+                </ul>
+                <p class="quest__more">
+                  <a href={`${pages.projects.route}${quest.slug}/`} aria-label={`${quest.label} を くわしく みる`}>くわしく みる</a>
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
     </div>
 

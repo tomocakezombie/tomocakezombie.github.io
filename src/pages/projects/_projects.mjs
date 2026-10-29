@@ -12,6 +12,13 @@
 //   github: 'https://github.com/...',     // なければ空文字
 //   demo: '',                             // 公開デモの URL（なければ空文字）
 //   featured: true,                       // 省略可。true にするとトップページの「注目の作品」に表示される
+//   quest: {                              // 省略可。書くとトップページの「セキュリティクエスト」に表示される（セキュリティ面の概要）
+//     icon: 'shield',                     // public/assets/img/quest/ 配下の SVG 名
+//     name: 'けいじばんを まもりぬけ',     // クエスト名
+//     label: 'SDGsメルカリアプリ',        // 省略可。title だけでは伝わらないときに、代わりに出す作品名
+//     summary: '1 行の概要',
+//     tags: ['学内認証'],                 // 3〜5 個まで
+//   },
 // }
 export const projects = [
   {
@@ -82,6 +89,12 @@ export const projects = [
     github: '',
     demo: '',
     featured: true,
+    quest: {
+      icon: 'shield',
+      name: 'けいじばんを まもりぬけ',
+      summary: '攻撃を受けるたびに防御を増やしました．約150台の IP からの分散攻撃にも対応しています．',
+      tags: ['学内認証', '投稿頻度制限', '入力検証', '画像対策'],
+    },
   },
   {
     slug: 'seat-display',
@@ -135,6 +148,13 @@ Django を使った，ソフトウェア開発の練習として作りました�
     github: 'https://github.com/tomocakezombie/SASUTENA_public',
     demo: '',
     featured: true,
+    quest: {
+      icon: 'key',
+      name: 'いりぐちを かためよ',
+      label: 'SDGsメルカリアプリ',
+      summary: 'コーディングリーダーとして，考えられる対策をすべて組み込みました．',
+      tags: ['メール認証', '管理者承認', '3ロール', '権限チェック', 'CSRF対策'],
+    },
   },
   {
     slug: 'minesweeper',
@@ -184,6 +204,13 @@ Django を使った，ソフトウェア開発の練習として作りました�
     tech: ['CTFd'],
     github: '',
     demo: '',
+    quest: {
+      icon: 'flag',
+      name: 'なぞときの ダンジョンを つくれ',
+      label: 'CTF競技の運営',
+      summary: '楽しく端末保守のスキルを身につける CTF を，サーバー構築から問題作成まで担当しました．',
+      tags: ['CTFd構築', '11問作問', 'Web / binary / File'],
+    },
   },
   //   {
   //   slug: 'socket-shooting',

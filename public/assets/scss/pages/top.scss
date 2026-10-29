@@ -336,6 +336,112 @@
 }
 
 // --------------------------------------------------------------------------
+// Quest log (security-side summary of projects)
+// --------------------------------------------------------------------------
+.quest {
+  display: grid;
+  gap: d(8);
+
+  // 左にアイコン、右にクエスト名・作品名・概要・タグ
+  &__item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: d(8);
+
+    &:not(:last-child) {
+      padding-bottom: d(8);
+      background-position: left bottom;
+
+      @include pixel-dots(rgb(27 42 74 / 0.3), d(1));
+    }
+  }
+
+  &__icon {
+    margin: d(2);
+    padding: d(2);
+    align-self: start;
+    line-height: 0;
+    background: $c-white;
+
+    @include pixel-border($c-ink, d(2), false);
+
+    img {
+      width: 48px;
+      height: 48px;
+      image-rendering: pixelated;
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: d(3);
+  }
+
+  &__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: d(2) d(6);
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1.4;
+  }
+
+  &__clear {
+    margin-left: auto;
+    font-size: 1.2rem;
+    color: $c-yellow-dark;
+
+    &::before {
+      content: '★';
+      margin-right: d(1);
+    }
+  }
+
+  &__meta {
+    font-weight: bold;
+    color: $c-sky-deep;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: d(4);
+    margin-top: d(1);
+
+    li {
+      margin: d(1);
+      padding: d(1) d(4);
+      font-size: 1.2rem;
+      background: $c-white;
+
+      @include pixel-border($c-sky-deep, d(1), false);
+    }
+  }
+
+  &__more {
+    text-align: right;
+
+    a::before {
+      content: '▶';
+      margin-right: d(2);
+      font-size: 1.2rem;
+    }
+  }
+
+  @include sp {
+    &__icon img {
+      width: 32px;
+      height: 32px;
+    }
+
+    &__name {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
 // Command menu + message window
 // --------------------------------------------------------------------------
 $c-message-dark: #0b1020; // 表示パネルの背景（黒に近い紺）
@@ -528,7 +634,9 @@ $c-message-dark: #0b1020; // 表示パネルの背景（黒に近い紺）
 // Contact
 // --------------------------------------------------------------------------
 // the top page has no page-footer nav, so keep some room above the footer
+// .game の直後なので .section + .section の余白がつかない。同じ幅をあける
 .contact {
+  margin-top: d(24);
   padding-bottom: d(24);
 }
 
