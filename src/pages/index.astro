@@ -4,14 +4,15 @@ import { Layout } from '@/layouts';
 import { certifications, programs, ctfs } from './achievements/_achievements.mjs';
 import { projects } from './projects/_projects.mjs';
 import githubStats from '@/data/github-stats.json';
+import healthStats from '@/data/health-stats.json';
 app.init(Astro);
 app.setPageConfig();
 
 // ステータス画面の項目
 const job = 'がくせい（B4）';
 const status = [
-  { label: 'しょぞく', value: '山梨大学 工学部 コンピュータ理工学科' },
-  { label: 'とくい', value: 'セキュリティ・計算機運用' },
+  { label: 'しょぞく', value: '山梨大学工学部コンピュータ理工学科 KKI-Assist G`2' },
+  { label: 'しゅみ', value: 'セキュリティ 計算機運用 ゲーム作成 Webページ作成' },
 ];
 
 // しょうごう：実績データのうち highlight: true のものだけを出す
@@ -86,6 +87,58 @@ const github = githubStats.fetchedAt
             ]
           : [],
     }
+  : null;
+
+// からだ：Apple Watch のワークアウト（build/import-health.mjs で集計した JSON）を能力値にする
+// 値は 0〜99。平均・推奨の値（base）でちょうど 50、その上の目標（top）で 99、zero 以下で 0 になる
+// 一度も取り込んでいない（updatedAt が null）ときは出さない
+// 基準の出典
+// - ちから・スタミナ：厚労省「健康づくりのための身体活動・運動ガイド2023」（筋トレ 週2〜3日 / 息が弾む運動 週60分以上）
+// - すばやさ：Strava 利用者の平均ペース（英国 2017年：男性 5'09"/km・女性 5'57"/km）の中間
+// - たいりょく：厚労省「健康づくりのための身体活動基準2013」の全身持久力の基準（18〜39歳：男性 39・女性 33 mL/kg/分）の中間
+const PER_30_DAYS = 30 / 7;
+const scales = {
+  strength: { zero: 0, base: 2.5 * PER_30_DAYS, top: 30 }, // 筋トレの回数（週2.5日 → ほぼ毎日）
+  stamina: { zero: 0, base: 60 * PER_30_DAYS, top: 120 * PER_30_DAYS }, // ランニングの合計時間（分）（週60分 → 週120分）
+  speed: { zero: 8 * 60, base: 5 * 60 + 33, top: 3 * 60 }, // 平均ペース（秒/km）。小さいほど速い
+  cardio: { zero: 0, base: 36, top: 72 }, // VO2max（mL/kg/分）
+};
+const toParam = (value: number, { zero, base, top }: { zero: number; base: number; top: number }) => {
+  const rate = (value - zero) / (base - zero);
+  const param = rate <= 1 ? rate * 50 : 50 + ((value - base) / (top - base)) * 49;
+  return Math.round(Math.min(Math.max(param, 0), 99));
+};
+const formatPace = (sec: number) => `${Math.floor(sec / 60)}'${String(Math.round(sec % 60)).padStart(2, '0')}"/km`;
+const toHours = (minutes: number) => Math.round((minutes / 60) * 10) / 10;
+const body = healthStats.updatedAt
+  ? (() => {
+      const { strength, running, vo2max } = healthStats;
+      const pace = running.km > 0 ? (running.minutes * 60) / running.km : 0;
+      return {
+        days: healthStats.days,
+        date: new Date(healthStats.updatedAt).toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' }),
+        params: [
+          {
+            label: 'ちから',
+            value: toParam(strength.count, scales.strength),
+            detail: `筋トレ ${strength.count}回・${toHours(strength.minutes)}時間`,
+          },
+          {
+            label: 'すばやさ',
+            value: pace > 0 ? toParam(pace, scales.speed) : 0,
+            detail: pace > 0 ? `平均ペース ${formatPace(pace)}` : 'ランニングなし',
+          },
+          {
+            label: 'スタミナ',
+            value: toParam(running.minutes, scales.stamina),
+            detail: `ランニング ${running.count}回・${Math.round(running.km * 10) / 10}km・${toHours(running.minutes)}時間`,
+          },
+          ...(vo2max
+            ? [{ label: 'たいりょく', value: toParam(vo2max, scales.cardio), detail: `心肺機能（VO2max）${vo2max}` }]
+            : []),
+        ],
+      };
+    })()
   : null;
 
 // レベルは しょうごう の数（実績が増えると上がる）
@@ -233,6 +286,30 @@ const contacts = [
                 </div>
               )}
               <p class="status__github-date">{fetchedDate} じてん</p>
+            </>
+          )}
+          {body && (
+            <>
+              <h3>
+                からだ<span class="status__github-note">（Apple Watch のワークアウト・ {body.days}にち）</span>
+              </h3>
+              <dl class="status__github status__body">
+                {body.params.map((param) => (
+                  <div class="status__gauge-row">
+                    <dt>
+                      {param.label}
+                      <span class="status__body-value">{param.value}</span>
+                    </dt>
+                    <dd>
+                      <span class="status__gauge" aria-hidden="true">
+                        <span class="status__gauge-fill" style={`width: ${(param.value / 99) * 100}%`}></span>
+                      </span>
+                      <span class="status__gauge-text">{param.detail}</span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <p class="status__github-date">{body.date} じてん</p>
             </>
           )}
           <h3>しょうごう</h3>

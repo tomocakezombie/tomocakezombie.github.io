@@ -209,7 +209,7 @@ Django を使った，ソフトウェア開発の練習として作りました�
       name: 'なぞときの ダンジョンを つくれ',
       label: 'CTF競技の運営',
       summary: '楽しく端末保守のスキルを身につける CTF を，サーバー構築から問題作成まで担当しました．',
-      tags: ['CTFd構築', '11問作問', 'Web / binary / File'],
+      tags: ['CTFd構築', '作問', 'Web / binary / File'],
     },
   },
   //   {

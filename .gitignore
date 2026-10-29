@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# iPhone のヘルスケアから書き出したデータ（健康データがまるごと入っているので絶対に載せない）
+# npm run health はリポジトリ直下のこの zip を読み、集計値だけを src/data/health-stats.json に書く
+/書き出したデータ.zip
+/export.zip
+/apple_health_export/

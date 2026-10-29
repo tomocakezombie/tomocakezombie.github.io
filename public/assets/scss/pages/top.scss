@@ -232,6 +232,33 @@
     white-space: nowrap;
   }
 
+  // からだ：GitHub と同じ並びで、ゲージの色と右側の幅だけ変える
+  &__body {
+    .status__gauge-row dd {
+      grid-template-columns: minmax(0, 1fr) 15em;
+    }
+
+    .status__gauge-fill {
+      background: #f0883e;
+    }
+
+    @include sp {
+      .status__gauge-row dd {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .status__gauge-text {
+        text-align: left;
+      }
+    }
+  }
+
+  &__body-value {
+    margin-left: d(4);
+    font-size: 1.8rem;
+    color: $c-ink;
+  }
+
   &__github-note {
     font-size: 1.2rem;
     font-weight: normal;

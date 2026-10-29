@@ -190,6 +190,25 @@
   text-align: right;
   white-space: nowrap;
 }
+.status__body .status__gauge-row dd {
+  grid-template-columns: minmax(0, 1fr) 15em;
+}
+.status__body .status__gauge-fill {
+  background: #f0883e;
+}
+@media (width <= 768px) {
+  .status__body .status__gauge-row dd {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .status__body .status__gauge-text {
+    text-align: left;
+  }
+}
+.status__body-value {
+  margin-left: 8px;
+  font-size: 1.8rem;
+  color: #1b2a4a;
+}
 .status__github-note {
   font-size: 1.2rem;
   font-weight: normal;
