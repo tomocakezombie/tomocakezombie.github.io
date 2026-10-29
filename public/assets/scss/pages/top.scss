@@ -232,14 +232,10 @@
     white-space: nowrap;
   }
 
-  // からだ：GitHub と同じ並びで、ゲージの色と右側の幅だけ変える
+  // からだ：GitHub と同じ並びで、右側の幅だけ変える
   &__body {
     .status__gauge-row dd {
       grid-template-columns: minmax(0, 1fr) 15em;
-    }
-
-    .status__gauge-fill {
-      background: #f0883e;
     }
 
     @include sp {
@@ -466,6 +462,14 @@
       font-size: 1.6rem;
     }
   }
+}
+
+// --------------------------------------------------------------------------
+// Activity window (GitHub)。中身はステータスの .status__github などをそのまま使う
+// --------------------------------------------------------------------------
+.activity {
+  display: grid;
+  gap: d(10);
 }
 
 // --------------------------------------------------------------------------

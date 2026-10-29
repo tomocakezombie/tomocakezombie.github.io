@@ -121,28 +121,28 @@ const body = healthStats.updatedAt
           {
             label: 'ちから',
             value: toParam(strength.count, scales.strength),
-            detail: `筋トレ ${strength.count}回・${toHours(strength.minutes)}時間`,
+            detail: `Strength ${strength.count} sessions / ${toHours(strength.minutes)} h`,
           },
           {
             label: 'すばやさ',
             value: pace > 0 ? toParam(pace, scales.speed) : 0,
-            detail: pace > 0 ? `平均ペース ${formatPace(pace)}` : 'ランニングなし',
+            detail: pace > 0 ? `Avg pace ${formatPace(pace)}` : 'No runs',
           },
           {
             label: 'スタミナ',
             value: toParam(running.minutes, scales.stamina),
-            detail: `ランニング ${running.count}回・${Math.round(running.km * 10) / 10}km・${toHours(running.minutes)}時間`,
+            detail: `Run ${running.count} times / ${Math.round(running.km * 10) / 10} km / ${toHours(running.minutes)} h`,
           },
           ...(vo2max
-            ? [{ label: 'たいりょく', value: toParam(vo2max, scales.cardio), detail: `心肺機能（VO2max）${vo2max}` }]
+            ? [{ label: 'たいりょく', value: toParam(vo2max, scales.cardio), detail: `VO2max ${vo2max}` }]
             : []),
         ],
       };
     })()
   : null;
 
-// レベルは しょうごう の数（実績が増えると上がる）
-const level = titles.length;
+// レベルは手動で設定する
+const level = 22;
 
 const contacts = [
   { label: 'メール', text: 't23cs014@yamanashi.ac.jp', href: 'mailto:t23cs014@yamanashi.ac.jp', external: false },
@@ -253,45 +253,10 @@ const contacts = [
               </div>
             ))}
           </dl>
-          {github && (
-            <>
-              <h3>GitHub</h3>
-              <dl class="status__github">
-                <div class="status__exp">
-                  <dt>コントリビューション<span class="status__github-note">（かこ 1ねん）</span></dt>
-                  <dd>{github.total}</dd>
-                </div>
-                {github.gauges.map((gauge) => (
-                  <div class="status__gauge-row">
-                    <dt>{gauge.label}</dt>
-                    <dd>
-                      <span class="status__gauge" aria-hidden="true">
-                        <span class="status__gauge-fill" style={`width: ${Math.min(100, (gauge.now / gauge.max) * 100)}%`}></span>
-                      </span>
-                      <span class="status__gauge-text">
-                        {gauge.now} / {gauge.max}{gauge.maxLabel && <span class="status__github-note">（{gauge.maxLabel}）</span>}
-                      </span>
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-              {grassDays.length > 0 && (
-                <div class="status__grass" role="img" aria-label={`かこ 1ねんの コントリビューション ${github.total} けん`}>
-                  <div class="status__grass-grid">
-                    {Array.from({ length: grassOffset }, () => <span class="status__grass-day is-blank" aria-hidden="true"></span>)}
-                    {grassDays.map((day) => (
-                      <span class={`status__grass-day is-level-${day.level}`} title={`${day.date}: ${day.count}`} aria-hidden="true"></span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              <p class="status__github-date">{fetchedDate} じてん</p>
-            </>
-          )}
           {body && (
             <>
               <h3>
-                からだ<span class="status__github-note">（Apple Watch のワークアウト・ {body.days}にち）</span>
+                のうりょく<span class="status__github-note">（Apple Watch のワークアウト基準）</span>
               </h3>
               <dl class="status__github status__body">
                 {body.params.map((param) => (
@@ -354,6 +319,45 @@ const contacts = [
           ))}
         </ul>
       </section>
+
+      {github && (
+        <section class="section">
+          <h2>かつどう</h2>
+          <div class="activity pixel-window">
+            <h3>GitHub</h3>
+            <dl class="status__github">
+              <div class="status__exp">
+                <dt>コントリビューション<span class="status__github-note">（かこ 1ねん）</span></dt>
+                <dd>{github.total}</dd>
+              </div>
+              {github.gauges.map((gauge) => (
+                <div class="status__gauge-row">
+                  <dt>{gauge.label}</dt>
+                  <dd>
+                    <span class="status__gauge" aria-hidden="true">
+                      <span class="status__gauge-fill" style={`width: ${Math.min(100, (gauge.now / gauge.max) * 100)}%`}></span>
+                    </span>
+                    <span class="status__gauge-text">
+                      {gauge.now} / {gauge.max}{gauge.maxLabel && <span class="status__github-note">（{gauge.maxLabel}）</span>}
+                    </span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            {grassDays.length > 0 && (
+              <div class="status__grass" role="img" aria-label={`かこ 1ねんの コントリビューション ${github.total} けん`}>
+                <div class="status__grass-grid">
+                  {Array.from({ length: grassOffset }, () => <span class="status__grass-day is-blank" aria-hidden="true"></span>)}
+                  {grassDays.map((day) => (
+                    <span class={`status__grass-day is-level-${day.level}`} title={`${day.date}: ${day.count}`} aria-hidden="true"></span>
+                  ))}
+                </div>
+              </div>
+            )}
+            <p class="status__github-date">{fetchedDate} じてん</p>
+          </div>
+        </section>
+      )}
     </div>
 
     <section class="section contact">

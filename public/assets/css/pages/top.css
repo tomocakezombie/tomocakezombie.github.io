@@ -193,9 +193,6 @@
 .status__body .status__gauge-row dd {
   grid-template-columns: minmax(0, 1fr) 15em;
 }
-.status__body .status__gauge-fill {
-  background: #f0883e;
-}
 @media (width <= 768px) {
   .status__body .status__gauge-row dd {
     grid-template-columns: minmax(0, 1fr);
@@ -374,6 +371,11 @@
   .quest__name {
     font-size: 1.6rem;
   }
+}
+
+.activity {
+  display: grid;
+  gap: 20px;
 }
 
 .command {
